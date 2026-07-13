@@ -160,8 +160,8 @@ ol.notes .nno{display:inline-block;min-width:6.5mm;font-weight:800;color:var(--n
 .libgrid .li .acts .x{background:#c0392b}
 /* library picker modal */
 #libmodal{display:none;position:fixed;inset:0;background:#0008;z-index:99;align-items:center;justify-content:center}
-#libmodal .lm{background:#fff;border-radius:12px;padding:18px;max-width:580px;width:90%;max-height:80vh;overflow:auto;box-shadow:0 8px 30px #0005}
-#libmodal h3{color:var(--navy);font-size:15px;margin-bottom:10px}
+#libmodal .lm,#poolmodal .lm,#loginmodal .lm{background:#fff;border-radius:12px;padding:18px;max-width:580px;width:90%;max-height:80vh;overflow:auto;box-shadow:0 8px 30px #0005}
+#libmodal h3,#poolmodal h3,#loginmodal h3{color:var(--navy);font-size:15px;margin-bottom:10px}
 .lmgrid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
 .lmgrid img{height:64px;width:96px;object-fit:cover;border-radius:6px;cursor:pointer;border:2.5px solid transparent}
 .lmgrid img:hover{border-color:var(--orange)}
@@ -198,16 +198,6 @@ ol.notes .nno{display:inline-block;min-width:6.5mm;font-weight:800;color:var(--n
   <fieldset>
     <legend>Teklif Dili Seç</legend>
     <div class="langbar" id="langbar"></div>
-  </fieldset>
-
-  <fieldset>
-    <legend>Tekliflerim <span id="pool_count"></span></legend>
-    <div class="iobtns">
-      <button onclick="poolSave()">&#128190; Kaydet</button>
-      <button onclick="poolOpen()">&#128194; Tekliflerim / Raporlar</button>
-    </div>
-    <div class="hint" id="sb_who"></div>
-    <div class="hint" id="sb_msg">Kaydedilen teklif kilitlenir; içerik revizesi Habib onayı gerektirir. Durum (verildi/kazanıldı/kaybedildi) her zaman güncellenebilir.</div>
   </fieldset>
 
   <fieldset>
@@ -281,6 +271,16 @@ ol.notes .nno{display:inline-block;min-width:6.5mm;font-weight:800;color:var(--n
     <legend>Notlar / Şartlar (seçili dil, her satır bir madde)</legend>
     <textarea id="f_notes" rows="10" oninput="S.notes[S.lang]=this.value;render()"></textarea>
     <div class="hint">İpucu: Notları ve tanıtım metnini sağdaki sayfa üzerinde de doğrudan tıklayıp düzenleyebilirsiniz.</div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Tekliflerim <span id="pool_count"></span></legend>
+    <div class="iobtns">
+      <button onclick="poolSave()">&#128190; Kaydet</button>
+      <button onclick="poolOpen()">&#128194; Tekliflerim / Raporlar</button>
+    </div>
+    <div class="hint" id="sb_who"></div>
+    <div class="hint" id="sb_msg">Kaydedilen teklif kilitlenir; içerik revizesi Habib onayı gerektirir. Durum (verildi/kazanıldı/kaybedildi) her zaman güncellenebilir.</div>
   </fieldset>
 </aside>
 
@@ -627,7 +627,7 @@ const UNITS=['kg','ton','Adet','m\u00b2','m','m\u00b3','tak\u0131m','set','saat'
 let S={lang:'tr',curr:'$',projeno:'',tarih:today,firma:'',yetkili:'',isadi:'',isyeri:'',covers:[],
  items1:[{d:'',q:'',u:'kg',p:''},{d:'',q:'',u:'kg',p:''},{d:'',q:'',u:'kg',p:''}],
  items2:[{d:'',q:'',u:'m²',p:''},{d:'',q:'',u:'Adet',p:''}],
- refs:[{n:'Angola-Luanda Un Değirmeni',y:'Angola',t:''},{n:'Rusya Un Değirmeni',y:'Rusya',t:''},{n:'Özbekistan Un Değirmeni',y:'Özbekistan',t:''},{n:'Libya Tav Siloları',y:'Libya',t:''}],
+ refs:[{n:'',y:'',t:''},{n:'',y:'',t:''}],
  brands:DEFAULT_BRANDS.slice(),details:[],
  intro:{},notes:{}};
 
@@ -1073,6 +1073,7 @@ async function poolSave(){
   return alert('Havuza kaydetmek i\u00e7in zorunlu alanlar: '+eksik.map(x=>x[1]).join(', '));
  }
  if(grandTotal()<=0&&!confirm('Toplam tutar 0 g\u00f6r\u00fcn\u00fcyor (kalemler bo\u015f). Yine de kaydedilsin mi?'))return;
+ if(!S.refs.some(r=>(r.n||'').trim())&&!confirm('Hat\u0131rlatma: Referans projeler bo\u015f. Teklife g\u00fc\u00e7 katar \u2014 referanss\u0131z kaydedilsin mi?'))return;
  if(POOL_ID&&POOL_PN!==null&&(S.projeno||'')!==POOL_PN)POOL_ID=null; /* farkli proje no = yeni teklif */
  if(POOL_ID&&!ADMINS.includes((SB_USER||'').toLowerCase()))return alert('Kay\u0131tl\u0131 teklif revize edilemez; Habib onay\u0131 gerekir. Onaylanan revize Habib hesab\u0131yla kaydedilir. Yeni teklif i\u00e7in Proje No de\u011fi\u015ftirin.');
  const rec={proje_no:S.projeno||'',firma:S.firma||'',yetkili:S.yetkili||'',is_adi:S.isadi||'',lokasyon:S.isyeri||'',ulke:detectUlke(S.isyeri),para_birimi:S.curr,dil:S.lang,tarih:S.tarih||null,toplam:grandTotal(),data:S};
@@ -1140,13 +1141,22 @@ function poolRender(){
    <td class="money">${moneyC(r.para_birimi,r.toplam)}</td>
    <td><select onchange="poolDurum('${r.id}',this.value)" style="font-size:11px;padding:2px">${durs.map(d=>`<option${d===r.durum?' selected':''}>${d}</option>`).join('')}</select></td>
    <td class="num">${r.version}</td>
-   <td><button class="addbtn" style="margin:0;padding:3px 8px" onclick="poolLoad('${r.id}')">A\u00e7</button></td></tr>`).join('')+'</tbody>';
+   <td style="white-space:nowrap"><button class="addbtn" style="margin:0;padding:3px 8px" onclick="poolLoad('${r.id}')">A\u00e7</button> <button class="addbtn" style="margin:0;padding:3px 8px;background:#c0392b" onclick="poolDel('${r.id}')">Sil</button></td></tr>`).join('')+'</tbody>';
 }
 async function poolDurum(id,v){
  try{
   await sbReq('/rest/v1/teklifler?id=eq.'+id,{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify({durum:v})});
   const r=POOL.find(x=>x.id===id);if(r)r.durum=v;poolRender();
  }catch(e){alert('Durum g\u00fcncellenemedi: '+e.message)}
+}
+async function poolDel(id){
+ if(!confirm('Bu teklif silinsin mi? (Denetim kayd\u0131 ar\u015fivde kal\u0131r)'))return;
+ try{
+  await sbReq('/rest/v1/teklifler?id=eq.'+id,{method:'DELETE',headers:{Prefer:'return=minimal'}});
+  POOL=POOL.filter(x=>x.id!==id);
+  if(POOL_ID===id){POOL_ID=null;POOL_PN=null}
+  poolFillFilters();poolRender();poolCount();
+ }catch(e){alert('Silinemedi: '+e.message)}
 }
 async function poolLoad(id){
  try{
