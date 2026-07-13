@@ -201,23 +201,10 @@ body.pvmode #pvexit,body.edmode #pvexit{display:block}
   <div class="sub">güçlü yapıların güçlü adı...</div>
   <button class="printbtn" onclick="window.print()">&#128424; PDF Oluştur / Yazdır</button>
   <div class="iobtns">
-    <button onclick="saveJSON()">&#128190; Teklifi Kaydet</button>
-    <button onclick="document.getElementById('loadfile').click()">&#128194; Teklif Aç</button>
-  </div>
-  <div class="iobtns" style="margin-top:6px">
-    <button onclick="backupAll()">&#128230; Tam Yedek Al</button>
-    <button onclick="document.getElementById('bakfile').click()">&#128229; Yedek Yükle</button>
-  </div>
-  <div class="iobtns" style="margin-top:6px">
     <button onclick="toggleEditor()">&#9703; Düzenleme Tam Ekran</button>
     <button onclick="togglePreview()">&#9704; Önizleme Tam Ekran</button>
   </div>
-  <div class="iobtns" style="margin-top:6px">
-    <button onclick="toggleFS()">&#x26F6; Tarayıcı Tam Ekran (F11)</button>
-  </div>
-  <input type="file" id="loadfile" accept=".json" style="display:none" onchange="loadJSON(this)">
-  <input type="file" id="bakfile" accept=".json" style="display:none" onchange="restoreAll(this)">
-  <div class="hint">Kaydet = teklif verilerini .json dosyası olarak indirir; Aç ile geri yüklersiniz.<br><b>PDF ayarları:</b> Hedef = "PDF olarak kaydet" &middot; Kenar boşlukları = <b>Yok</b> &middot; Ölçek = <b>100</b> &middot; "Arka plan grafikleri" <b>işaretli</b> olsun — çıktı önizlemeyle birebir aynı olur.</div>
+  <div class="hint"><b>PDF ayarları:</b> Hedef = "PDF olarak kaydet" &middot; Kenar boşlukları = <b>Yok</b> &middot; Ölçek = <b>100</b> &middot; "Arka plan grafikleri" <b>işaretli</b> olsun — çıktı önizlemeyle birebir aynı olur.</div>
 
   <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:2px 0 10px">
     <span style="font-size:11px;font-weight:700;color:var(--gray)">Dil:</span>
@@ -242,12 +229,8 @@ body.pvmode #pvexit,body.edmode #pvexit{display:block}
         <button onclick="poolSave()">&#9729;&#65039; Havuza Kaydet</button>
         <button onclick="poolOpen()">&#128202; Havuz / Raporlar</button>
       </div>
-      <div class="iobtns" style="margin-top:6px">
-        <button onclick="poolNew()">Yeni Teklif</button>
-        <button onclick="sbLogout()">Çıkış</button>
-      </div>
     </div>
-    <div class="hint" id="sb_msg">Teklifler buluta kaydedilir; tüm bilgisayarlardan erişilir, yıl/ülke/firma raporları alınır. İlk kullanımda Kayıt Ol.</div>
+    <div class="hint" id="sb_msg">Teklifler buluta kaydedilir; tüm bilgisayarlardan erişilir. Farklı Proje No = yeni teklif, aynı Proje No = güncelleme.</div>
   </fieldset>
 
   <fieldset>
@@ -962,35 +945,6 @@ window.addEventListener('beforeprint',()=>{document.querySelectorAll('.page').fo
 window.addEventListener('afterprint',fitPages);
 
 /* ================= SAVE / LOAD ================= */
-function saveJSON(){
- const a=document.createElement('a');
- a.href='data:application/json;charset=utf-8,'+encodeURIComponent(JSON.stringify(S,null,1));
- a.download=`UCEL_Teklif_${S.projeno||'yeni'}.json`;a.click();
-}
-function loadJSON(inp){
- const f=inp.files[0];if(!f)return;
- const r=new FileReader();
- r.onload=e=>{try{S=Object.assign(S,JSON.parse(e.target.result));syncEditor();render()}catch(err){alert('Dosya okunamadı: '+err.message)}};
- r.readAsText(f);
-}
-/* full backup: current proposal + image library — move between computers */
-function backupAll(){
- const a=document.createElement('a');
- a.href='data:application/json;charset=utf-8,'+encodeURIComponent(JSON.stringify({teklif:S,kutuphane:LIB,tarih:new Date().toISOString()}));
- a.download='UCEL_Studyo_Yedek_'+new Date().toISOString().slice(0,10)+'.json';a.click();
-}
-function restoreAll(inp){
- const f=inp.files[0];if(!f)return;
- const r=new FileReader();
- r.onload=e=>{try{
-  const j=JSON.parse(e.target.result);
-  if(j.teklif)S=Object.assign(S,j.teklif);
-  if(Array.isArray(j.kutuphane)){LIB=j.kutuphane;saveLib()}
-  if(!Array.isArray(S.covers))S.covers=[];
-  syncEditor();render();alert('Yedek yüklendi.');
- }catch(err){alert('Yedek okunamadı: '+err.message)}};
- r.readAsText(f);inp.value='';
-}
 
 /* ================= INPUT BINDINGS ================= */
 ['projeno','tarih','firma','yetkili','isadi','isyeri','ulke'].forEach(k=>{
@@ -1009,7 +963,6 @@ if(!Array.isArray(S.details)||!S.details.length){
 syncEditor();render();
 
 /* ================= TAM EKRAN / ONIZLEME ================= */
-function toggleFS(){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}
 function setView(m){document.body.classList.remove('pvmode','edmode');if(m)document.body.classList.add(m)}
 function togglePreview(){setView(document.body.classList.contains('pvmode')?null:'pvmode')}
 function toggleEditor(){setView(document.body.classList.contains('edmode')?null:'edmode')}
@@ -1019,7 +972,7 @@ const SB_URL='https://zzjlsnwdltffumojktpy.supabase.co';
 const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp6amxzbndkbHRmZnVtb2prdHB5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyNzg2MjIsImV4cCI6MjA5NDg1NDYyMn0.dzE6uX2BNtPq8ppOTpQwzInX6dohkDjH4QpZK2D5K9M';
 let SB_TOKEN=localStorage.getItem('sb_token')||'';
 let SB_USER=localStorage.getItem('sb_user')||'';
-let POOL_ID=null,POOL=[];
+let POOL_ID=null,POOL_PN=null,POOL=[];
 function val(id){return document.getElementById(id).value.trim()}
 async function sbReq(path,opt={}){
  opt.headers=Object.assign({apikey:SB_KEY,'Content-Type':'application/json'},opt.headers||{});
@@ -1045,7 +998,6 @@ async function sbSignup(){
   alert('Kay\u0131t olu\u015fturuldu. E-postan\u0131za onay ba\u011flant\u0131s\u0131 geldiyse onaylay\u0131n, sonra Giri\u015f yap\u0131n.');
  }catch(e){alert('Kay\u0131t ba\u015far\u0131s\u0131z: '+e.message)}
 }
-function sbLogout(){SB_TOKEN='';SB_USER='';localStorage.removeItem('sb_token');localStorage.removeItem('sb_user');POOL_ID=null;sbUI('\u00c7\u0131k\u0131\u015f yap\u0131ld\u0131.')}
 function sbUI(msg){
  const li=document.getElementById('sb_login'),pa=document.getElementById('sb_panel');
  if(!li)return;
@@ -1057,6 +1009,7 @@ function sbUI(msg){
 function grandTotal(){const f=a=>a.reduce((t,i)=>t+num(i.q)*num(i.p),0);return f(S.items1)+f(S.items2)}
 async function poolSave(){
  if(!SB_TOKEN)return alert('\u00d6nce giri\u015f yap\u0131n.');
+ if(POOL_ID&&POOL_PN!==null&&(S.projeno||'')!==POOL_PN)POOL_ID=null; /* farkli proje no = yeni teklif */
  const rec={proje_no:S.projeno||'',firma:S.firma||'',yetkili:S.yetkili||'',is_adi:S.isadi||'',lokasyon:S.isyeri||'',ulke:S.ulke||'',para_birimi:S.curr,dil:S.lang,tarih:S.tarih||null,toplam:grandTotal(),data:S};
  try{
   if(POOL_ID){
@@ -1066,10 +1019,9 @@ async function poolSave(){
    const j=await sbReq('/rest/v1/teklifler',{method:'POST',headers:{Prefer:'return=representation'},body:JSON.stringify(rec)});
    POOL_ID=j[0].id;alert('Teklif havuza kaydedildi.');
   }
-  sbUI();
+  POOL_PN=S.projeno||'';sbUI();
  }catch(e){alert('Kaydedilemedi: '+e.message)}
 }
-function poolNew(){POOL_ID=null;sbUI('Yeni teklif: havuz ba\u011flant\u0131s\u0131 s\u0131f\u0131rland\u0131.')}
 async function poolOpen(){
  if(!SB_TOKEN)return alert('\u00d6nce giri\u015f yap\u0131n.');
  try{
@@ -1136,7 +1088,7 @@ async function poolLoad(id){
   const j=await sbReq('/rest/v1/teklifler?id=eq.'+id+'&select=id,data');
   if(!j||!j[0])return alert('Kay\u0131t bulunamad\u0131');
   S=Object.assign(S,j[0].data);if(!Array.isArray(S.covers))S.covers=[];
-  POOL_ID=id;syncEditor();render();poolClose();sbUI();
+  POOL_ID=id;POOL_PN=S.projeno||'';syncEditor();render();poolClose();sbUI();
  }catch(e){alert('Y\u00fcklenemedi: '+e.message)}
 }
 sbUI();
