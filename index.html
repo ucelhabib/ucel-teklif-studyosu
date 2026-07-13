@@ -132,9 +132,8 @@ ol.notes .nno{display:inline-block;min-width:6.5mm;font-weight:800;color:var(--n
 .worldwrap img{width:128mm;display:block;margin:0 auto}
 .worldwrap .wcap{font-size:14pt;font-weight:800;color:var(--navy);margin-top:2mm}
 .worldwrap .wcap span{color:var(--orange)}
-/* qr: pinned to bottom-right corner just above the footer */
-.qrbox{position:absolute;bottom:26mm;inset-inline-end:9mm}
-.qrbox img{width:20mm;height:20mm;display:block}
+/* qr: her sayfada alt bilgide, iletisimin solunda */
+.footup img.footqr{height:15mm;width:15mm}
 /* reference project photos */
 .refgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm;margin-top:4mm}
 .refgrid figure{border:1px solid #d8dbe6;border-radius:2mm;overflow:hidden;margin:0}
@@ -172,8 +171,11 @@ ol.notes .nno{display:inline-block;min-width:6.5mm;font-weight:800;color:var(--n
 @media print{#libmodal{display:none!important}}
 /* fullscreen / onizleme */
 body.pvmode #editor{display:none}
+body.edmode #preview{display:none}
+body.edmode #editor{width:100%;min-width:0}
+body.edmode #editor .grid2{grid-template-columns:1fr 1fr 1fr 1fr}
 #pvexit{display:none;position:fixed;top:12px;right:16px;z-index:98;background:var(--orange);color:#fff;border:none;border-radius:8px;padding:9px 14px;font-weight:800;font-size:13px;cursor:pointer;box-shadow:0 2px 8px #0004}
-body.pvmode #pvexit{display:block}
+body.pvmode #pvexit,body.edmode #pvexit{display:block}
 /* teklif havuzu */
 #poolmodal{display:none;position:fixed;inset:0;background:#0008;z-index:99;align-items:center;justify-content:center}
 #poolmodal .lm{max-width:960px}
@@ -207,8 +209,11 @@ body.pvmode #pvexit{display:block}
     <button onclick="document.getElementById('bakfile').click()">&#128229; Yedek Yükle</button>
   </div>
   <div class="iobtns" style="margin-top:6px">
-    <button onclick="toggleFS()">&#x26F6; Tam Ekran</button>
-    <button onclick="togglePreview()">&#128065; Önizleme Modu</button>
+    <button onclick="toggleEditor()">&#9703; Düzenleme Tam Ekran</button>
+    <button onclick="togglePreview()">&#9704; Önizleme Tam Ekran</button>
+  </div>
+  <div class="iobtns" style="margin-top:6px">
+    <button onclick="toggleFS()">&#x26F6; Tarayıcı Tam Ekran (F11)</button>
   </div>
   <input type="file" id="loadfile" accept=".json" style="display:none" onchange="loadJSON(this)">
   <input type="file" id="bakfile" accept=".json" style="display:none" onchange="restoreAll(this)">
@@ -324,7 +329,7 @@ body.pvmode #pvexit{display:block}
 <main id="preview"></main>
 </div>
 
-<button id="pvexit" onclick="togglePreview()">&#9998; Düzenlemeye Dön</button>
+<button id="pvexit" onclick="setView(null)">&#9707; Bölünmüş Görünüm</button>
 
 <div id="poolmodal" onclick="if(event.target===this)poolClose()">
  <div class="lm">
@@ -822,7 +827,10 @@ function pgFoot(L,n,total){
  return `<div class="pgfoot">
   <div class="footup">
    <img src="${CERT}" alt="CE ISO TUV">
-   <div class="footcontact">${L.tel} <b>${CONTACT.tel}</b><br>${L.gsm} <b>${CONTACT.gsm}</b><br>${L.ep} <b>${CONTACT.ep}</b></div>
+   <div style="display:flex;align-items:center;gap:4mm">
+    <img class="footqr" src="${QR}" alt="QR" title="${CONTACT.web}">
+    <div class="footcontact">${L.tel} <b>${CONTACT.tel}</b><br>${L.gsm} <b>${CONTACT.gsm}</b><br>${L.ep} <b>${CONTACT.ep}</b></div>
+   </div>
   </div>
   <div class="footbar"><span>${CONTACT.addr}</span><span class="footweb"><b>${CONTACT.web}</b><span class="pgno">${L.sayfa} ${n}/${total}</span></span></div></div>`;
 }
@@ -874,8 +882,7 @@ function render(){
     <div><div class="k">${L.tarih}</div><div class="v">${fmtDate(S.tarih)}</div></div>
    </div>
   </div>${pgFoot(L,pg,TOTAL)}</div>`;
- /* page 2 profile + reference projects + reference companies */
- pg++;
+ /* firma tanitimi - SON SAYFA */
  const refRows=S.refs.filter(r=>r.n).map(r=>`<tr><td>${esc(trTitle(r.n))}</td><td class="num">${esc(trTitle(r.y))}</td><td class="num">${esc(r.t)}</td></tr>`).join('');
  const brandGrid=S.brands.length?`<h2 class="sec" style="margin-top:6mm">${L.reffirm}</h2>
    <div class="brandgrid">${S.brands.map(b=>`<img src="${b.src}" alt="${esc(b.name)}" title="${esc(b.name)}">`).join('')}</div>`:'';
@@ -890,7 +897,7 @@ function render(){
    ${S.refs.some(r=>r.img)?`<div class="refgrid">${S.refs.filter(r=>r.img).map(r=>`<figure><img src="${r.img}"><figcaption>${esc(trTitle(r.n))}</figcaption></figure>`).join('')}</div>`:''}
    ${brandGrid}
    ${worldBlock}
-  </div>${pgFoot(L,pg,TOTAL)}</div>`;
+  </div>${pgFoot(L,TOTAL,TOTAL)}</div>`;
  /* structure details page (only when images exist) */
  let pDet='';
  if(hasDet){
@@ -936,9 +943,8 @@ function render(){
     <div class="box"><div class="t">${L.veren}</div>${L.ad}:<div class="line">${L.imza}</div></div>
     <div class="box"><div class="t">${L.onay}</div>${L.ad}:<div class="line">${L.imza}</div></div>
    </div>
-   <div class="qrbox"><img src="${QR}" alt="QR" title="${CONTACT.web}"></div>
   </div>${pgFoot(L,pg,TOTAL)}</div>`;
- document.getElementById('preview').innerHTML=p1+p2+pDet+p3+p4;
+ document.getElementById('preview').innerHTML=p1+pDet+p3+p4+p2;
  fitPages();
  try{
   localStorage.setItem('ucel_teklif',JSON.stringify(S));
@@ -1004,7 +1010,9 @@ syncEditor();render();
 
 /* ================= TAM EKRAN / ONIZLEME ================= */
 function toggleFS(){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}
-function togglePreview(){document.body.classList.toggle('pvmode')}
+function setView(m){document.body.classList.remove('pvmode','edmode');if(m)document.body.classList.add(m)}
+function togglePreview(){setView(document.body.classList.contains('pvmode')?null:'pvmode')}
+function toggleEditor(){setView(document.body.classList.contains('edmode')?null:'edmode')}
 
 /* ================= TEKLIF HAVUZU (Bulut / Supabase) ================= */
 const SB_URL='https://zzjlsnwdltffumojktpy.supabase.co';
