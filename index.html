@@ -170,11 +170,11 @@ ol.notes .nno{display:inline-block;min-width:6.5mm;font-weight:800;color:var(--n
 .lmbtns button.pri{background:var(--blue);color:#fff}
 @media print{#libmodal{display:none!important}}
 /* teklif havuzu */
-#poolmodal{display:none;position:fixed;inset:0;background:#0008;z-index:99;align-items:center;justify-content:center}
+#poolmodal,#loginmodal{display:none;position:fixed;inset:0;background:#0008;z-index:99;align-items:center;justify-content:center}
 #poolmodal .lm{max-width:960px}
 .pool-sum{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;margin:4px 0}
 .pool-sum b{color:var(--navy)}
-@media print{#poolmodal{display:none!important}}
+@media print{#poolmodal,#loginmodal{display:none!important}}
 /* ---------- PRINT ---------- */
 @page{size:A4;margin:0}
 @media print{
@@ -201,25 +201,13 @@ ol.notes .nno{display:inline-block;min-width:6.5mm;font-weight:800;color:var(--n
   </fieldset>
 
   <fieldset>
-    <legend>Teklif Havuzu (Bulut)</legend>
-    <div id="sb_login">
-      <div class="grid2">
-        <div><label>E-posta</label><input type="text" id="sb_email"></div>
-        <div><label>Şifre</label><input type="password" id="sb_pass"></div>
-      </div>
-      <div class="iobtns" style="margin-top:6px">
-        <button onclick="sbLogin()">&#128274; Giriş</button>
-        <button onclick="sbSignup()">Kayıt Ol</button>
-      </div>
+    <legend>Tekliflerim <span id="pool_count"></span></legend>
+    <div class="iobtns">
+      <button onclick="poolSave()">&#128190; Kaydet</button>
+      <button onclick="poolOpen()">&#128194; Tekliflerim / Raporlar</button>
     </div>
-    <div id="sb_panel" style="display:none">
-      <div class="hint" id="sb_who"></div>
-      <div class="iobtns" style="margin-top:6px">
-        <button onclick="poolSave()">&#9729;&#65039; Havuza Kaydet</button>
-        <button onclick="poolOpen()">&#128202; Havuz / Raporlar</button>
-      </div>
-    </div>
-    <div class="hint" id="sb_msg">Teklifler buluta kaydedilir; tüm bilgisayarlardan erişilir. Farklı Proje No = yeni teklif, aynı Proje No = güncelleme.</div>
+    <div class="hint" id="sb_who"></div>
+    <div class="hint" id="sb_msg">Kaydedilen teklif kilitlenir; içerik revizesi Habib onayı gerektirir. Durum (verildi/kazanıldı/kaybedildi) her zaman güncellenebilir.</div>
   </fieldset>
 
   <fieldset>
@@ -299,9 +287,22 @@ ol.notes .nno{display:inline-block;min-width:6.5mm;font-weight:800;color:var(--n
 <main id="preview"></main>
 </div>
 
+<div id="loginmodal" onclick="if(event.target===this)loginClose()">
+ <div class="lm" style="max-width:420px">
+  <h3>&#128274; Giriş</h3>
+  <label>E-posta</label><input type="text" id="sb_email">
+  <label style="margin-top:6px">Şifre</label><input type="password" id="sb_pass">
+  <div class="lmbtns" style="margin-top:12px">
+   <button class="pri" onclick="sbLogin()">Giriş</button>
+   <button onclick="sbSignup()">Kayıt Ol</button>
+   <button onclick="loginClose()">Vazgeç</button>
+  </div>
+ </div>
+</div>
+
 <div id="poolmodal" onclick="if(event.target===this)poolClose()">
  <div class="lm">
-  <h3>&#128202; Teklif Havuzu &amp; Raporlar</h3>
+  <h3>&#128194; Tekliflerim &amp; Raporlar</h3>
   <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
    <select id="pf_yil" onchange="poolRender()"></select>
    <select id="pf_ulke" onchange="poolRender()"></select>
@@ -998,6 +999,7 @@ const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZ
 let SB_TOKEN=localStorage.getItem('sb_token')||'';
 let SB_USER=localStorage.getItem('sb_user')||'';
 let POOL_ID=null,POOL_PN=null,POOL=[];
+const ADMINS=['habib@ucel.com','ucelhabib@gmail.com'];
 function val(id){return document.getElementById(id).value.trim()}
 async function sbRefresh(){
  const rt=localStorage.getItem('sb_refresh');if(!rt)return false;
@@ -1026,7 +1028,7 @@ async function sbLogin(){
   SB_TOKEN=j.access_token;SB_USER=(j.user&&j.user.email)||val('sb_email');
   localStorage.setItem('sb_token',SB_TOKEN);localStorage.setItem('sb_user',SB_USER);
   if(j.refresh_token)localStorage.setItem('sb_refresh',j.refresh_token);
-  sbUI('Giri\u015f yap\u0131ld\u0131.');
+  loginClose();sbUI('Giri\u015f yap\u0131ld\u0131.');
  }catch(e){alert('Giri\u015f ba\u015far\u0131s\u0131z: '+e.message)}
 }
 async function sbSignup(){
@@ -1036,12 +1038,19 @@ async function sbSignup(){
   alert('Kay\u0131t olu\u015fturuldu. E-postan\u0131za onay ba\u011flant\u0131s\u0131 geldiyse onaylay\u0131n, sonra Giri\u015f yap\u0131n.');
  }catch(e){alert('Kay\u0131t ba\u015far\u0131s\u0131z: '+e.message)}
 }
+function loginOpen(){document.getElementById('loginmodal').style.display='flex'}
+function loginClose(){document.getElementById('loginmodal').style.display='none'}
+async function poolCount(){
+ try{
+  const j=await sbReq('/rest/v1/teklifler?select=id');
+  const e=document.getElementById('pool_count');if(e)e.textContent='('+((j&&j.length)||0)+')';
+ }catch(e){}
+}
 function sbUI(msg){
- const li=document.getElementById('sb_login'),pa=document.getElementById('sb_panel');
- if(!li)return;
- li.style.display=SB_TOKEN?'none':'block';
- pa.style.display=SB_TOKEN?'block':'none';
- document.getElementById('sb_who').textContent=SB_TOKEN?('Hesap: '+SB_USER+(POOL_ID?' \u00b7 a\u00e7\u0131k teklif havuza ba\u011fl\u0131':'')):'';
+ const w=document.getElementById('sb_who');
+ if(!w)return;
+ w.textContent=SB_TOKEN?('Hesap: '+SB_USER+(POOL_ID?' \u00b7 a\u00e7\u0131k teklif kay\u0131tl\u0131':'')):'';
+ if(SB_TOKEN)poolCount();else{const e=document.getElementById('pool_count');if(e)e.textContent=''}
  if(msg)document.getElementById('sb_msg').textContent=msg;
 }
 const ULKELER=['türkiye','mısır','angola','libya','rusya','özbekistan','kazakistan','azerbaycan','gürcistan','irak','iran','suriye','suudi arabistan','birleşik arap emirlikleri','bae','katar','kuveyt','umman','yemen','ürdün','lübnan','israil','filistin','cezayir','fas','tunus','sudan','etiyopya','kenya','tanzanya','uganda','nijerya','gana','senegal','fildişi','kamerun','kongo','zambiya','zimbabve','mozambik','güney afrika','somali','cibuti','moritanya','mali','nijer','çad','almanya','fransa','hollanda','belçika','ingiltere','italya','ispanya','portekiz','romanya','bulgaristan','yunanistan','polonya','ukrayna','moldova','sırbistan','bosna','arnavutluk','kosova','makedonya','karadağ','hırvatistan','macaristan','çekya','slovakya','avusturya','isviçre','isveç','norveç','danimarka','finlandiya','türkmenistan','kırgızistan','tacikistan','afganistan','pakistan','hindistan','bangladeş','çin','endonezya','malezya','vietnam','filipinler','tayland','japonya','güney kore','amerika','abd','kanada','meksika','brezilya','arjantin','şili','kolombiya','venezuela','peru','kıbrıs','kktc'];
@@ -1052,7 +1061,7 @@ function detectUlke(sx){
 }
 function grandTotal(){const f=a=>a.reduce((t,i)=>t+num(i.q)*num(i.p),0);return f(S.items1)+f(S.items2)}
 async function poolSave(){
- if(!SB_TOKEN)return alert('\u00d6nce giri\u015f yap\u0131n.');
+ if(!SB_TOKEN)return loginOpen();
  const eksik=[];
  if(!(S.projeno||'').trim())eksik.push(['f_projeno','Teklif / Proje No']);
  if(!(S.firma||'').trim())eksik.push(['f_firma','Firma Ad\u0131']);
@@ -1065,6 +1074,7 @@ async function poolSave(){
  }
  if(grandTotal()<=0&&!confirm('Toplam tutar 0 g\u00f6r\u00fcn\u00fcyor (kalemler bo\u015f). Yine de kaydedilsin mi?'))return;
  if(POOL_ID&&POOL_PN!==null&&(S.projeno||'')!==POOL_PN)POOL_ID=null; /* farkli proje no = yeni teklif */
+ if(POOL_ID&&!ADMINS.includes((SB_USER||'').toLowerCase()))return alert('Kay\u0131tl\u0131 teklif revize edilemez; Habib onay\u0131 gerekir. Onaylanan revize Habib hesab\u0131yla kaydedilir. Yeni teklif i\u00e7in Proje No de\u011fi\u015ftirin.');
  const rec={proje_no:S.projeno||'',firma:S.firma||'',yetkili:S.yetkili||'',is_adi:S.isadi||'',lokasyon:S.isyeri||'',ulke:detectUlke(S.isyeri),para_birimi:S.curr,dil:S.lang,tarih:S.tarih||null,toplam:grandTotal(),data:S};
  try{
   if(POOL_ID){
@@ -1078,7 +1088,7 @@ async function poolSave(){
  }catch(e){alert('Kaydedilemedi: '+e.message)}
 }
 async function poolOpen(){
- if(!SB_TOKEN)return alert('\u00d6nce giri\u015f yap\u0131n.');
+ if(!SB_TOKEN)return loginOpen();
  try{
   POOL=await sbReq('/rest/v1/teklifler?select=id,proje_no,firma,ulke,para_birimi,toplam,durum,tarih,is_adi,version&order=tarih.desc,created_at.desc')||[];
   poolFillFilters();poolRender();document.getElementById('poolmodal').style.display='flex';
