@@ -998,7 +998,7 @@ function tableHTML(L,items,startNo,totalLabel,showKgTotal){
  return {html:`<table class="doc"><thead><tr><th class="num">${L.no}</th><th>${L.malzeme}</th><th class="num">${L.miktar}</th><th class="num">${L.birim}</th><th class="num">${L.fiyat}</th><th class="num">${L.tutar}</th></tr></thead><tbody>${rows}</tbody></table>`,sum:asum};
 }
 let _rT=null;
-function renderSoon(){clearTimeout(_rT);_rT=setTimeout(render,350)}
+function renderSoon(){clearTimeout(_rT);_rT=setTimeout(render,700)}
 function render(){
  const L=TR[S.lang];const dir=L.rtl?'rtl':'ltr';
  const firma=trTitle(S.firma),yetkili=trTitle(S.yetkili),isadi=trDesc(trTitle(S.isadi),S.lang),isyeri=trDesc(trTitle(S.isyeri),S.lang);
@@ -1092,8 +1092,12 @@ function render(){
     <div class="box"><div class="t">${L.onay}</div>${L.ad}:<div class="line">${L.imza}</div></div>
    </div>
   </div>${pgFoot(L,pg,TOTAL)}</div>`;
- document.getElementById('preview').innerHTML=p1+pDet+p3+p4+p2;
- fitPages();
+ const _html=p1+pDet+p3+p4+p2;
+ if(_html!==window._lastHtml){
+  window._lastHtml=_html;
+  document.getElementById('preview').innerHTML=_html.replace(/<img /g,'<img decoding="async" ');
+  fitPages();
+ }
 }
 /* scale pages to fit the preview panel width */
 function fitPages(){
