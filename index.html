@@ -230,8 +230,7 @@ ol.notes .nno{display:inline-block;min-width:6.5mm;font-weight:800;color:var(--n
       <div><label>Firma Adı (Müşteri)</label><input type="text" id="f_firma"></div>
       <div><label>Firma Yetkilisi</label><input type="text" id="f_yetkili"></div>
       <div><label>İşin Adı</label><input type="text" id="f_isadi"></div>
-      <div><label>Lokasyon</label><input type="text" id="f_isyeri"></div>
-      <div><label>Ülke</label><input type="text" id="f_ulke"></div>
+      <div><label>Lokasyon / Ülke</label><input type="text" id="f_isyeri"></div>
       <div><label>Para Birimi</label><select id="f_curr"><option value="$">USD ($)</option><option value="€">EUR (€)</option><option value="₺">TL (₺)</option></select></div>
       <div><label>Kapak Görselleri (en fazla 2 resim)</label><input type="file" id="f_cover" accept="image/*" multiple onchange="setCover(this)">
       <button class="addbtn" style="margin-top:4px" onclick="libPickCover()">&#128444; Kütüphaneden Seç</button>
@@ -624,7 +623,7 @@ const DEFAULT_BRANDS=[
  {name:'Tanış',src:SITE+'dEt8Jh16yb_tanis_1731068514.webp'},
  {name:'Unormak',src:SITE+'dcnHuZIyWo_unormak_1731068524.webp'}];
 const UNITS=['kg','ton','Adet','m\u00b2','m','m\u00b3','tak\u0131m','set','saat'];
-let S={lang:'tr',curr:'$',projeno:'',tarih:today,firma:'',yetkili:'',isadi:'',isyeri:'',ulke:'',covers:[],
+let S={lang:'tr',curr:'$',projeno:'',tarih:today,firma:'',yetkili:'',isadi:'',isyeri:'',covers:[],
  items1:[{d:'',q:'',u:'kg',p:''},{d:'',q:'',u:'kg',p:''},{d:'',q:'',u:'kg',p:''}],
  items2:[{d:'',q:'',u:'m²',p:''},{d:'',q:'',u:'Adet',p:''}],
  refs:[{n:'Angola-Luanda Un Değirmeni',y:'Angola',t:''},{n:'Rusya Un Değirmeni',y:'Rusya',t:''},{n:'Özbekistan Un Değirmeni',y:'Özbekistan',t:''},{n:'Libya Tav Siloları',y:'Libya',t:''}],
@@ -760,7 +759,6 @@ function syncEditor(){
  document.getElementById('f_yetkili').value=S.yetkili;
  document.getElementById('f_isadi').value=S.isadi;
  document.getElementById('f_isyeri').value=S.isyeri;
- document.getElementById('f_ulke').value=S.ulke||'';
  document.getElementById('f_curr').value=S.curr;
 }
 function addItem(t){ (t===1?S.items1:S.items2).push({d:'',q:'',u:t===1?'kg':'Adet',p:''});syncEditor();render() }
@@ -985,7 +983,7 @@ window.addEventListener('afterprint',fitPages);
 /* ================= SAVE / LOAD ================= */
 
 /* ================= INPUT BINDINGS ================= */
-['projeno','tarih','firma','yetkili','isadi','isyeri','ulke'].forEach(k=>{
+['projeno','tarih','firma','yetkili','isadi','isyeri'].forEach(k=>{
  document.getElementById('f_'+k).addEventListener('input',e=>{S[k]=e.target.value;render()});
 });
 document.getElementById('f_curr').addEventListener('change',e=>{S.curr=e.target.value;render()});
@@ -1046,13 +1044,19 @@ function sbUI(msg){
  document.getElementById('sb_who').textContent=SB_TOKEN?('Hesap: '+SB_USER+(POOL_ID?' \u00b7 a\u00e7\u0131k teklif havuza ba\u011fl\u0131':'')):'';
  if(msg)document.getElementById('sb_msg').textContent=msg;
 }
+const ULKELER=['türkiye','mısır','angola','libya','rusya','özbekistan','kazakistan','azerbaycan','gürcistan','irak','iran','suriye','suudi arabistan','birleşik arap emirlikleri','bae','katar','kuveyt','umman','yemen','ürdün','lübnan','israil','filistin','cezayir','fas','tunus','sudan','etiyopya','kenya','tanzanya','uganda','nijerya','gana','senegal','fildişi','kamerun','kongo','zambiya','zimbabve','mozambik','güney afrika','somali','cibuti','moritanya','mali','nijer','çad','almanya','fransa','hollanda','belçika','ingiltere','italya','ispanya','portekiz','romanya','bulgaristan','yunanistan','polonya','ukrayna','moldova','sırbistan','bosna','arnavutluk','kosova','makedonya','karadağ','hırvatistan','macaristan','çekya','slovakya','avusturya','isviçre','isveç','norveç','danimarka','finlandiya','türkmenistan','kırgızistan','tacikistan','afganistan','pakistan','hindistan','bangladeş','çin','endonezya','malezya','vietnam','filipinler','tayland','japonya','güney kore','amerika','abd','kanada','meksika','brezilya','arjantin','şili','kolombiya','venezuela','peru','kıbrıs','kktc'];
+function detectUlke(sx){
+ const low=trLow(sx||'');
+ for(const u of ULKELER){if(low.includes(u))return trTitle(u)}
+ return (sx||'').trim();
+}
 function grandTotal(){const f=a=>a.reduce((t,i)=>t+num(i.q)*num(i.p),0);return f(S.items1)+f(S.items2)}
 async function poolSave(){
  if(!SB_TOKEN)return alert('\u00d6nce giri\u015f yap\u0131n.');
  const eksik=[];
  if(!(S.projeno||'').trim())eksik.push(['f_projeno','Teklif / Proje No']);
  if(!(S.firma||'').trim())eksik.push(['f_firma','Firma Ad\u0131']);
- if(!(S.ulke||'').trim())eksik.push(['f_ulke','\u00dclke']);
+ if(!(S.isyeri||'').trim())eksik.push(['f_isyeri','Lokasyon / \u00dclke']);
  if(eksik.length){
   eksik.forEach(([id])=>{const e=document.getElementById(id);e.style.outline='2px solid #c0392b'});
   setTimeout(()=>eksik.forEach(([id])=>{document.getElementById(id).style.outline=''}),5000);
@@ -1061,7 +1065,7 @@ async function poolSave(){
  }
  if(grandTotal()<=0&&!confirm('Toplam tutar 0 g\u00f6r\u00fcn\u00fcyor (kalemler bo\u015f). Yine de kaydedilsin mi?'))return;
  if(POOL_ID&&POOL_PN!==null&&(S.projeno||'')!==POOL_PN)POOL_ID=null; /* farkli proje no = yeni teklif */
- const rec={proje_no:S.projeno||'',firma:S.firma||'',yetkili:S.yetkili||'',is_adi:S.isadi||'',lokasyon:S.isyeri||'',ulke:S.ulke||'',para_birimi:S.curr,dil:S.lang,tarih:S.tarih||null,toplam:grandTotal(),data:S};
+ const rec={proje_no:S.projeno||'',firma:S.firma||'',yetkili:S.yetkili||'',is_adi:S.isadi||'',lokasyon:S.isyeri||'',ulke:detectUlke(S.isyeri),para_birimi:S.curr,dil:S.lang,tarih:S.tarih||null,toplam:grandTotal(),data:S};
  try{
   if(POOL_ID){
    await sbReq('/rest/v1/teklifler?id=eq.'+POOL_ID,{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify(rec)});
