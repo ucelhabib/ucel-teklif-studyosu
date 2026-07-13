@@ -169,19 +169,12 @@ ol.notes .nno{display:inline-block;min-width:6.5mm;font-weight:800;color:var(--n
 .lmbtns button{flex:1;padding:8px;border-radius:6px;border:1.5px solid var(--blue);background:#fff;color:var(--blue);font-weight:700;cursor:pointer}
 .lmbtns button.pri{background:var(--blue);color:#fff}
 @media print{#libmodal{display:none!important}}
-/* fullscreen / onizleme */
-body.pvmode #editor{display:none}
-body.edmode #preview{display:none}
-body.edmode #editor{width:100%;min-width:0}
-body.edmode #editor .grid2{grid-template-columns:1fr 1fr 1fr 1fr}
-#pvexit{display:none;position:fixed;top:12px;right:16px;z-index:98;background:var(--orange);color:#fff;border:none;border-radius:8px;padding:9px 14px;font-weight:800;font-size:13px;cursor:pointer;box-shadow:0 2px 8px #0004}
-body.pvmode #pvexit,body.edmode #pvexit{display:block}
 /* teklif havuzu */
 #poolmodal{display:none;position:fixed;inset:0;background:#0008;z-index:99;align-items:center;justify-content:center}
 #poolmodal .lm{max-width:960px}
 .pool-sum{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;margin:4px 0}
 .pool-sum b{color:var(--navy)}
-@media print{#pvexit,#poolmodal{display:none!important}}
+@media print{#poolmodal{display:none!important}}
 /* ---------- PRINT ---------- */
 @page{size:A4;margin:0}
 @media print{
@@ -200,16 +193,12 @@ body.pvmode #pvexit,body.edmode #pvexit{display:block}
   <h1>ÜÇEL Teklif Stüdyosu</h1>
   <div class="sub">güçlü yapıların güçlü adı...</div>
   <button class="printbtn" onclick="window.print()">&#128424; PDF Oluştur / Yazdır</button>
-  <div class="iobtns">
-    <button onclick="toggleEditor()">&#9703; Düzenleme Tam Ekran</button>
-    <button onclick="togglePreview()">&#9704; Önizleme Tam Ekran</button>
-  </div>
   <div class="hint"><b>PDF ayarları:</b> Hedef = "PDF olarak kaydet" &middot; Kenar boşlukları = <b>Yok</b> &middot; Ölçek = <b>100</b> &middot; "Arka plan grafikleri" <b>işaretli</b> olsun — çıktı önizlemeyle birebir aynı olur.</div>
 
-  <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:2px 0 10px">
-    <span style="font-size:11px;font-weight:700;color:var(--gray)">Dil:</span>
+  <fieldset>
+    <legend>Teklif Dili Seç</legend>
     <div class="langbar" id="langbar"></div>
-  </div>
+  </fieldset>
 
   <fieldset>
     <legend>Teklif Havuzu (Bulut)</legend>
@@ -310,8 +299,6 @@ body.pvmode #pvexit,body.edmode #pvexit{display:block}
 
 <main id="preview"></main>
 </div>
-
-<button id="pvexit" onclick="setView(null)">&#9707; Bölünmüş Görünüm</button>
 
 <div id="poolmodal" onclick="if(event.target===this)poolClose()">
  <div class="lm">
@@ -656,8 +643,31 @@ function fmtDate(d){if(!d)return'';const p=d.split('-');return `${p[2]}.${p[1]}.
 /* ---- automatic spelling / casing fixes (display-only) ---- */
 function trLow(s){return s.toLocaleLowerCase('tr-TR')}
 function trUp(s){return s.toLocaleUpperCase('tr-TR')}
+/* yazim kurallari: bosluk/noktalama/parantez/yuzde otomatik duzelt */
+function tidy(s){
+ s=(s||'').replace(/\s+/g,' ').trim();
+ if(!s)return s;
+ s=s.replace(/\s+([.,;:!?])/g,'$1');
+ s=s.replace(/([,;])(?=[^\s\d])/g,'$1 ');
+ s=s.replace(/(:)(?=[^\s\d\/])/g,'$1 ');
+ s=s.replace(/([!?])(?=[^\s!?])/g,'$1 ');
+ s=s.replace(/\(\s+/g,'(').replace(/\s+\)/g,')');
+ s=s.replace(/([^\s(])\(/g,'$1 (');
+ s=s.replace(/\)(?=[A-Za-z\u00c7\u011e\u0130\u00d6\u015e\u00dc\u00e7\u011f\u0131\u00f6\u015f\u00fc0-9])/g,') ');
+ s=s.replace(/%\s+(\d)/g,'%$1');
+ /* nokta sonrasi bosluk (URL/e-posta ve A.\u015e. gibi kisaltmalar korunur) */
+ const keep=[];
+ s=s.replace(/\S*(?:https?:\/\/|www\.|@)\S*/gi,m=>{keep.push(m);return '\u0001'+(keep.length-1)+'\u0001'});
+ s=s.replace(/([^A-Z\u00c7\u011e\u0130\u00d6\u015e\u00dc0-9.\s])\.(?=[A-Za-z\u00c7\u011e\u0130\u00d6\u015e\u00dc\u00e7\u011f\u0131\u00f6\u015f\u00fc])/g,'$1. ');
+ s=s.replace(/\u0001(\d+)\u0001/g,(m,i)=>keep[+i]);
+ return s;
+}
+function tidyPara(s){
+ s=tidy(s);
+ return s.replace(/(^|[.!?]\s+)([a-z\u00e7\u011f\u0131\u00f6\u015f\u00fc])/g,(m,a,b)=>a+trUp(b));
+}
 function trTitle(s){ /* Title Case, keeps abbreviations like A.Ş. */
- s=(s||'').trim().replace(/\s+/g,' ');
+ s=tidy(s);
  return s.split(' ').map(w=>{
   if(!w)return w;
   if(w.includes('.')&&w.length<=6)return trUp(w);          // A.Ş., LTD.
@@ -667,7 +677,7 @@ function trTitle(s){ /* Title Case, keeps abbreviations like A.Ş. */
 }
 const KEYWORDS=Object.keys(DICT).sort((a,b)=>b.length-a.length);
 function fixDesc(s){ /* collapse spaces, capitalize first letter, uppercase known product terms */
- s=(s||'').trim().replace(/\s+/g,' ');
+ s=tidy(s);
  if(!s)return s;
  for(const k of KEYWORDS){
   const low=trLow(s),kl=trLow(k);
@@ -677,7 +687,7 @@ function fixDesc(s){ /* collapse spaces, capitalize first letter, uppercase know
  return trUp(s[0])+s.slice(1);
 }
 function fixNote(s){ /* capitalize first letter, add trailing period after letters */
- s=(s||'').trim().replace(/\s+/g,' ');
+ s=tidy(s);
  if(!s)return s;
  s=trUp(s[0])+s.slice(1);
  if(/[a-zçğıöşüа-яa-zء-ي]$/i.test(s))s+='.';
@@ -906,7 +916,7 @@ function render(){
   ${pgHead(L)}
   <div class="pgbody">
    <h2 class="sec">${L.tanitim}</h2>
-   <div class="intro" contenteditable="true" oninput="S.intro[S.lang]=this.innerText" onblur="document.getElementById('f_intro').value=getIntro()">${getIntro().split(/\n\s*\n/).map(p=>`<p>${esc(p)}</p>`).join('')}</div>
+   <div class="intro" contenteditable="true" oninput="S.intro[S.lang]=this.innerText" onblur="document.getElementById('f_intro').value=getIntro()">${getIntro().split(/\n\s*\n/).map(p=>`<p>${esc(tidyPara(p))}</p>`).join('')}</div>
    ${refRows?`<h2 class="sec" style="margin-top:6mm">${L.referans}</h2>
    <table class="doc"><thead><tr><th>${L.rproje}</th><th class="num" style="width:45mm">${L.ryer}</th><th class="num" style="width:40mm">${L.rton}</th></tr></thead><tbody>${refRows}</tbody></table>`:''}
    ${S.refs.some(r=>r.img)?`<div class="refgrid">${S.refs.filter(r=>r.img).map(r=>`<figure><img src="${r.img}"><figcaption>${esc(trDesc(trTitle(r.n),S.lang))}</figcaption></figure>`).join('')}</div>`:''}
@@ -984,11 +994,6 @@ document.getElementById('f_curr').addEventListener('change',e=>{S.curr=e.target.
 try{localStorage.removeItem('ucel_teklif');localStorage.removeItem('ucel_det')}catch(e){}
 syncEditor();render();
 
-/* ================= TAM EKRAN / ONIZLEME ================= */
-function setView(m){document.body.classList.remove('pvmode','edmode');if(m)document.body.classList.add(m)}
-function togglePreview(){setView(document.body.classList.contains('pvmode')?null:'pvmode')}
-function toggleEditor(){setView(document.body.classList.contains('edmode')?null:'edmode')}
-
 /* ================= TEKLIF HAVUZU (Bulut / Supabase) ================= */
 const SB_URL='https://zzjlsnwdltffumojktpy.supabase.co';
 const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp6amxzbndkbHRmZnVtb2prdHB5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyNzg2MjIsImV4cCI6MjA5NDg1NDYyMn0.dzE6uX2BNtPq8ppOTpQwzInX6dohkDjH4QpZK2D5K9M';
@@ -996,10 +1001,22 @@ let SB_TOKEN=localStorage.getItem('sb_token')||'';
 let SB_USER=localStorage.getItem('sb_user')||'';
 let POOL_ID=null,POOL_PN=null,POOL=[];
 function val(id){return document.getElementById(id).value.trim()}
-async function sbReq(path,opt={}){
+async function sbRefresh(){
+ const rt=localStorage.getItem('sb_refresh');if(!rt)return false;
+ try{
+  const r=await fetch(SB_URL+'/auth/v1/token?grant_type=refresh_token',{method:'POST',headers:{apikey:SB_KEY,'Content-Type':'application/json'},body:JSON.stringify({refresh_token:rt})});
+  if(!r.ok)return false;
+  const j=await r.json();if(!j.access_token)return false;
+  SB_TOKEN=j.access_token;localStorage.setItem('sb_token',SB_TOKEN);
+  if(j.refresh_token)localStorage.setItem('sb_refresh',j.refresh_token);
+  return true;
+ }catch(e){return false}
+}
+async function sbReq(path,opt={},retried){
  opt.headers=Object.assign({apikey:SB_KEY,'Content-Type':'application/json'},opt.headers||{});
  if(SB_TOKEN)opt.headers.Authorization='Bearer '+SB_TOKEN;
  const r=await fetch(SB_URL+path,opt);
+ if(r.status===401&&!retried&&await sbRefresh())return sbReq(path,opt,true);
  if(r.status===401){SB_TOKEN='';localStorage.removeItem('sb_token');sbUI('Oturum s\u00fcresi doldu, tekrar giri\u015f yap\u0131n.')}
  const t=await r.text();let j=null;try{j=t?JSON.parse(t):null}catch(e){}
  if(!r.ok)throw new Error((j&&(j.msg||j.message||j.error_description||j.error))||('HTTP '+r.status));
@@ -1010,6 +1027,7 @@ async function sbLogin(){
   const j=await sbReq('/auth/v1/token?grant_type=password',{method:'POST',body:JSON.stringify({email:val('sb_email'),password:val('sb_pass')})});
   SB_TOKEN=j.access_token;SB_USER=(j.user&&j.user.email)||val('sb_email');
   localStorage.setItem('sb_token',SB_TOKEN);localStorage.setItem('sb_user',SB_USER);
+  if(j.refresh_token)localStorage.setItem('sb_refresh',j.refresh_token);
   sbUI('Giri\u015f yap\u0131ld\u0131.');
  }catch(e){alert('Giri\u015f ba\u015far\u0131s\u0131z: '+e.message)}
 }
@@ -1125,6 +1143,7 @@ async function poolLoad(id){
  }catch(e){alert('Y\u00fcklenemedi: '+e.message)}
 }
 sbUI();
+if(SB_TOKEN)sbRefresh();
 </script>
 </body>
 </html>
