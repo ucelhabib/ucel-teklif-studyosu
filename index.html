@@ -582,6 +582,25 @@ const DICT={
  'ÇATI':{en:'ROOF',ar:'سقف',ru:'КРЫША',uz:"TOM"},
  'CEPHE':{en:'FACADE',ar:'واجهة',ru:'ФАСАД',uz:"FASAD"},
  'Adet':{en:'pcs',ar:'قطعة',ru:'шт',uz:"dona"},
+ 'Un Değirmeni':{en:'Flour Mill',ar:'مطحنة دقيق',ru:'Мукомольная мельница',uz:"Un tegirmoni"},
+ 'Değirmen Binası':{en:'Mill Building',ar:'مبنى المطحنة',ru:'Здание мельницы',uz:"Tegirmon binosi"},
+ 'Değirmen':{en:'Mill',ar:'مطحنة',ru:'Мельница',uz:"Tegirmon"},
+ 'Kapasiteli':{en:'Capacity',ar:'بسعة',ru:'производительностью',uz:"quvvatli"},
+ 'Ton/gün':{en:'t/day',ar:'طن/يوم',ru:'т/сутки',uz:"tonna/kun"},
+ 'Ton/Gün':{en:'t/day',ar:'طن/يوم',ru:'т/сутки',uz:"tonna/kun"},
+ 'Çelik Yapı':{en:'Steel Structure',ar:'منشأ فولاذي',ru:'Стальная конструкция',uz:"Po'lat inshoot"},
+ 'Fabrika Binası':{en:'Factory Building',ar:'مبنى مصنع',ru:'Здание завода',uz:"Zavod binosi"},
+ 'Binası':{en:'Building',ar:'مبنى',ru:'Здание',uz:"binosi"},
+ 'Depo':{en:'Warehouse',ar:'مستودع',ru:'Склад',uz:"Ombor"},
+ 'Silo':{en:'Silo',ar:'صومعة',ru:'Силос',uz:"Silos"},
+ 'Siloları':{en:'Silos',ar:'صوامع',ru:'Силосы',uz:"Silolari"},
+ 'Özbekistan':{en:'Uzbekistan',ar:'أوزبكستان',ru:'Узбекистан',uz:"O'zbekiston"},
+ 'Rusya':{en:'Russia',ar:'روسيا',ru:'Россия',uz:"Rossiya"},
+ 'Türkiye':{en:'Türkiye',ar:'تركيا',ru:'Турция',uz:"Turkiya"},
+ 'Libya':{en:'Libya',ar:'ليبيا',ru:'Ливия',uz:"Liviya"},
+ 'Angola':{en:'Angola',ar:'أنغولا',ru:'Ангола',uz:"Angola"},
+ 'Kazakistan':{en:'Kazakhstan',ar:'كازاخستان',ru:'Казахстан',uz:"Qozog'iston"},
+ 'Azerbaycan':{en:'Azerbaijan',ar:'أذربيجان',ru:'Азербайджан',uz:"Ozarbayjon"},
 };
 function trDesc(t,lang){
  if(lang==='tr'||!t)return t;
@@ -836,7 +855,7 @@ function tableHTML(L,items,startNo,totalLabel,showKgTotal){
 }
 function render(){
  const L=TR[S.lang];const dir=L.rtl?'rtl':'ltr';
- const firma=trTitle(S.firma),yetkili=trTitle(S.yetkili),isadi=trTitle(S.isadi),isyeri=trTitle(S.isyeri);
+ const firma=trTitle(S.firma),yetkili=trTitle(S.yetkili),isadi=trDesc(trTitle(S.isadi),S.lang),isyeri=trDesc(trTitle(S.isyeri),S.lang);
  const t1=tableHTML(L,S.items1,1,L.toplam,true);
  const t2=tableHTML(L,S.items2,S.items1.length+1,L.toplamkap,false);
  const grand=t1.sum+t2.sum;
@@ -866,7 +885,7 @@ function render(){
    </div>
   </div>${pgFoot(L,pg,TOTAL)}</div>`;
  /* firma tanitimi - SON SAYFA */
- const refRows=S.refs.filter(r=>r.n).map(r=>`<tr><td>${esc(trTitle(r.n))}</td><td class="num">${esc(trTitle(r.y))}</td><td class="num">${esc(r.t)}</td></tr>`).join('');
+ const refRows=S.refs.filter(r=>r.n).map(r=>`<tr><td>${esc(trDesc(trTitle(r.n),S.lang))}</td><td class="num">${esc(trDesc(trTitle(r.y),S.lang))}</td><td class="num">${esc(r.t)}</td></tr>`).join('');
  const brandGrid=S.brands.length?`<h2 class="sec" style="margin-top:6mm">${L.reffirm}</h2>
    <div class="brandgrid">${S.brands.map(b=>`<img src="${b.src}" alt="${esc(b.name)}" title="${esc(b.name)}">`).join('')}</div>`:'';
  const worldBlock=`<div class="worldwrap"><img src="${WORLD}" alt="world map"><div class="wcap">${L.world}</div></div>`;
@@ -877,7 +896,7 @@ function render(){
    <div class="intro" contenteditable="true" oninput="S.intro[S.lang]=this.innerText" onblur="document.getElementById('f_intro').value=getIntro()">${getIntro().split(/\n\s*\n/).map(p=>`<p>${esc(p)}</p>`).join('')}</div>
    ${refRows?`<h2 class="sec" style="margin-top:6mm">${L.referans}</h2>
    <table class="doc"><thead><tr><th>${L.rproje}</th><th class="num" style="width:45mm">${L.ryer}</th><th class="num" style="width:40mm">${L.rton}</th></tr></thead><tbody>${refRows}</tbody></table>`:''}
-   ${S.refs.some(r=>r.img)?`<div class="refgrid">${S.refs.filter(r=>r.img).map(r=>`<figure><img src="${r.img}"><figcaption>${esc(trTitle(r.n))}</figcaption></figure>`).join('')}</div>`:''}
+   ${S.refs.some(r=>r.img)?`<div class="refgrid">${S.refs.filter(r=>r.img).map(r=>`<figure><img src="${r.img}"><figcaption>${esc(trDesc(trTitle(r.n),S.lang))}</figcaption></figure>`).join('')}</div>`:''}
    ${brandGrid}
    ${worldBlock}
   </div>${pgFoot(L,TOTAL,TOTAL)}</div>`;
