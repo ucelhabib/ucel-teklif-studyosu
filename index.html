@@ -604,7 +604,20 @@ const DICT={
 };
 function trDesc(t,lang){
  if(lang==='tr'||!t)return t;
- let out=t;
+ let out=t,m;
+ /* Arapca: kelime sirasi Turkceden ters — yaygin kaliplari yeniden kur */
+ if(lang==='ar'){
+  if(m=out.match(/^(.+?)\s+Bölümü İmalat ve Montajı$/i))out='تصنيع وتركيب قسم '+m[1];
+  else if(m=out.match(/^(.+?)\s+İmalat ve Montajı$/i))out='تصنيع وتركيب '+m[1];
+  else if(m=out.match(/^(.+?)\s+Temini ve Montajı$/i))out='توريد وتركيب '+m[1];
+  if(m=out.match(/^(\d[\d.,]*)\s*Ton\/[Gg]ün Kapasiteli\s+(.+)$/))out=m[2]+' بسعة '+m[1]+' طن/يوم';
+ }
+ if(lang==='ru'){
+  if(m=out.match(/^(\d[\d.,]*)\s*Ton\/[Gg]ün Kapasiteli\s+(.+)$/))out=m[2]+' производительностью '+m[1]+' т/сутки';
+ }
+ if(lang==='en'){
+  if(m=out.match(/^(\d[\d.,]*)\s*Ton\/[Gg]ün Kapasiteli\s+(.+)$/))out=m[2]+' with '+m[1]+' t/day Capacity';
+ }
  const keys=Object.keys(DICT).sort((a,b)=>b.length-a.length);
  for(const k of keys){ if(DICT[k][lang]) out=out.split(k).join(DICT[k][lang]); }
  return out;
@@ -831,10 +844,10 @@ function pgFoot(L,n,total){
    <img src="${CERT}" alt="CE ISO TUV">
    <div style="display:flex;align-items:center;gap:4mm">
     <img class="footqr" src="${QR}" alt="QR" title="${CONTACT.web}">
-    <div class="footcontact">${L.tel} <b>${CONTACT.tel}</b><br>${L.gsm} <b>${CONTACT.gsm}</b><br>${L.ep} <b>${CONTACT.ep}</b></div>
+    <div class="footcontact">${L.tel} <b dir="ltr">${CONTACT.tel}</b><br>${L.gsm} <b dir="ltr">${CONTACT.gsm}</b><br>${L.ep} <b dir="ltr">${CONTACT.ep}</b></div>
    </div>
   </div>
-  <div class="footbar"><span>${CONTACT.addr}</span><span class="footweb"><b>${CONTACT.web}</b><span class="pgno">${L.sayfa} ${n}/${total}</span></span></div></div>`;
+  <div class="footbar"><span dir="ltr">${CONTACT.addr}</span><span class="footweb"><b dir="ltr">${CONTACT.web}</b><span class="pgno">${L.sayfa} ${n}/${total}</span></span></div></div>`;
 }
 function tableHTML(L,items,startNo,totalLabel,showKgTotal){
  let rows='',qsum=0,asum=0,allkg=true;
@@ -948,10 +961,6 @@ function render(){
   </div>${pgFoot(L,pg,TOTAL)}</div>`;
  document.getElementById('preview').innerHTML=p1+pDet+p3+p4+p2;
  fitPages();
- try{
-  localStorage.setItem('ucel_teklif',JSON.stringify(S));
-  localStorage.setItem('ucel_det',JSON.stringify(S.details)); /* sticky detail images */
- }catch(e){}
 }
 /* scale pages to fit the preview panel width */
 function fitPages(){
@@ -971,14 +980,8 @@ window.addEventListener('afterprint',fitPages);
 });
 document.getElementById('f_curr').addEventListener('change',e=>{S.curr=e.target.value;render()});
 
-/* restore autosave */
-try{const saved=localStorage.getItem('ucel_teklif');if(saved){S=Object.assign(S,JSON.parse(saved))}}catch(e){}
-if(!Array.isArray(S.covers))S.covers=[];
-if(S.cover){S.covers=[S.cover];delete S.cover}  /* migrate old single cover */
-/* details are sticky: if empty, restore the last saved set */
-if(!Array.isArray(S.details)||!S.details.length){
- try{S.details=JSON.parse(localStorage.getItem('ucel_det')||'[]')}catch(e){S.details=[]}
-}
+/* acilis daima temiz sayfa: eski otomatik kayitlari da sil */
+try{localStorage.removeItem('ucel_teklif');localStorage.removeItem('ucel_det')}catch(e){}
 syncEditor();render();
 
 /* ================= TAM EKRAN / ONIZLEME ================= */
