@@ -879,12 +879,25 @@ function libPickDetail(){libPick(d=>{S.details.push({img:d,cap:''});syncEditor()
 function addBrandLogo(inp){
  for(const f of inp.files){
   const r=new FileReader();
-  r.onload=e=>{S.brands.push({name:f.name.replace(/\.[^.]+$/,''),src:e.target.result});syncEditor();render()};
+  r.onload=e=>{S.brands.push({name:f.name.replace(/\.[^.]+$/,''),src:e.target.result});syncEditor();render();brandsSave()};
   r.readAsDataURL(f);
  }
  inp.value='';
 }
-function delBrand(i){S.brands.splice(i,1);syncEditor();render()}
+function delBrand(i){S.brands.splice(i,1);syncEditor();render();brandsSave()}
+async function brandsSave(){
+ if(!SB_TOKEN)return;
+ try{
+  await sbReq('/rest/v1/ayarlar',{method:'POST',headers:{Prefer:'resolution=merge-duplicates,return=minimal'},body:JSON.stringify([{key:'markalar',value:S.brands}])});
+ }catch(e){}
+}
+async function brandsLoad(){
+ if(!SB_TOKEN)return;
+ try{
+  const j=await sbReq('/rest/v1/ayarlar?key=eq.markalar&select=value');
+  if(j&&j[0]&&Array.isArray(j[0].value)&&j[0].value.length){S.brands=j[0].value;syncEditor();render()}
+ }catch(e){}
+}
 function addDetail(inp){
  for(const f of inp.files) shrink(f,d=>{S.details.push({img:d,cap:''});syncEditor();render()});
  inp.value='';
@@ -1093,7 +1106,7 @@ async function sbLogin(){
   SB_TOKEN=j.access_token;SB_USER=(j.user&&j.user.email)||val('sb_email');
   localStorage.setItem('sb_token',SB_TOKEN);localStorage.setItem('sb_user',SB_USER);
   if(j.refresh_token)localStorage.setItem('sb_refresh',j.refresh_token);
-  loginClose();sbUI('Giri\u015f yap\u0131ld\u0131.');
+  loginClose();sbUI('Giri\u015f yap\u0131ld\u0131.');brandsLoad();
  }catch(e){alert('Giri\u015f ba\u015far\u0131s\u0131z: '+e.message)}
 }
 async function sbSignup(){
@@ -1232,7 +1245,7 @@ async function poolLoad(id){
  }catch(e){alert('Y\u00fcklenemedi: '+e.message)}
 }
 sbUI();
-if(SB_TOKEN)sbRefresh();
+if(SB_TOKEN)sbRefresh().then(()=>brandsLoad());
 </script>
 </body>
 </html>
