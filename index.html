@@ -181,7 +181,7 @@ ol.notes .nno{display:inline-block;min-width:6.5mm;font-weight:800;color:var(--n
   html,body{background:#fff;margin:0;padding:0}
   #editor{display:none}
   #preview{padding:0;gap:0;display:block}
-  .page{box-shadow:none;width:210mm;height:297mm;page-break-after:always;overflow:hidden;zoom:1!important}
+  .page{box-shadow:none;width:210mm;height:296mm;page-break-after:always;page-break-inside:avoid;overflow:hidden;zoom:1!important}
   .page:last-child{page-break-after:auto}
   img,figure,table{break-inside:avoid}
 }
@@ -261,13 +261,13 @@ ol.notes .nno{display:inline-block;min-width:6.5mm;font-weight:800;color:var(--n
 
   <fieldset>
     <legend>Firma Tanıtım Metni (seçili dil)</legend>
-    <textarea id="f_intro" rows="7" oninput="S.intro[S.lang]=this.value;render()"></textarea>
+    <textarea id="f_intro" rows="7" oninput="S.intro[S.lang]=this.value;renderSoon();introSaveSoon()"></textarea>
     <div class="hint">Her dil için ayrı metin tutulur; değiştirmezseniz hazır çeviri kullanılır.</div>
   </fieldset>
 
   <fieldset>
     <legend>Notlar / Şartlar (seçili dil, her satır bir madde)</legend>
-    <textarea id="f_notes" rows="10" oninput="S.notes[S.lang]=this.value;render()"></textarea>
+    <textarea id="f_notes" rows="10" oninput="S.notes[S.lang]=this.value;renderSoon()"></textarea>
     <div class="hint">İpucu: Notları ve tanıtım metnini sağdaki sayfa üzerinde de doğrudan tıklayıp düzenleyebilirsiniz.</div>
   </fieldset>
 
@@ -322,7 +322,8 @@ ol.notes .nno{display:inline-block;min-width:6.5mm;font-weight:800;color:var(--n
   </div>
   <div class="libgrid" id="lmgrid" style="min-height:70px;margin-bottom:12px"></div>
   <div class="lmbtns">
-   <button class="pri" onclick="document.getElementById('libfile').click()">&#8679; Bu Bölüme Resim Yükle</button>
+   <button class="pri" id="libupbtn" onclick="document.getElementById('libfile').click()">&#8679; Bu Bölüme Resim Yükle</button>
+   <button class="pri" id="libselbtn" style="display:none" onclick="libAddSel()">Seçilenleri Ekle (0)</button>
    <button onclick="libModalClose()">Kapat</button>
   </div>
   <input type="file" id="libfile" accept="image/*" multiple style="display:none" onchange="libUpload(this)">
@@ -721,17 +722,17 @@ function editorLang(){
 }
 function itemRow(t,i,it){
  return `<tr>
- <td style="width:46%"><input type="text" placeholder="Malzeme / iş kalemi" value="${esc(it.d)}" oninput="S.items${t}[${i}].d=this.value;render()"></td>
- <td style="width:16%"><input type="text" placeholder="Miktar" value="${esc(it.q)}" oninput="S.items${t}[${i}].q=this.value;render()"></td>
- <td style="width:14%"><select onchange="S.items${t}[${i}].u=this.value;render()">${UNITS.concat(UNITS.includes(it.u)||!it.u?[]:[it.u]).map(u=>`<option${u===it.u?' selected':''}>${esc(u)}</option>`).join('')}</select></td>
- <td style="width:16%"><input type="text" placeholder="Fiyat" value="${esc(it.p)}" oninput="S.items${t}[${i}].p=this.value;render()"></td>
+ <td style="width:46%"><input type="text" placeholder="Malzeme / iş kalemi" value="${esc(it.d)}" oninput="S.items${t}[${i}].d=this.value;renderSoon()"></td>
+ <td style="width:16%"><input type="text" placeholder="Miktar" value="${esc(it.q)}" oninput="S.items${t}[${i}].q=this.value;renderSoon()"></td>
+ <td style="width:14%"><select onchange="S.items${t}[${i}].u=this.value;renderSoon()">${UNITS.concat(UNITS.includes(it.u)||!it.u?[]:[it.u]).map(u=>`<option${u===it.u?' selected':''}>${esc(u)}</option>`).join('')}</select></td>
+ <td style="width:16%"><input type="text" placeholder="Fiyat" value="${esc(it.p)}" oninput="S.items${t}[${i}].p=this.value;renderSoon()"></td>
  <td><button class="rowbtn del" onclick="S.items${t}.splice(${i},1);syncEditor();render()">×</button></td></tr>`;
 }
 function refRow(i,r){
  return `<tr>
- <td style="width:37%"><input type="text" placeholder="Proje adı" value="${esc(r.n)}" oninput="S.refs[${i}].n=this.value;render()"></td>
- <td style="width:28%"><input type="text" placeholder="Yer/Ülke" value="${esc(r.y)}" oninput="S.refs[${i}].y=this.value;render()"></td>
- <td style="width:21%"><input type="text" placeholder="Tonaj" value="${esc(r.t)}" oninput="S.refs[${i}].t=this.value;render()"></td>
+ <td style="width:37%"><input type="text" placeholder="Proje adı" value="${esc(r.n)}" oninput="S.refs[${i}].n=this.value;renderSoon()"></td>
+ <td style="width:28%"><input type="text" placeholder="Yer/Ülke" value="${esc(r.y)}" oninput="S.refs[${i}].y=this.value;renderSoon()"></td>
+ <td style="width:21%"><input type="text" placeholder="Tonaj" value="${esc(r.t)}" oninput="S.refs[${i}].t=this.value;renderSoon()"></td>
  <td><button class="rowbtn${r.img?' has':''}" title="Proje fotoğrafı" onclick="pickRefImg(${i})">&#128247;</button></td>
  <td><button class="rowbtn del" onclick="S.refs.splice(${i},1);syncEditor();render()">×</button></td></tr>`;
 }
@@ -750,7 +751,7 @@ function syncEditor(){
  document.getElementById('brands').innerHTML=S.brands.map((b,i)=>
   `<div class="bt"><img src="${b.src}" title="${esc(b.name)}"><button onclick="delBrand(${i})">×</button></div>`).join('')||'<span class="hint">Logo yok</span>';
  document.getElementById('details').innerHTML=S.details.map((d,i)=>
-  `<div class="dt"><img src="${d.img}"><input type="text" placeholder="Açıklama (ör. 3D Model — Ön Görünüş)" value="${esc(d.cap)}" oninput="S.details[${i}].cap=this.value;render()"><button class="rowbtn del" onclick="delDetail(${i})">×</button></div>`).join('')||'<span class="hint">Henüz resim yok</span>';
+  `<div class="dt"><img src="${d.img}"><input type="text" placeholder="Açıklama (ör. 3D Model — Ön Görünüş)" value="${esc(d.cap)}" oninput="S.details[${i}].cap=this.value;renderSoon()"><button class="rowbtn del" onclick="delDetail(${i})">×</button></div>`).join('')||'<span class="hint">Henüz resim yok</span>';
  document.getElementById('coverthumbs').innerHTML=S.covers.map((c,i)=>
   `<div class="bt"><img src="${c}"><button onclick="delCover(${i})">×</button></div>`).join('');
  document.getElementById('f_intro').value=getIntro();
@@ -789,7 +790,18 @@ function setCover(inp){
 function delCover(i){S.covers.splice(i,1);syncEditor();render()}
 /* ---- gorsel kutuphanesi (bulut: Supabase Storage, tum bilgisayarlarda ortak) ---- */
 let LIB={ref:[],det:[]};
-let LIB_TAB='ref',_libCb=null,LIB_LOADED=false;
+let LIB_TAB='ref',_libCb=null,LIB_LOADED=false,_libSel=new Set();
+function libSafeName(f){
+ let n=(f||'').replace(/\.[^.]+$/,'').toLocaleLowerCase('tr');
+ const M={'\u00e7':'c','\u011f':'g','\u0131':'i','\u00f6':'o','\u015f':'s','\u00fc':'u','\u0130':'i'};
+ n=n.replace(/[\u00e7\u011f\u0131\u00f6\u015f\u00fc\u0130]/g,c=>M[c]||c);
+ n=n.replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,40);
+ return n||'gorsel';
+}
+function libLabel(path){
+ const f=path.split('/').pop().replace(/\.jpg$/i,'').replace(/^\d+-/,'');
+ return f.replace(/-/g,' ');
+}
 async function libListAll(){
  LIB={ref:[],det:[]};
  for(const t of ['ref','det']){
@@ -802,12 +814,13 @@ async function libListAll(){
  }
  LIB_LOADED=true;
 }
-async function libPut(t,dataUrl){
+async function libPut(t,dataUrl,fname){
  const blob=await (await fetch(dataUrl)).blob();
- const path='kutuphane/'+t+'/'+Date.now()+'-'+Math.random().toString(36).slice(2,7)+'.jpg';
- const r=await fetch(SB_URL+'/storage/v1/object/studio/'+path,{method:'POST',headers:{apikey:SB_KEY,Authorization:'Bearer '+SB_TOKEN,'Content-Type':'image/jpeg','x-upsert':'true'},body:blob});
+ const path='kutuphane/'+t+'/'+Date.now()+'-'+libSafeName(fname);
+ const full=path+'.jpg';
+ const r=await fetch(SB_URL+'/storage/v1/object/studio/'+full,{method:'POST',headers:{apikey:SB_KEY,Authorization:'Bearer '+SB_TOKEN,'Content-Type':'image/jpeg','x-upsert':'true'},body:blob});
  if(!r.ok)throw new Error('HTTP '+r.status);
- LIB[t].push({path:path,url:SB_URL+'/storage/v1/object/public/studio/'+path});
+ LIB[t].push({path:full,url:SB_URL+'/storage/v1/object/public/studio/'+full});
 }
 async function libMigrate(){
  let old=null;
@@ -817,13 +830,18 @@ async function libMigrate(){
  if(!confirm('Bu bilgisayarda kayitli eski kutuphane gorselleri buluta tasinsin mi? (Tum bilgisayarlarda ortak olur)'))return;
  document.getElementById('lmgrid').innerHTML='<span class="hint">Gorseller buluta tasiniyor...</span>';
  for(const t of ['ref','det']){
-  for(const d of (old[t]||[])){ try{await libPut(t,d)}catch(e){} }
+  for(const d of (old[t]||[])){ try{await libPut(t,d,'gorsel')}catch(e){} }
  }
  localStorage.removeItem('ucel_lib2');localStorage.removeItem('ucel_lib');
 }
+function libMode(){
+ document.getElementById('libupbtn').style.display=_libCb?'none':'block';
+ document.getElementById('libselbtn').style.display=_libCb?'block':'none';
+ document.getElementById('libhint').textContent=_libCb?'\u2014 resimlere tiklayip secin, sonra "Secilenleri Ekle"':'';
+}
 async function libOpen(){
  if(!SB_TOKEN)return loginOpen();
- _libCb=null;
+ _libCb=null;_libSel=new Set();libMode();
  document.getElementById('libmodal').style.display='flex';
  document.getElementById('lmgrid').innerHTML='<span class="hint">Yukleniyor...</span>';
  await libListAll();
@@ -837,18 +855,20 @@ function libTab(t){
   b.style.background=(k===t)?'var(--navy)':'#fff';
   b.style.color=(k===t)?'#fff':'var(--blue)';
  }
- document.getElementById('libhint').textContent=_libCb?'\u2014 resme tiklayinca teklife eklenir':'';
  libGrid();
 }
 function libGrid(){
  const arr=LIB[LIB_TAB];
  document.getElementById('lmgrid').innerHTML=arr.length?
-  arr.map((it,i)=>`<div class="li" style="position:relative"><img src="${it.url}" style="height:72px;width:110px;${_libCb?'cursor:pointer':''}" onclick="libChoose(${i})"><button title="Sil" onclick="delLib(${i})" style="position:absolute;top:-7px;right:-7px;width:18px;height:18px;border-radius:50%;border:none;background:#c0392b;color:#fff;font-size:11px;line-height:1;cursor:pointer">\u00d7</button></div>`).join('')
+  arr.map((it,i)=>`<div class="li" style="position:relative"><img src="${it.url}" style="height:72px;width:110px;${_libCb?'cursor:pointer;':''}outline:${_libSel.has(it.url)?'3px solid var(--orange)':'none'}" onclick="libChoose(${i})"><div style="font-size:10px;color:var(--gray);max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center" title="${esc(libLabel(it.path))}">${esc(libLabel(it.path))}</div><button title="Sil" onclick="delLib(${i})" style="position:absolute;top:-7px;right:-7px;width:18px;height:18px;border-radius:50%;border:none;background:#c0392b;color:#fff;font-size:11px;line-height:1;cursor:pointer">\u00d7</button></div>`).join('')
   :'<span class="hint">Bu bolumde gorsel yok \u2014 asagidan yukleyin.</span>';
 }
 function libUpload(inp){
  if(!SB_TOKEN){inp.value='';return loginOpen()}
- for(const f of inp.files) shrink(f,async d=>{try{await libPut(LIB_TAB,d);libGrid()}catch(e){alert('Yuklenemedi: '+e.message)}});
+ for(const f of inp.files){
+  const nm=f.name;
+  shrink(f,async d=>{try{await libPut(LIB_TAB,d,nm);libGrid()}catch(e){alert('Yuklenemedi: '+e.message)}});
+ }
  inp.value='';
 }
 async function delLib(i){
@@ -856,24 +876,33 @@ async function delLib(i){
  if(!confirm('Gorsel kutuphaneden silinsin mi?'))return;
  try{
   await sbReq('/storage/v1/object/studio/'+it.path,{method:'DELETE'});
-  LIB[LIB_TAB].splice(i,1);libGrid();
+  LIB[LIB_TAB].splice(i,1);_libSel.delete(it.url);libGrid();
  }catch(e){alert('Silinemedi: '+e.message)}
 }
 function libChoose(i){
  if(!_libCb)return;
- const d=LIB[LIB_TAB][i].url;
+ const u=LIB[LIB_TAB][i].url;
+ if(_libSel.has(u))_libSel.delete(u);else _libSel.add(u);
+ document.getElementById('libselbtn').textContent='Secilenleri Ekle ('+_libSel.size+')';
+ libGrid();
+}
+function libAddSel(){
+ if(!_libSel.size)return alert('Resim secilmedi \u2014 resimlere tiklayin.');
+ const cb=_libCb;_libCb=null;
  document.getElementById('libmodal').style.display='none';
- const cb=_libCb;_libCb=null;cb(d);
+ for(const u of _libSel)cb(u);
+ _libSel=new Set();
 }
 async function libPick(cb,fileElId,tab){
  if(!SB_TOKEN)return loginOpen();
- _libCb=cb;
+ _libCb=cb;_libSel=new Set();libMode();
+ document.getElementById('libselbtn').textContent='Secilenleri Ekle (0)';
  document.getElementById('libmodal').style.display='flex';
  document.getElementById('lmgrid').innerHTML='<span class="hint">Yukleniyor...</span>';
  if(!LIB_LOADED)await libListAll();
  libTab(tab||'ref');
 }
-function libModalClose(){document.getElementById('libmodal').style.display='none';_libCb=null}
+function libModalClose(){document.getElementById('libmodal').style.display='none';_libCb=null;_libSel=new Set()}
 function libPickCover(){libPick(d=>{S.covers.push(d);S.covers=S.covers.slice(-2);syncEditor();render()},'f_cover','ref')}
 function libPickDetail(){libPick(d=>{S.details.push({img:d,cap:''});syncEditor();render()},'f_detfile','det')}
 function addBrandLogo(inp){
@@ -889,6 +918,21 @@ async function brandsSave(){
  if(!SB_TOKEN)return;
  try{
   await sbReq('/rest/v1/ayarlar',{method:'POST',headers:{Prefer:'resolution=merge-duplicates,return=minimal'},body:JSON.stringify([{key:'markalar',value:S.brands}])});
+ }catch(e){}
+}
+let _inT=null;
+function introSaveSoon(){clearTimeout(_inT);_inT=setTimeout(introSave,1500)}
+async function introSave(){
+ if(!SB_TOKEN)return;
+ try{
+  await sbReq('/rest/v1/ayarlar',{method:'POST',headers:{Prefer:'resolution=merge-duplicates,return=minimal'},body:JSON.stringify([{key:'tanitim',value:S.intro}])});
+ }catch(e){}
+}
+async function introLoad(){
+ if(!SB_TOKEN)return;
+ try{
+  const j=await sbReq('/rest/v1/ayarlar?key=eq.tanitim&select=value');
+  if(j&&j[0]&&j[0].value&&typeof j[0].value==='object'){S.intro=j[0].value;syncEditor();render()}
  }catch(e){}
 }
 async function brandsLoad(){
@@ -953,6 +997,8 @@ function tableHTML(L,items,startNo,totalLabel,showKgTotal){
   <td class="num" colspan="2">${unitTot}</td><td></td><td class="money">${money(asum)}</td></tr>`;
  return {html:`<table class="doc"><thead><tr><th class="num">${L.no}</th><th>${L.malzeme}</th><th class="num">${L.miktar}</th><th class="num">${L.birim}</th><th class="num">${L.fiyat}</th><th class="num">${L.tutar}</th></tr></thead><tbody>${rows}</tbody></table>`,sum:asum};
 }
+let _rT=null;
+function renderSoon(){clearTimeout(_rT);_rT=setTimeout(render,350)}
 function render(){
  const L=TR[S.lang];const dir=L.rtl?'rtl':'ltr';
  const firma=trTitle(S.firma),yetkili=trTitle(S.yetkili),isadi=trDesc(trTitle(S.isadi),S.lang),isyeri=trDesc(trTitle(S.isyeri),S.lang);
@@ -993,7 +1039,7 @@ function render(){
   ${pgHead(L)}
   <div class="pgbody">
    <h2 class="sec">${L.tanitim}</h2>
-   <div class="intro" contenteditable="true" oninput="S.intro[S.lang]=this.innerText" onblur="document.getElementById('f_intro').value=getIntro()">${getIntro().split(/\n\s*\n/).map(p=>`<p>${esc(tidyPara(p))}</p>`).join('')}</div>
+   <div class="intro" contenteditable="true" oninput="S.intro[S.lang]=this.innerText;introSaveSoon()" onblur="document.getElementById('f_intro').value=getIntro()">${getIntro().split(/\n\s*\n/).map(p=>`<p>${esc(tidyPara(p))}</p>`).join('')}</div>
    ${refRows?`<h2 class="sec" style="margin-top:6mm">${L.referans}</h2>
    <table class="doc"><thead><tr><th>${L.rproje}</th><th class="num" style="width:45mm">${L.ryer}</th><th class="num" style="width:40mm">${L.rton}</th></tr></thead><tbody>${refRows}</tbody></table>`:''}
    ${S.refs.some(r=>r.img)?`<div class="refgrid">${S.refs.filter(r=>r.img).map(r=>`<figure><img src="${r.img}"><figcaption>${esc(trDesc(trTitle(r.n),S.lang))}</figcaption></figure>`).join('')}</div>`:''}
@@ -1063,7 +1109,7 @@ window.addEventListener('afterprint',fitPages);
 
 /* ================= INPUT BINDINGS ================= */
 ['projeno','tarih','firma','yetkili','isadi','isyeri'].forEach(k=>{
- document.getElementById('f_'+k).addEventListener('input',e=>{S[k]=e.target.value;render()});
+ document.getElementById('f_'+k).addEventListener('input',e=>{S[k]=e.target.value;renderSoon()});
 });
 document.getElementById('f_curr').addEventListener('change',e=>{S.curr=e.target.value;render()});
 
@@ -1091,7 +1137,7 @@ async function sbRefresh(){
  }catch(e){return false}
 }
 async function sbReq(path,opt={},retried){
- opt.headers=Object.assign({apikey:SB_KEY,'Content-Type':'application/json'},opt.headers||{});
+ opt.headers=Object.assign({apikey:SB_KEY},opt.body?{'Content-Type':'application/json'}:{},opt.headers||{});
  if(SB_TOKEN)opt.headers.Authorization='Bearer '+SB_TOKEN;
  const r=await fetch(SB_URL+path,opt);
  if(r.status===401&&!retried&&await sbRefresh())return sbReq(path,opt,true);
@@ -1106,7 +1152,7 @@ async function sbLogin(){
   SB_TOKEN=j.access_token;SB_USER=(j.user&&j.user.email)||val('sb_email');
   localStorage.setItem('sb_token',SB_TOKEN);localStorage.setItem('sb_user',SB_USER);
   if(j.refresh_token)localStorage.setItem('sb_refresh',j.refresh_token);
-  loginClose();sbUI('Giri\u015f yap\u0131ld\u0131.');brandsLoad();
+  loginClose();sbUI('Giri\u015f yap\u0131ld\u0131.');brandsLoad();introLoad();
  }catch(e){alert('Giri\u015f ba\u015far\u0131s\u0131z: '+e.message)}
 }
 async function sbSignup(){
@@ -1245,7 +1291,7 @@ async function poolLoad(id){
  }catch(e){alert('Y\u00fcklenemedi: '+e.message)}
 }
 sbUI();
-if(SB_TOKEN)sbRefresh().then(()=>brandsLoad());
+if(SB_TOKEN)sbRefresh().then(()=>{brandsLoad();introLoad()});
 </script>
 </body>
 </html>
