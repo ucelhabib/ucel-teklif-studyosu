@@ -256,7 +256,7 @@ ol.notes .nno{display:inline-block;min-width:6.5mm;font-weight:800;color:var(--n
   <fieldset>
     <legend>Görsel Kütüphanesi</legend>
     <div class="iobtns"><button onclick="libOpen()">&#128444; Kütüphaneye Gir</button></div>
-    <div class="hint">Görseller "Referans Projeler" ve "Yapı Detayları" bölümlerinde saklanır (bu tarayıcıda kalıcı). İçeriden yükleyin, silin; <b>K</b>=Kapağa, <b>D</b>=Yapı Detayları'na ekler.</div>
+    <div class="hint">Görseller bulutta "Referans Projeler" ve "Yapı Detayları" gruplarında saklanır — tüm bilgisayarlarda ortaktır. İçeriden yükleyin/silin; teklife eklemek için ilgili bölümdeki "Kütüphaneden Seç"i kullanın.</div>
   </fieldset>
 
   <fieldset>
@@ -787,21 +787,49 @@ function setCover(inp){
  inp.value='';
 }
 function delCover(i){S.covers.splice(i,1);syncEditor();render()}
-/* ---- image library (persists in this browser) ---- */
+/* ---- gorsel kutuphanesi (bulut: Supabase Storage, tum bilgisayarlarda ortak) ---- */
 let LIB={ref:[],det:[]};
-try{
- const v2=localStorage.getItem('ucel_lib2');
- if(v2){LIB=JSON.parse(v2)}
- else{
-  const v1=JSON.parse(localStorage.getItem('ucel_lib')||'[]');
-  if(Array.isArray(v1)&&v1.length){LIB.ref=v1;localStorage.setItem('ucel_lib2',JSON.stringify(LIB));localStorage.removeItem('ucel_lib')}
+let LIB_TAB='ref',_libCb=null,LIB_LOADED=false;
+async function libListAll(){
+ LIB={ref:[],det:[]};
+ for(const t of ['ref','det']){
+  try{
+   const j=await sbReq('/storage/v1/object/list/studio',{method:'POST',body:JSON.stringify({prefix:'kutuphane/'+t,limit:1000,sortBy:{column:'created_at',order:'asc'}})});
+   (j||[]).forEach(o=>{
+    if(o.name&&!o.name.startsWith('.'))LIB[t].push({path:'kutuphane/'+t+'/'+o.name,url:SB_URL+'/storage/v1/object/public/studio/kutuphane/'+t+'/'+o.name});
+   });
+  }catch(e){}
  }
- if(!Array.isArray(LIB.ref))LIB.ref=[];
- if(!Array.isArray(LIB.det))LIB.det=[];
-}catch(e){LIB={ref:[],det:[]}}
-function saveLib(){try{localStorage.setItem('ucel_lib2',JSON.stringify(LIB))}catch(e){alert('Kütüphane dolu — birkaç görsel silin.')}}
-let LIB_TAB='ref',_libCb=null;
-function libOpen(){_libCb=null;libTab(LIB_TAB);document.getElementById('libmodal').style.display='flex'}
+ LIB_LOADED=true;
+}
+async function libPut(t,dataUrl){
+ const blob=await (await fetch(dataUrl)).blob();
+ const path='kutuphane/'+t+'/'+Date.now()+'-'+Math.random().toString(36).slice(2,7)+'.jpg';
+ const r=await fetch(SB_URL+'/storage/v1/object/studio/'+path,{method:'POST',headers:{apikey:SB_KEY,Authorization:'Bearer '+SB_TOKEN,'Content-Type':'image/jpeg','x-upsert':'true'},body:blob});
+ if(!r.ok)throw new Error('HTTP '+r.status);
+ LIB[t].push({path:path,url:SB_URL+'/storage/v1/object/public/studio/'+path});
+}
+async function libMigrate(){
+ let old=null;
+ try{old=JSON.parse(localStorage.getItem('ucel_lib2')||'null')}catch(e){}
+ if(!old){try{const v=JSON.parse(localStorage.getItem('ucel_lib')||'null');if(Array.isArray(v)&&v.length)old={ref:v,det:[]}}catch(e){}}
+ if(!old||(((old.ref||[]).length)+((old.det||[]).length))===0)return;
+ if(!confirm('Bu bilgisayarda kayitli eski kutuphane gorselleri buluta tasinsin mi? (Tum bilgisayarlarda ortak olur)'))return;
+ document.getElementById('lmgrid').innerHTML='<span class="hint">Gorseller buluta tasiniyor...</span>';
+ for(const t of ['ref','det']){
+  for(const d of (old[t]||[])){ try{await libPut(t,d)}catch(e){} }
+ }
+ localStorage.removeItem('ucel_lib2');localStorage.removeItem('ucel_lib');
+}
+async function libOpen(){
+ if(!SB_TOKEN)return loginOpen();
+ _libCb=null;
+ document.getElementById('libmodal').style.display='flex';
+ document.getElementById('lmgrid').innerHTML='<span class="hint">Yukleniyor...</span>';
+ await libListAll();
+ await libMigrate();
+ libTab(LIB_TAB);
+}
 function libTab(t){
  LIB_TAB=t;
  for(const k of ['ref','det']){
@@ -809,29 +837,42 @@ function libTab(t){
   b.style.background=(k===t)?'var(--navy)':'#fff';
   b.style.color=(k===t)?'#fff':'var(--blue)';
  }
- document.getElementById('libhint').textContent=_libCb?'— resme tıklayınca teklife eklenir':'';
+ document.getElementById('libhint').textContent=_libCb?'\u2014 resme tiklayinca teklife eklenir':'';
  libGrid();
 }
 function libGrid(){
  const arr=LIB[LIB_TAB];
  document.getElementById('lmgrid').innerHTML=arr.length?
-  arr.map((d,i)=>`<div class="li"><img src="${d}" style="height:72px;width:110px;cursor:pointer" onclick="libChoose(${i})"><div class="acts">${_libCb?'':`<button class="k" title="Kapağa ekle" onclick="libToCover(${i})">K</button><button class="d" title="Yapı Detayları sayfasına ekle" onclick="libToDetail(${i})">D</button>`}<button class="x" title="Sil" onclick="delLib(${i})">×</button></div></div>`).join('')
-  :'<span class="hint">Bu bölümde görsel yok — aşağıdan yükleyin.</span>';
+  arr.map((it,i)=>`<div class="li" style="position:relative"><img src="${it.url}" style="height:72px;width:110px;${_libCb?'cursor:pointer':''}" onclick="libChoose(${i})"><button title="Sil" onclick="delLib(${i})" style="position:absolute;top:-7px;right:-7px;width:18px;height:18px;border-radius:50%;border:none;background:#c0392b;color:#fff;font-size:11px;line-height:1;cursor:pointer">\u00d7</button></div>`).join('')
+  :'<span class="hint">Bu bolumde gorsel yok \u2014 asagidan yukleyin.</span>';
 }
 function libUpload(inp){
- for(const f of inp.files) shrink(f,d=>{LIB[LIB_TAB].push(d);saveLib();libGrid()});
+ if(!SB_TOKEN){inp.value='';return loginOpen()}
+ for(const f of inp.files) shrink(f,async d=>{try{await libPut(LIB_TAB,d);libGrid()}catch(e){alert('Yuklenemedi: '+e.message)}});
  inp.value='';
 }
-function delLib(i){LIB[LIB_TAB].splice(i,1);saveLib();libGrid()}
-function libToCover(i){S.covers.push(LIB[LIB_TAB][i]);S.covers=S.covers.slice(-2);syncEditor();render()}
-function libToDetail(i){S.details.push({img:LIB[LIB_TAB][i],cap:''});syncEditor();render()}
+async function delLib(i){
+ const it=LIB[LIB_TAB][i];
+ if(!confirm('Gorsel kutuphaneden silinsin mi?'))return;
+ try{
+  await sbReq('/storage/v1/object/studio/'+it.path,{method:'DELETE'});
+  LIB[LIB_TAB].splice(i,1);libGrid();
+ }catch(e){alert('Silinemedi: '+e.message)}
+}
 function libChoose(i){
  if(!_libCb)return;
- const d=LIB[LIB_TAB][i];
+ const d=LIB[LIB_TAB][i].url;
  document.getElementById('libmodal').style.display='none';
  const cb=_libCb;_libCb=null;cb(d);
 }
-function libPick(cb,fileElId,tab){_libCb=cb;libTab(tab||'ref');document.getElementById('libmodal').style.display='flex'}
+async function libPick(cb,fileElId,tab){
+ if(!SB_TOKEN)return loginOpen();
+ _libCb=cb;
+ document.getElementById('libmodal').style.display='flex';
+ document.getElementById('lmgrid').innerHTML='<span class="hint">Yukleniyor...</span>';
+ if(!LIB_LOADED)await libListAll();
+ libTab(tab||'ref');
+}
 function libModalClose(){document.getElementById('libmodal').style.display='none';_libCb=null}
 function libPickCover(){libPick(d=>{S.covers.push(d);S.covers=S.covers.slice(-2);syncEditor();render()},'f_cover','ref')}
 function libPickDetail(){libPick(d=>{S.details.push({img:d,cap:''});syncEditor();render()},'f_detfile','det')}
