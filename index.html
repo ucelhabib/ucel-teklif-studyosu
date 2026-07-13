@@ -306,7 +306,6 @@ body.pvmode #pvexit,body.edmode #pvexit{display:block}
     <textarea id="f_notes" rows="10" oninput="S.notes[S.lang]=this.value;render()"></textarea>
     <div class="hint">İpucu: Notları ve tanıtım metnini sağdaki sayfa üzerinde de doğrudan tıklayıp düzenleyebilirsiniz.</div>
   </fieldset>
-  <datalist id="units"><option value="kg"><option value="m²"><option value="Adet"><option value="m"><option value="takım"><option value="set"></datalist>
 </aside>
 
 <main id="preview"></main>
@@ -605,6 +604,7 @@ const DEFAULT_BRANDS=[
  {name:'Hekimoğulları',src:SITE+'wD3xpLZblg_hekimogullari_1731068499.webp'},
  {name:'Tanış',src:SITE+'dEt8Jh16yb_tanis_1731068514.webp'},
  {name:'Unormak',src:SITE+'dcnHuZIyWo_unormak_1731068524.webp'}];
+const UNITS=['kg','ton','Adet','m\u00b2','m','m\u00b3','tak\u0131m','set','saat'];
 let S={lang:'tr',curr:'$',projeno:'',tarih:today,firma:'',yetkili:'',isadi:'',isyeri:'',ulke:'',covers:[],
  items1:[{d:'',q:'',u:'kg',p:''},{d:'',q:'',u:'kg',p:''},{d:'',q:'',u:'kg',p:''}],
  items2:[{d:'',q:'',u:'m²',p:''},{d:'',q:'',u:'Adet',p:''}],
@@ -678,7 +678,7 @@ function itemRow(t,i,it){
  return `<tr>
  <td style="width:46%"><input type="text" placeholder="Malzeme / iş kalemi" value="${esc(it.d)}" oninput="S.items${t}[${i}].d=this.value;render()"></td>
  <td style="width:16%"><input type="text" placeholder="Miktar" value="${esc(it.q)}" oninput="S.items${t}[${i}].q=this.value;render()"></td>
- <td style="width:14%"><input type="text" list="units" placeholder="Birim" value="${esc(it.u)}" oninput="S.items${t}[${i}].u=this.value;render()"></td>
+ <td style="width:14%"><select onchange="S.items${t}[${i}].u=this.value;render()">${UNITS.concat(UNITS.includes(it.u)||!it.u?[]:[it.u]).map(u=>`<option${u===it.u?' selected':''}>${esc(u)}</option>`).join('')}</select></td>
  <td style="width:16%"><input type="text" placeholder="Fiyat" value="${esc(it.p)}" oninput="S.items${t}[${i}].p=this.value;render()"></td>
  <td><button class="rowbtn del" onclick="S.items${t}.splice(${i},1);syncEditor();render()">×</button></td></tr>`;
 }
