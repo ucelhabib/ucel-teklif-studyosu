@@ -255,10 +255,8 @@ ol.notes .nno{display:inline-block;min-width:6.5mm;font-weight:800;color:var(--n
 
   <fieldset>
     <legend>Görsel Kütüphanesi</legend>
-    <div class="libgrid" id="library"></div>
-    <label style="margin-top:8px">Kütüphaneye Görsel Ekle</label>
-    <input type="file" accept="image/*" multiple onchange="addLib(this)">
-    <div class="hint">Teklif görsellerinizi burada saklayın; bu tarayıcıda kalıcıdır. Her görselin altında: <b>K</b>=Kapağa ekle, <b>D</b>=Yapı Detayları'na ekle, <b>×</b>=kütüphaneden sil. Görseller otomatik sıkıştırılır.</div>
+    <div class="iobtns"><button onclick="libOpen()">&#128444; Kütüphaneye Gir</button></div>
+    <div class="hint">Görseller "Referans Projeler" ve "Yapı Detayları" bölümlerinde saklanır (bu tarayıcıda kalıcı). İçeriden yükleyin, silin; <b>K</b>=Kapağa, <b>D</b>=Yapı Detayları'na ekler.</div>
   </fieldset>
 
   <fieldset>
@@ -316,13 +314,18 @@ ol.notes .nno{display:inline-block;min-width:6.5mm;font-weight:800;color:var(--n
 </div>
 
 <div id="libmodal" onclick="if(event.target===this)libModalClose()">
- <div class="lm">
-  <h3>&#128444; Kütüphaneden Görsel Seç</h3>
-  <div class="lmgrid" id="lmgrid"></div>
-  <div class="lmbtns">
-   <button class="pri" onclick="libModalFile()">&#128187; Bilgisayardan Seç</button>
-   <button onclick="libModalClose()">Vazgeç</button>
+ <div class="lm" style="max-width:760px">
+  <h3>&#128444; Görsel Kütüphanesi <span id="libhint" style="font-weight:400;font-size:12px;color:var(--gray)"></span></h3>
+  <div class="lmbtns" style="margin-bottom:10px">
+   <button id="libtab_ref" onclick="libTab('ref')">Referans Projeler</button>
+   <button id="libtab_det" onclick="libTab('det')">Yapı Detayları</button>
   </div>
+  <div class="libgrid" id="lmgrid" style="min-height:70px;margin-bottom:12px"></div>
+  <div class="lmbtns">
+   <button class="pri" onclick="document.getElementById('libfile').click()">&#8679; Bu Bölüme Resim Yükle</button>
+   <button onclick="libModalClose()">Kapat</button>
+  </div>
+  <input type="file" id="libfile" accept="image/*" multiple style="display:none" onchange="libUpload(this)">
  </div>
 </div>
 
@@ -750,8 +753,6 @@ function syncEditor(){
   `<div class="dt"><img src="${d.img}"><input type="text" placeholder="Açıklama (ör. 3D Model — Ön Görünüş)" value="${esc(d.cap)}" oninput="S.details[${i}].cap=this.value;render()"><button class="rowbtn del" onclick="delDetail(${i})">×</button></div>`).join('')||'<span class="hint">Henüz resim yok</span>';
  document.getElementById('coverthumbs').innerHTML=S.covers.map((c,i)=>
   `<div class="bt"><img src="${c}"><button onclick="delCover(${i})">×</button></div>`).join('');
- document.getElementById('library').innerHTML=LIB.map((d,i)=>
-  `<div class="li"><img src="${d}"><div class="acts"><button class="k" title="Kapağa ekle" onclick="libToCover(${i})">K</button><button class="d" title="Yapı Detayları sayfasına ekle" onclick="libToDetail(${i})">D</button><button class="x" onclick="delLib(${i})">×</button></div></div>`).join('')||'<span class="hint">Kütüphane boş</span>';
  document.getElementById('f_intro').value=getIntro();
  document.getElementById('f_notes').value=getNotes().split('\n').filter(t=>t.trim()).map((l,i)=>`${i+1}. ${cleanNo(l)}`).join('\n');
  document.getElementById('f_projeno').value=S.projeno;
@@ -787,30 +788,53 @@ function setCover(inp){
 }
 function delCover(i){S.covers.splice(i,1);syncEditor();render()}
 /* ---- image library (persists in this browser) ---- */
-let LIB=[];
-try{LIB=JSON.parse(localStorage.getItem('ucel_lib')||'[]')}catch(e){}
-function saveLib(){try{localStorage.setItem('ucel_lib',JSON.stringify(LIB))}catch(e){alert('Kütüphane dolu — birkaç görsel silin.')}}
-function addLib(inp){
- for(const f of inp.files) shrink(f,d=>{LIB.push(d);saveLib();syncEditor()});
+let LIB={ref:[],det:[]};
+try{
+ const v2=localStorage.getItem('ucel_lib2');
+ if(v2){LIB=JSON.parse(v2)}
+ else{
+  const v1=JSON.parse(localStorage.getItem('ucel_lib')||'[]');
+  if(Array.isArray(v1)&&v1.length){LIB.ref=v1;localStorage.setItem('ucel_lib2',JSON.stringify(LIB));localStorage.removeItem('ucel_lib')}
+ }
+ if(!Array.isArray(LIB.ref))LIB.ref=[];
+ if(!Array.isArray(LIB.det))LIB.det=[];
+}catch(e){LIB={ref:[],det:[]}}
+function saveLib(){try{localStorage.setItem('ucel_lib2',JSON.stringify(LIB))}catch(e){alert('Kütüphane dolu — birkaç görsel silin.')}}
+let LIB_TAB='ref',_libCb=null;
+function libOpen(){_libCb=null;libTab(LIB_TAB);document.getElementById('libmodal').style.display='flex'}
+function libTab(t){
+ LIB_TAB=t;
+ for(const k of ['ref','det']){
+  const b=document.getElementById('libtab_'+k);
+  b.style.background=(k===t)?'var(--navy)':'#fff';
+  b.style.color=(k===t)?'#fff':'var(--blue)';
+ }
+ document.getElementById('libhint').textContent=_libCb?'— resme tıklayınca teklife eklenir':'';
+ libGrid();
+}
+function libGrid(){
+ const arr=LIB[LIB_TAB];
+ document.getElementById('lmgrid').innerHTML=arr.length?
+  arr.map((d,i)=>`<div class="li"><img src="${d}" style="height:72px;width:110px;cursor:pointer" onclick="libChoose(${i})"><div class="acts">${_libCb?'':`<button class="k" title="Kapağa ekle" onclick="libToCover(${i})">K</button><button class="d" title="Yapı Detayları sayfasına ekle" onclick="libToDetail(${i})">D</button>`}<button class="x" title="Sil" onclick="delLib(${i})">×</button></div></div>`).join('')
+  :'<span class="hint">Bu bölümde görsel yok — aşağıdan yükleyin.</span>';
+}
+function libUpload(inp){
+ for(const f of inp.files) shrink(f,d=>{LIB[LIB_TAB].push(d);saveLib();libGrid()});
  inp.value='';
 }
-function delLib(i){LIB.splice(i,1);saveLib();syncEditor()}
-function libToCover(i){S.covers.push(LIB[i]);S.covers=S.covers.slice(-2);syncEditor();render()}
-function libToDetail(i){S.details.push({img:LIB[i],cap:''});syncEditor();render()}
-/* ---- library picker modal ---- */
-let _libCb=null,_libFileEl=null;
-function libPick(cb,fileElId){
- _libCb=cb;_libFileEl=fileElId;
- document.getElementById('lmgrid').innerHTML=LIB.length?
-  LIB.map((d,i)=>`<img src="${d}" onclick="libModalChoose(${i})">`).join('')
-  :'<span class="hint">Kütüphane boş — önce Görsel Kütüphanesi bölümünden resim ekleyin ya da bilgisayardan seçin.</span>';
- document.getElementById('libmodal').style.display='flex';
+function delLib(i){LIB[LIB_TAB].splice(i,1);saveLib();libGrid()}
+function libToCover(i){S.covers.push(LIB[LIB_TAB][i]);S.covers=S.covers.slice(-2);syncEditor();render()}
+function libToDetail(i){S.details.push({img:LIB[LIB_TAB][i],cap:''});syncEditor();render()}
+function libChoose(i){
+ if(!_libCb)return;
+ const d=LIB[LIB_TAB][i];
+ document.getElementById('libmodal').style.display='none';
+ const cb=_libCb;_libCb=null;cb(d);
 }
-function libModalChoose(i){document.getElementById('libmodal').style.display='none';if(_libCb)_libCb(LIB[i])}
-function libModalFile(){document.getElementById('libmodal').style.display='none';if(_libFileEl)document.getElementById(_libFileEl).click()}
-function libModalClose(){document.getElementById('libmodal').style.display='none'}
-function libPickCover(){libPick(d=>{S.covers.push(d);S.covers=S.covers.slice(-2);syncEditor();render()},'f_cover')}
-function libPickDetail(){libPick(d=>{S.details.push({img:d,cap:''});syncEditor();render()},'f_detfile')}
+function libPick(cb,fileElId,tab){_libCb=cb;libTab(tab||'ref');document.getElementById('libmodal').style.display='flex'}
+function libModalClose(){document.getElementById('libmodal').style.display='none';_libCb=null}
+function libPickCover(){libPick(d=>{S.covers.push(d);S.covers=S.covers.slice(-2);syncEditor();render()},'f_cover','ref')}
+function libPickDetail(){libPick(d=>{S.details.push({img:d,cap:''});syncEditor();render()},'f_detfile','det')}
 function addBrandLogo(inp){
  for(const f of inp.files){
   const r=new FileReader();
