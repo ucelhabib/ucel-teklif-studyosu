@@ -23,7 +23,7 @@ textarea{resize:vertical}
 .grid3{display:grid;grid-template-columns:2fr 1fr 1fr;gap:6px}
 /* language buttons */
 .langbar{display:flex;gap:6px;flex-wrap:wrap}
-.langbtn{display:flex;align-items:center;gap:6px;padding:7px 10px;border:2px solid #c9cede;border-radius:8px;background:#fff;cursor:pointer;font-size:12px;font-weight:700;color:var(--gray)}
+.langbtn{display:flex;align-items:center;gap:4px;padding:4px 8px;border:2px solid #c9cede;border-radius:6px;background:#fff;cursor:pointer;font-size:11px;font-weight:700;color:var(--gray)}
 .langbtn.active{border-color:var(--orange);background:#fff4ec;color:var(--navy)}
 .langbtn svg{border-radius:2px;box-shadow:0 0 0 1px #0002}
 /* items table */
@@ -143,8 +143,8 @@ ol.notes .nno{display:inline-block;min-width:6.5mm;font-weight:800;color:var(--n
 /* cover: 1 or 2 images */
 .covergrid{display:grid;grid-template-columns:1fr;gap:3mm;margin:4mm auto 0;max-width:186mm}
 .covergrid figure{border:1px solid #d8dbe6;border-radius:2mm;overflow:hidden;margin:0}
-.covergrid img{width:100%;max-height:100mm;object-fit:cover;display:block}
-.covergrid.two img{max-height:66mm}
+.covergrid img{width:100%;max-height:125mm;object-fit:cover;display:block}
+.covergrid.two img{max-height:85mm}
 .coverthumbs{display:flex;gap:6px;margin-top:6px}
 .coverthumbs .bt{position:relative;border:1px solid #d5d9e4;border-radius:5px;padding:2px}
 .coverthumbs .bt img{height:38px;width:60px;object-fit:cover;display:block;border-radius:3px}
@@ -170,6 +170,16 @@ ol.notes .nno{display:inline-block;min-width:6.5mm;font-weight:800;color:var(--n
 .lmbtns button{flex:1;padding:8px;border-radius:6px;border:1.5px solid var(--blue);background:#fff;color:var(--blue);font-weight:700;cursor:pointer}
 .lmbtns button.pri{background:var(--blue);color:#fff}
 @media print{#libmodal{display:none!important}}
+/* fullscreen / onizleme */
+body.pvmode #editor{display:none}
+#pvexit{display:none;position:fixed;top:12px;right:16px;z-index:98;background:var(--orange);color:#fff;border:none;border-radius:8px;padding:9px 14px;font-weight:800;font-size:13px;cursor:pointer;box-shadow:0 2px 8px #0004}
+body.pvmode #pvexit{display:block}
+/* teklif havuzu */
+#poolmodal{display:none;position:fixed;inset:0;background:#0008;z-index:99;align-items:center;justify-content:center}
+#poolmodal .lm{max-width:960px}
+.pool-sum{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;margin:4px 0}
+.pool-sum b{color:var(--navy)}
+@media print{#pvexit,#poolmodal{display:none!important}}
 /* ---------- PRINT ---------- */
 @page{size:A4;margin:0}
 @media print{
@@ -196,14 +206,43 @@ ol.notes .nno{display:inline-block;min-width:6.5mm;font-weight:800;color:var(--n
     <button onclick="backupAll()">&#128230; Tam Yedek Al</button>
     <button onclick="document.getElementById('bakfile').click()">&#128229; Yedek Yükle</button>
   </div>
+  <div class="iobtns" style="margin-top:6px">
+    <button onclick="toggleFS()">&#x26F6; Tam Ekran</button>
+    <button onclick="togglePreview()">&#128065; Önizleme Modu</button>
+  </div>
   <input type="file" id="loadfile" accept=".json" style="display:none" onchange="loadJSON(this)">
   <input type="file" id="bakfile" accept=".json" style="display:none" onchange="restoreAll(this)">
   <div class="hint">Kaydet = teklif verilerini .json dosyası olarak indirir; Aç ile geri yüklersiniz.<br><b>PDF ayarları:</b> Hedef = "PDF olarak kaydet" &middot; Kenar boşlukları = <b>Yok</b> &middot; Ölçek = <b>100</b> &middot; "Arka plan grafikleri" <b>işaretli</b> olsun — çıktı önizlemeyle birebir aynı olur.</div>
 
-  <fieldset>
-    <legend>Teklif Dili</legend>
+  <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:2px 0 10px">
+    <span style="font-size:11px;font-weight:700;color:var(--gray)">Dil:</span>
     <div class="langbar" id="langbar"></div>
-    <div class="hint">Dil değiştirince tüm başlıklar, notlar ve tanıtım metni seçilen dile döner. Bilinen kalem adları (İmalat ve Montajı, CEPHE PANELİ vb.) otomatik çevrilir.</div>
+  </div>
+
+  <fieldset>
+    <legend>Teklif Havuzu (Bulut)</legend>
+    <div id="sb_login">
+      <div class="grid2">
+        <div><label>E-posta</label><input type="text" id="sb_email"></div>
+        <div><label>Şifre</label><input type="password" id="sb_pass"></div>
+      </div>
+      <div class="iobtns" style="margin-top:6px">
+        <button onclick="sbLogin()">&#128274; Giriş</button>
+        <button onclick="sbSignup()">Kayıt Ol</button>
+      </div>
+    </div>
+    <div id="sb_panel" style="display:none">
+      <div class="hint" id="sb_who"></div>
+      <div class="iobtns" style="margin-top:6px">
+        <button onclick="poolSave()">&#9729;&#65039; Havuza Kaydet</button>
+        <button onclick="poolOpen()">&#128202; Havuz / Raporlar</button>
+      </div>
+      <div class="iobtns" style="margin-top:6px">
+        <button onclick="poolNew()">Yeni Teklif</button>
+        <button onclick="sbLogout()">Çıkış</button>
+      </div>
+    </div>
+    <div class="hint" id="sb_msg">Teklifler buluta kaydedilir; tüm bilgisayarlardan erişilir, yıl/ülke/firma raporları alınır. İlk kullanımda Kayıt Ol.</div>
   </fieldset>
 
   <fieldset>
@@ -215,6 +254,7 @@ ol.notes .nno{display:inline-block;min-width:6.5mm;font-weight:800;color:var(--n
       <div><label>Firma Yetkilisi</label><input type="text" id="f_yetkili"></div>
       <div><label>İşin Adı</label><input type="text" id="f_isadi"></div>
       <div><label>Lokasyon</label><input type="text" id="f_isyeri"></div>
+      <div><label>Ülke</label><input type="text" id="f_ulke"></div>
       <div><label>Para Birimi</label><select id="f_curr"><option value="$">USD ($)</option><option value="€">EUR (€)</option><option value="₺">TL (₺)</option></select></div>
       <div><label>Kapak Görselleri (en fazla 2 resim)</label><input type="file" id="f_cover" accept="image/*" multiple onchange="setCover(this)">
       <button class="addbtn" style="margin-top:4px" onclick="libPickCover()">&#128444; Kütüphaneden Seç</button>
@@ -282,6 +322,23 @@ ol.notes .nno{display:inline-block;min-width:6.5mm;font-weight:800;color:var(--n
 </aside>
 
 <main id="preview"></main>
+</div>
+
+<button id="pvexit" onclick="togglePreview()">&#9998; Düzenlemeye Dön</button>
+
+<div id="poolmodal" onclick="if(event.target===this)poolClose()">
+ <div class="lm">
+  <h3>&#128202; Teklif Havuzu &amp; Raporlar</h3>
+  <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
+   <select id="pf_yil" onchange="poolRender()"></select>
+   <select id="pf_ulke" onchange="poolRender()"></select>
+   <select id="pf_firma" onchange="poolRender()"></select>
+   <select id="pf_durum" onchange="poolRender()"></select>
+  </div>
+  <div id="pool_sum"></div>
+  <div style="max-height:46vh;overflow:auto"><table class="doc" id="pool_tbl" style="font-size:11px"></table></div>
+  <div class="lmbtns" style="margin-top:10px"><button onclick="poolClose()">Kapat</button></div>
+ </div>
 </div>
 
 <div id="libmodal" onclick="if(event.target===this)libModalClose()">
@@ -560,7 +617,7 @@ const DEFAULT_BRANDS=[
  {name:'Hekimoğulları',src:SITE+'wD3xpLZblg_hekimogullari_1731068499.webp'},
  {name:'Tanış',src:SITE+'dEt8Jh16yb_tanis_1731068514.webp'},
  {name:'Unormak',src:SITE+'dcnHuZIyWo_unormak_1731068524.webp'}];
-let S={lang:'tr',curr:'$',projeno:'',tarih:today,firma:'',yetkili:'',isadi:'',isyeri:'',covers:[],
+let S={lang:'tr',curr:'$',projeno:'',tarih:today,firma:'',yetkili:'',isadi:'',isyeri:'',ulke:'',covers:[],
  items1:[{d:'',q:'',u:'kg',p:''},{d:'',q:'',u:'kg',p:''},{d:'',q:'',u:'kg',p:''}],
  items2:[{d:'',q:'',u:'m²',p:''},{d:'',q:'',u:'Adet',p:''}],
  refs:[{n:'Angola-Luanda Un Değirmeni',y:'Angola',t:''},{n:'Rusya Un Değirmeni',y:'Rusya',t:''},{n:'Özbekistan Un Değirmeni',y:'Özbekistan',t:''},{n:'Libya Tav Siloları',y:'Libya',t:''}],
@@ -673,21 +730,22 @@ function syncEditor(){
  document.getElementById('f_yetkili').value=S.yetkili;
  document.getElementById('f_isadi').value=S.isadi;
  document.getElementById('f_isyeri').value=S.isyeri;
+ document.getElementById('f_ulke').value=S.ulke||'';
  document.getElementById('f_curr').value=S.curr;
 }
 function addItem(t){ (t===1?S.items1:S.items2).push({d:'',q:'',u:t===1?'kg':'Adet',p:''});syncEditor();render() }
 function addRef(){ S.refs.push({n:'',y:'',t:''});syncEditor();render() }
-/* compress uploaded images (max 1600px, JPEG) to keep files and storage small */
+/* compress uploaded images (max 2400px, JPEG .9) - yuksek cozunurluk */
 function shrink(file,cb){
  const r=new FileReader();
  r.onload=e=>{
   const im=new Image();
   im.onload=()=>{
-   const k=Math.min(1,1600/Math.max(im.width,im.height));
+   const k=Math.min(1,2400/Math.max(im.width,im.height));
    const cv=document.createElement('canvas');
    cv.width=Math.round(im.width*k);cv.height=Math.round(im.height*k);
    cv.getContext('2d').drawImage(im,0,0,cv.width,cv.height);
-   cb(cv.toDataURL('image/jpeg',.85));
+   cb(cv.toDataURL('image/jpeg',.9));
   };
   im.src=e.target.result;
  };
@@ -807,8 +865,6 @@ function render(){
   ${pgHead(L)}
   <div class="pgbody" style="position:relative">
    <div class="coverbig">
-    <div class="ctitle">${L.title}</div>
-    <div class="cline"></div>
     <div class="cproj">${esc(isadi)||'&nbsp;'}</div>
     <div class="ccust">${esc(firma)}${isyeri?' — '+esc(isyeri):''}</div>
    </div>
@@ -932,7 +988,7 @@ function restoreAll(inp){
 }
 
 /* ================= INPUT BINDINGS ================= */
-['projeno','tarih','firma','yetkili','isadi','isyeri'].forEach(k=>{
+['projeno','tarih','firma','yetkili','isadi','isyeri','ulke'].forEach(k=>{
  document.getElementById('f_'+k).addEventListener('input',e=>{S[k]=e.target.value;render()});
 });
 document.getElementById('f_curr').addEventListener('change',e=>{S.curr=e.target.value;render()});
@@ -946,6 +1002,137 @@ if(!Array.isArray(S.details)||!S.details.length){
  try{S.details=JSON.parse(localStorage.getItem('ucel_det')||'[]')}catch(e){S.details=[]}
 }
 syncEditor();render();
+
+/* ================= TAM EKRAN / ONIZLEME ================= */
+function toggleFS(){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}
+function togglePreview(){document.body.classList.toggle('pvmode')}
+
+/* ================= TEKLIF HAVUZU (Bulut / Supabase) ================= */
+const SB_URL='https://zzjlsnwdltffumojktpy.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp6amxzbndkbHRmZnVtb2prdHB5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyNzg2MjIsImV4cCI6MjA5NDg1NDYyMn0.dzE6uX2BNtPq8ppOTpQwzInX6dohkDjH4QpZK2D5K9M';
+let SB_TOKEN=localStorage.getItem('sb_token')||'';
+let SB_USER=localStorage.getItem('sb_user')||'';
+let POOL_ID=null,POOL=[];
+function val(id){return document.getElementById(id).value.trim()}
+async function sbReq(path,opt={}){
+ opt.headers=Object.assign({apikey:SB_KEY,'Content-Type':'application/json'},opt.headers||{});
+ if(SB_TOKEN)opt.headers.Authorization='Bearer '+SB_TOKEN;
+ const r=await fetch(SB_URL+path,opt);
+ if(r.status===401){SB_TOKEN='';localStorage.removeItem('sb_token');sbUI('Oturum s\u00fcresi doldu, tekrar giri\u015f yap\u0131n.')}
+ const t=await r.text();let j=null;try{j=t?JSON.parse(t):null}catch(e){}
+ if(!r.ok)throw new Error((j&&(j.msg||j.message||j.error_description||j.error))||('HTTP '+r.status));
+ return j;
+}
+async function sbLogin(){
+ try{
+  const j=await sbReq('/auth/v1/token?grant_type=password',{method:'POST',body:JSON.stringify({email:val('sb_email'),password:val('sb_pass')})});
+  SB_TOKEN=j.access_token;SB_USER=(j.user&&j.user.email)||val('sb_email');
+  localStorage.setItem('sb_token',SB_TOKEN);localStorage.setItem('sb_user',SB_USER);
+  sbUI('Giri\u015f yap\u0131ld\u0131.');
+ }catch(e){alert('Giri\u015f ba\u015far\u0131s\u0131z: '+e.message)}
+}
+async function sbSignup(){
+ try{
+  if(!val('sb_email')||val('sb_pass').length<6)return alert('E-posta girin; \u015fifre en az 6 karakter olmal\u0131.');
+  await sbReq('/auth/v1/signup',{method:'POST',body:JSON.stringify({email:val('sb_email'),password:val('sb_pass')})});
+  alert('Kay\u0131t olu\u015fturuldu. E-postan\u0131za onay ba\u011flant\u0131s\u0131 geldiyse onaylay\u0131n, sonra Giri\u015f yap\u0131n.');
+ }catch(e){alert('Kay\u0131t ba\u015far\u0131s\u0131z: '+e.message)}
+}
+function sbLogout(){SB_TOKEN='';SB_USER='';localStorage.removeItem('sb_token');localStorage.removeItem('sb_user');POOL_ID=null;sbUI('\u00c7\u0131k\u0131\u015f yap\u0131ld\u0131.')}
+function sbUI(msg){
+ const li=document.getElementById('sb_login'),pa=document.getElementById('sb_panel');
+ if(!li)return;
+ li.style.display=SB_TOKEN?'none':'block';
+ pa.style.display=SB_TOKEN?'block':'none';
+ document.getElementById('sb_who').textContent=SB_TOKEN?('Hesap: '+SB_USER+(POOL_ID?' \u00b7 a\u00e7\u0131k teklif havuza ba\u011fl\u0131':'')):'';
+ if(msg)document.getElementById('sb_msg').textContent=msg;
+}
+function grandTotal(){const f=a=>a.reduce((t,i)=>t+num(i.q)*num(i.p),0);return f(S.items1)+f(S.items2)}
+async function poolSave(){
+ if(!SB_TOKEN)return alert('\u00d6nce giri\u015f yap\u0131n.');
+ const rec={proje_no:S.projeno||'',firma:S.firma||'',yetkili:S.yetkili||'',is_adi:S.isadi||'',lokasyon:S.isyeri||'',ulke:S.ulke||'',para_birimi:S.curr,dil:S.lang,tarih:S.tarih||null,toplam:grandTotal(),data:S};
+ try{
+  if(POOL_ID){
+   await sbReq('/rest/v1/teklifler?id=eq.'+POOL_ID,{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify(rec)});
+   alert('Teklif havuzda g\u00fcncellendi (yeni s\u00fcr\u00fcm).');
+  }else{
+   const j=await sbReq('/rest/v1/teklifler',{method:'POST',headers:{Prefer:'return=representation'},body:JSON.stringify(rec)});
+   POOL_ID=j[0].id;alert('Teklif havuza kaydedildi.');
+  }
+  sbUI();
+ }catch(e){alert('Kaydedilemedi: '+e.message)}
+}
+function poolNew(){POOL_ID=null;sbUI('Yeni teklif: havuz ba\u011flant\u0131s\u0131 s\u0131f\u0131rland\u0131.')}
+async function poolOpen(){
+ if(!SB_TOKEN)return alert('\u00d6nce giri\u015f yap\u0131n.');
+ try{
+  POOL=await sbReq('/rest/v1/teklifler?select=id,proje_no,firma,ulke,para_birimi,toplam,durum,tarih,is_adi,version&order=tarih.desc,created_at.desc')||[];
+  poolFillFilters();poolRender();document.getElementById('poolmodal').style.display='flex';
+ }catch(e){alert('Havuz a\u00e7\u0131lamad\u0131: '+e.message)}
+}
+function poolClose(){document.getElementById('poolmodal').style.display='none'}
+function uniqv(a){return [...new Set(a.filter(x=>x))].sort()}
+function fillSel(id,arr){
+ const sl=document.getElementById(id);const cur=sl.value;
+ sl.innerHTML=arr.map(o=>`<option>${esc(o)}</option>`).join('');
+ if([...sl.options].some(o=>o.value===cur))sl.value=cur;
+}
+function poolFillFilters(){
+ fillSel('pf_yil',['T\u00fcm Y\u0131llar',...uniqv(POOL.map(r=>(r.tarih||'').slice(0,4)))]);
+ fillSel('pf_ulke',['T\u00fcm \u00dclkeler',...uniqv(POOL.map(r=>r.ulke))]);
+ fillSel('pf_firma',['T\u00fcm Firmalar',...uniqv(POOL.map(r=>r.firma))]);
+ fillSel('pf_durum',['T\u00fcm Durumlar','verildi','revize','kazan\u0131ld\u0131','kaybedildi','iptal']);
+}
+function poolFiltered(){
+ const y=val('pf_yil'),u=val('pf_ulke'),f=val('pf_firma'),d=val('pf_durum');
+ return POOL.filter(r=>
+  (y.startsWith('T\u00fcm')||(r.tarih||'').slice(0,4)===y)&&
+  (u.startsWith('T\u00fcm')||r.ulke===u)&&
+  (f.startsWith('T\u00fcm')||r.firma===f)&&
+  (d.startsWith('T\u00fcm')||r.durum===d));
+}
+function moneyC(c,n){return (c||'')+(+n||0).toLocaleString('tr-TR',{maximumFractionDigits:0})}
+function poolRender(){
+ const rows=poolFiltered();
+ const byCur={},byUlke={},byFirma={},byDurum={};
+ rows.forEach(r=>{
+  byCur[r.para_birimi]=(byCur[r.para_birimi]||0)+(+r.toplam||0);
+  byUlke[r.ulke||'\u2014']=(byUlke[r.ulke||'\u2014']||0)+1;
+  byFirma[r.firma||'\u2014']=(byFirma[r.firma||'\u2014']||0)+1;
+  byDurum[r.durum]=(byDurum[r.durum]||0)+1;
+ });
+ const sumTxt=Object.entries(byCur).map(([c,n])=>`<b>${moneyC(c,n)}</b>`).join(' + ')||'\u2014';
+ document.getElementById('pool_sum').innerHTML=
+  `<div class="pool-sum"><span>Teklif: <b>${rows.length}</b></span><span>Toplam: ${sumTxt}</span>`+
+  `<span>${Object.entries(byDurum).map(([k,v])=>`${k} <b>${v}</b>`).join(' \u00b7 ')}</span></div>`+
+  `<div class="pool-sum"><span>\u00dclkeler: ${Object.entries(byUlke).sort((a,b)=>b[1]-a[1]).slice(0,8).map(([k,v])=>`${esc(k)} <b>${v}</b>`).join(' \u00b7 ')||'\u2014'}</span></div>`+
+  `<div class="pool-sum"><span>Firmalar: ${Object.entries(byFirma).sort((a,b)=>b[1]-a[1]).slice(0,8).map(([k,v])=>`${esc(k)} <b>${v}</b>`).join(' \u00b7 ')||'\u2014'}</span></div>`;
+ const durs=['verildi','revize','kazan\u0131ld\u0131','kaybedildi','iptal'];
+ document.getElementById('pool_tbl').innerHTML=
+  `<thead><tr><th>Tarih</th><th>Proje No</th><th>Firma</th><th>\u0130\u015f</th><th>\u00dclke</th><th class="num">Tutar</th><th>Durum</th><th class="num">v</th><th></th></tr></thead><tbody>`+
+  rows.map(r=>`<tr>
+   <td>${(r.tarih||'').split('-').reverse().join('.')}</td>
+   <td>${esc(r.proje_no)}</td><td>${esc(r.firma)}</td><td>${esc(r.is_adi)}</td><td>${esc(r.ulke)}</td>
+   <td class="money">${moneyC(r.para_birimi,r.toplam)}</td>
+   <td><select onchange="poolDurum('${r.id}',this.value)" style="font-size:11px;padding:2px">${durs.map(d=>`<option${d===r.durum?' selected':''}>${d}</option>`).join('')}</select></td>
+   <td class="num">${r.version}</td>
+   <td><button class="addbtn" style="margin:0;padding:3px 8px" onclick="poolLoad('${r.id}')">A\u00e7</button></td></tr>`).join('')+'</tbody>';
+}
+async function poolDurum(id,v){
+ try{
+  await sbReq('/rest/v1/teklifler?id=eq.'+id,{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify({durum:v})});
+  const r=POOL.find(x=>x.id===id);if(r)r.durum=v;poolRender();
+ }catch(e){alert('Durum g\u00fcncellenemedi: '+e.message)}
+}
+async function poolLoad(id){
+ try{
+  const j=await sbReq('/rest/v1/teklifler?id=eq.'+id+'&select=id,data');
+  if(!j||!j[0])return alert('Kay\u0131t bulunamad\u0131');
+  S=Object.assign(S,j[0].data);if(!Array.isArray(S.covers))S.covers=[];
+  POOL_ID=id;syncEditor();render();poolClose();sbUI();
+ }catch(e){alert('Y\u00fcklenemedi: '+e.message)}
+}
+sbUI();
 </script>
 </body>
 </html>
