@@ -1009,6 +1009,17 @@ function sbUI(msg){
 function grandTotal(){const f=a=>a.reduce((t,i)=>t+num(i.q)*num(i.p),0);return f(S.items1)+f(S.items2)}
 async function poolSave(){
  if(!SB_TOKEN)return alert('\u00d6nce giri\u015f yap\u0131n.');
+ const eksik=[];
+ if(!(S.projeno||'').trim())eksik.push(['f_projeno','Teklif / Proje No']);
+ if(!(S.firma||'').trim())eksik.push(['f_firma','Firma Ad\u0131']);
+ if(!(S.ulke||'').trim())eksik.push(['f_ulke','\u00dclke']);
+ if(eksik.length){
+  eksik.forEach(([id])=>{const e=document.getElementById(id);e.style.outline='2px solid #c0392b'});
+  setTimeout(()=>eksik.forEach(([id])=>{document.getElementById(id).style.outline=''}),5000);
+  const ilk=document.getElementById(eksik[0][0]);ilk.scrollIntoView({block:'center'});ilk.focus();
+  return alert('Havuza kaydetmek i\u00e7in zorunlu alanlar: '+eksik.map(x=>x[1]).join(', '));
+ }
+ if(grandTotal()<=0&&!confirm('Toplam tutar 0 g\u00f6r\u00fcn\u00fcyor (kalemler bo\u015f). Yine de kaydedilsin mi?'))return;
  if(POOL_ID&&POOL_PN!==null&&(S.projeno||'')!==POOL_PN)POOL_ID=null; /* farkli proje no = yeni teklif */
  const rec={proje_no:S.projeno||'',firma:S.firma||'',yetkili:S.yetkili||'',is_adi:S.isadi||'',lokasyon:S.isyeri||'',ulke:S.ulke||'',para_birimi:S.curr,dil:S.lang,tarih:S.tarih||null,toplam:grandTotal(),data:S};
  try{
