@@ -40,7 +40,7 @@ table.items input{padding:5px 6px;font-size:12px}
 .hint{font-size:10.5px;color:#8a8f9c;margin-top:4px;line-height:1.4}
 /* ---------- PREVIEW / PAGES ---------- */
 #preview{flex:1;padding:18px;display:flex;flex-direction:column;align-items:center;gap:18px}
-.page{width:210mm;min-height:297mm;background:#fff;box-shadow:0 3px 14px #0003;position:relative;display:flex;flex-direction:column;padding:9mm 9mm 0 9mm}
+.page{width:210mm;min-height:297mm;background:#fff;box-shadow:0 3px 14px #0003;position:relative;display:flex;flex-direction:column;padding:9mm 9mm 26mm 9mm}
 .page[dir=rtl]{direction:rtl}
 .pghead{display:flex;justify-content:space-between;align-items:center;margin-bottom:5mm}
 .pghead{align-items:flex-start}
@@ -56,7 +56,7 @@ table.items input{padding:5px 6px;font-size:12px}
 .titleband{background:var(--navy);color:#fff;font-weight:800;font-size:13.5pt;padding:2.2mm 8mm;border-radius:1.5mm;letter-spacing:.5px;display:flex;align-items:center;gap:5mm}
 .titleband svg{border-radius:1px}
 .pgbody{flex:1}
-.pgfoot{margin:0 -9mm}
+.pgfoot{position:absolute;left:0;right:0;bottom:0}
 .footup{display:flex;justify-content:space-between;align-items:center;padding:1.5mm 9mm}
 .footup img{height:11mm}
 .footcontact{text-align:right;font-size:8.5pt;font-weight:700;color:var(--navy);line-height:1.45}
@@ -108,8 +108,8 @@ ol.notes .nno{display:inline-block;min-width:6.5mm;font-weight:800;color:var(--n
 [contenteditable]:focus{outline:2px solid var(--orange);outline-offset:2px;background:#fff9f4}
 @media print{[contenteditable]:hover,[contenteditable]:focus{outline:none;background:none}}
 /* brand logos */
-.brandgrid{display:flex;flex-wrap:wrap;gap:5mm 7mm;align-items:center;justify-content:center;margin-top:4mm;padding:3mm;border:1px solid #e2e5ee;border-radius:2mm}
-.brandgrid img{height:10mm;max-width:40mm;object-fit:contain}
+.brandgrid{display:flex;flex-wrap:wrap;gap:3.5mm 6mm;align-items:center;justify-content:center;margin-top:3mm;padding:2.5mm;border:1px solid #e2e5ee;border-radius:2mm}
+.brandgrid img{height:7mm;max-width:28mm;object-fit:contain;opacity:.92}
 .brandthumbs{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 .brandthumbs .bt{position:relative;border:1px solid #d5d9e4;border-radius:5px;padding:3px 6px;background:#fff}
 .brandthumbs .bt img{height:22px;max-width:90px;object-fit:contain;display:block}
@@ -181,7 +181,7 @@ ol.notes .nno{display:inline-block;min-width:6.5mm;font-weight:800;color:var(--n
   html,body{background:#fff;margin:0;padding:0}
   #editor{display:none}
   #preview{padding:0;gap:0;display:block}
-  .page{box-shadow:none;width:210mm;height:296mm;page-break-after:always;page-break-inside:avoid;overflow:hidden;zoom:1!important}
+  .page{box-shadow:none;width:210mm;height:297mm;page-break-after:always;page-break-inside:avoid;overflow:hidden;zoom:1!important}
   .page:last-child{page-break-after:auto}
   img,figure,table{break-inside:avoid}
 }
