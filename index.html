@@ -115,11 +115,12 @@ ol.notes .nno{display:inline-block;min-width:6.5mm;font-weight:800;color:var(--n
 .brandthumbs .bt img{height:22px;max-width:90px;object-fit:contain;display:block}
 .brandthumbs .bt button{position:absolute;top:-7px;right:-7px;width:16px;height:16px;border-radius:50%;border:none;background:#c0392b;color:#fff;font-size:10px;line-height:1;cursor:pointer}
 /* structure details */
-.detgrid{display:grid;grid-template-columns:1fr 1fr;gap:5mm}
-.detgrid figure{border:1px solid #d8dbe6;border-radius:2mm;overflow:hidden;margin:0}
+.detgrid{display:grid;grid-template-columns:1fr 1fr;gap:6mm 5mm}
+.detgrid figure{position:relative;border:.45mm solid var(--navy);border-radius:2mm;overflow:hidden;margin:0;box-shadow:0 .6mm 1.5mm #0002}
 .detgrid figure.wide{grid-column:1/-1}
 .detgrid img{width:100%;max-height:72mm;object-fit:cover;display:block}
-.detgrid figcaption{font-size:8.5pt;font-weight:700;color:var(--navy);padding:1.5mm 2mm;background:var(--row);text-align:center}
+.detgrid figcaption{font-size:8.5pt;font-weight:700;color:#fff;padding:1.6mm 2mm;background:var(--navy);text-align:center;letter-spacing:.2px}
+.detgrid img.dgbrand{position:absolute;top:2mm;inset-inline-end:2mm;width:15mm;max-height:6mm;object-fit:contain;background:#ffffffe0;padding:1mm 1.4mm;border-radius:1mm;box-shadow:0 0 1mm #0004}
 .detthumbs{display:flex;flex-direction:column;gap:6px;margin-top:6px}
 .detthumbs .dt{display:flex;gap:6px;align-items:center}
 .detthumbs .dt img{height:34px;width:52px;object-fit:cover;border-radius:4px;border:1px solid #d5d9e4}
@@ -1043,7 +1044,8 @@ function render(){
  const L=TR[S.lang];const dir=L.rtl?'rtl':'ltr';
  const firma=trTitle(S.firma),yetkili=trTitle(S.yetkili),isadi=trDesc(trTitle(S.isadi),S.lang),isyeri=trDesc(trTitle(S.isyeri),S.lang);
  const t1=tableHTML(L,S.items1,1,L.toplam,true);
- const t2=tableHTML(L,S.items2,S.items1.length+1,L.toplamkap,false);
+ const has2=S.items2.some(it=>(it.d||'').trim()||num(it.q)>0||num(it.p)>0);
+ const t2=has2?tableHTML(L,S.items2,S.items1.length+1,L.toplamkap,false):{html:'',sum:0};
  const grand=t1.sum+t2.sum;
  const infoTbl=`<table class="info"><tr>
    <td class="k">${L.firma}:</td><td class="v">${esc(firma)}</td>
@@ -1092,7 +1094,7 @@ function render(){
   pg++;
   const figs=S.details.map((d,i)=>{
    const wide=S.details.length%2===1&&i===S.details.length-1?' class="wide"':'';
-   return `<figure${wide}><img src="${d.img}">${d.cap?`<figcaption>${esc(fixNote(d.cap).replace(/\.$/,''))}</figcaption>`:''}</figure>`;
+   return `<figure${wide}><img class="dgbrand" src="${LOGO}" alt="UCEL"><img src="${d.img}">${d.cap?`<figcaption>${esc(fixNote(d.cap).replace(/\.$/,''))}</figcaption>`:''}</figure>`;
   }).join('');
   pDet=`<div class="page" dir="${dir}">
    ${pgHead(L)}
@@ -1108,7 +1110,7 @@ function render(){
   <div class="pgbody">
    <h2 class="sec">${L.fiyatlar}</h2>
    ${infoTbl}
-   ${t1.html}<div style="height:5mm"></div>${t2.html}
+   ${t1.html}${has2?`<div style="height:5mm"></div>${t2.html}`:''}
    <table class="doc" style="margin-top:5mm"><tbody>
     <tr class="grand"><td style="text-align:${L.rtl?'left':'right'};width:70%">${L.genel}</td><td class="money">${money(grand)}</td></tr>
    </tbody></table>
