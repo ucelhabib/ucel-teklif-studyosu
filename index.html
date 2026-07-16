@@ -247,6 +247,8 @@ mark.trx{background:#ffe58a;outline:1px dashed #d29b00;border-radius:2px;padding
   <fieldset>
     <legend>Teklif Dili Seç</legend>
     <div class="langbar" id="langbar"></div>
+    <div class="iobtns" style="margin-top:8px"><button id="aitrbtn" onclick="aiTranslate()">&#10024; AI ile Bu Dile Çevir</button></div>
+    <div class="hint">Türkçe dışı bir dil seçiliyken kalem adlarını, işin adını ve lokasyonu yapay zeka profesyonelce çevirir.</div>
   </fieldset>
 
   <fieldset>
@@ -732,6 +734,7 @@ const DICT_FRPT={
  'Mısır':{en:'Egypt',ar:'مصر',ru:'Египет',uz:'Misr',fr:'Égypte',pt:'Egito'},
 };
 for(const k in DICT_FRPT)Object.assign(DICT[k]=DICT[k]||{},DICT_FRPT[k]);
+function trX(key,txt){return (S.trx&&S.trx[S.lang]&&S.trx[S.lang][key])||txt}
 function trDesc(t,lang){
  if(lang==='tr'||!t)return t;
  let out=t,m;
@@ -805,7 +808,7 @@ let S={lang:'tr',curr:'$',projeno:'',tarih:today,firma:'',yetkili:'',isadi:'',is
  items2:[{d:'',q:'',u:'m²',p:''},{d:'',q:'',u:'Adet',p:''}],
  refs:[{n:'',y:'',t:''},{n:'',y:'',t:''}],
  brands:DEFAULT_BRANDS.slice(),details:[],
- intro:{},notes:{},notesEk:{},noteSel:null,noteTxt:{}};
+ intro:{},notes:{},notesEk:{},noteSel:null,noteTxt:{},trx:{}};
 /* varsayilan secimler: 120 mikron (4) ve betonarme (8) alternatifleri kapali baslar */
 if(!Array.isArray(S.noteSel))S.noteSel=NOTES_DEF.map((_,i)=>i!==3&&i!==7);
 
@@ -1085,7 +1088,7 @@ function libTab(t){
 function libGrid(){
  const arr=LIB[LIB_TAB];
  document.getElementById('lmgrid').innerHTML=arr.length?
-  arr.map((it,i)=>`<div class="li" style="position:relative"><img src="${it.url}" style="height:72px;width:110px;${_libCb?'cursor:pointer;':''}outline:${_libSel.has(it.url)?'3px solid var(--orange)':'none'}" onclick="libChoose(${i})"><div style="font-size:10px;color:var(--gray);max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center" title="${esc(libLabel(it.path))}">${esc(libLabel(it.path))}</div><button title="Sil" onclick="delLib(${i})" style="position:absolute;top:-7px;right:-7px;width:18px;height:18px;border-radius:50%;border:none;background:#c0392b;color:#fff;font-size:11px;line-height:1;cursor:pointer">\u00d7</button></div>`).join('')
+  arr.map((it,i)=>`<div class="li" style="position:relative"><img src="${it.url}" style="height:72px;width:110px;${_libCb?'cursor:pointer;':''}outline:${_libSel.has(it.url)?'3px solid var(--orange)':'none'}" onclick="libChoose(${i})"><div style="font-size:10px;color:var(--gray);max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center" title="${esc(libLabel(it.path))}">${esc(libLabel(it.path))}</div><button title="Sil" onclick="delLib(${i})" style="position:absolute;top:-7px;right:-7px;width:18px;height:18px;border-radius:50%;border:none;background:#c0392b;color:#fff;font-size:11px;line-height:1;cursor:pointer">\u00d7</button>${_libCb?'':`<button title="Ger\u00e7ek\u00e7i g\u00f6rsele d\u00f6n\u00fc\u015ft\u00fcr (AI)" onclick="aiRealistic(${i})" style="position:absolute;top:-7px;left:-7px;width:18px;height:18px;border-radius:50%;border:none;background:var(--orange);color:#fff;font-size:11px;line-height:1;cursor:pointer">\u2728</button>`}</div>`).join('')
   :'<span class="hint">Bu bolumde gorsel yok \u2014 asagidan yukleyin.</span>';
 }
 function libUpload(inp){
@@ -1205,13 +1208,13 @@ function pgFoot(L,n,total){
   </div>
   <div class="footbar"><span dir="ltr">${CONTACT.addr}</span><span class="footweb"><b dir="ltr">${CONTACT.web}</b><span class="pgno">${L.sayfa} ${n}/${total}</span></span></div></div>`;
 }
-function tableHTML(L,items,startNo,totalLabel,showKgTotal){
+function tableHTML(L,items,startNo,totalLabel,showKgTotal,tkey){
  let rows='',qsum=0,asum=0,allkg=true;
  items.forEach((it,i)=>{
   const q=num(it.q),p=num(it.p),a=q*p; qsum+=q; asum+=a;
   if((it.u||'').toLowerCase()!=='kg')allkg=false;
   rows+=`<tr><td class="num" style="width:8mm"><b>${startNo+i}.</b></td>
-   <td style="white-space:nowrap;overflow:hidden;${(()=>{const L2=trDesc(fixDesc(it.d),S.lang).length;return L2>85?'font-size:7.2pt':L2>65?'font-size:8pt':''})()}">${esc(trDesc(fixDesc(it.d),S.lang))}</td>
+   <td style="white-space:nowrap;overflow:hidden;${(()=>{const L2=trX(tkey+i,trDesc(fixDesc(it.d),S.lang)).length;return L2>85?'font-size:7.2pt':L2>65?'font-size:8pt':''})()}">${esc(trX(tkey+i,trDesc(fixDesc(it.d),S.lang)))}</td>
    <td class="num" style="width:22mm">${fmtQ(q)}</td>
    <td class="num" style="width:14mm">${esc(trUnit(it.u,S.lang))}</td>
    <td class="money" style="width:22mm">${money(p)}</td>
@@ -1228,10 +1231,10 @@ let _rT=null;
 function renderSoon(){clearTimeout(_rT);_rT=setTimeout(render,700)}
 function render(){
  const L=TR[S.lang];const dir=L.rtl?'rtl':'ltr';
- const firma=trTitle(S.firma),yetkili=trTitle(S.yetkili),isadi=trDesc(trTitle(S.isadi),S.lang),isyeri=trDesc(trTitle(S.isyeri),S.lang);
- const t1=tableHTML(L,S.items1,1,L.toplam,true);
+ const firma=trTitle(S.firma),yetkili=trTitle(S.yetkili),isadi=trX('isadi',trDesc(trTitle(S.isadi),S.lang)),isyeri=trX('isyeri',trDesc(trTitle(S.isyeri),S.lang));
+ const t1=tableHTML(L,S.items1,1,L.toplam,true,'a');
  const has2=S.items2.some(it=>(it.d||'').trim()||num(it.q)>0||num(it.p)>0);
- const t2=has2?tableHTML(L,S.items2,S.items1.length+1,L.toplamkap,false):{html:'',sum:0};
+ const t2=has2?tableHTML(L,S.items2,S.items1.length+1,L.toplamkap,false,'b'):{html:'',sum:0};
  const grand=t1.sum+t2.sum;
  const infoTbl=`<table class="info"><tr>
    <td class="k">${L.firma}:</td><td class="v">${esc(firma)}</td>
@@ -1596,8 +1599,48 @@ async function poolLoad(id){
   S.noteSel=Array.isArray(j[0].data.noteSel)?j[0].data.noteSel:null;
   S.notesEk=(j[0].data.notesEk&&typeof j[0].data.notesEk==='object')?j[0].data.notesEk:{};
   S.noteTxt=(j[0].data.noteTxt&&typeof j[0].data.noteTxt==='object')?j[0].data.noteTxt:{};
+  S.trx=(j[0].data.trx&&typeof j[0].data.trx==='object')?j[0].data.trx:{};
   POOL_ID=id;POOL_PN=S.projeno||'';syncEditor();render();poolClose();sbUI();enterView();
  }catch(e){alert('Y\u00fcklenemedi: '+e.message)}
+}
+let _aiBusy=false;
+async function aiTranslate(){
+ if(S.lang==='tr')return alert('T\u00fcrk\u00e7e sayfadas\u0131n\u0131z; \u00f6nce hedef dili se\u00e7in.');
+ if(!SB_TOKEN)return loginOpen();
+ if(_aiBusy)return;
+ const keys=[],texts=[];
+ S.items1.forEach((it,i)=>{if((it.d||'').trim()){keys.push('a'+i);texts.push(it.d)}});
+ S.items2.forEach((it,i)=>{if((it.d||'').trim()){keys.push('b'+i);texts.push(it.d)}});
+ if((S.isadi||'').trim()){keys.push('isadi');texts.push(S.isadi)}
+ if((S.isyeri||'').trim()){keys.push('isyeri');texts.push(S.isyeri)}
+ if(!texts.length)return alert('\u00c7evrilecek metin yok.');
+ _aiBusy=true;
+ const b=document.getElementById('aitrbtn'),t0=b.textContent;b.textContent='\u00c7evriliyor...';
+ try{
+  const j=await sbReq('/functions/v1/ai',{method:'POST',body:JSON.stringify({op:'translate',target:S.lang,items:texts})});
+  if(!j||!Array.isArray(j.items))throw new Error((j&&j.error)||'beklenmeyen yan\u0131t');
+  if(!S.trx)S.trx={};if(!S.trx[S.lang])S.trx[S.lang]={};
+  keys.forEach((k,i)=>{if(j.items[i])S.trx[S.lang][k]=String(j.items[i])});
+  render();
+  alert('\u00c7eviri tamamland\u0131 \u2014 sayfay\u0131 kontrol edin.');
+ }catch(e){alert('AI \u00e7eviri ba\u015far\u0131s\u0131z: '+e.message)}
+ _aiBusy=false;b.textContent=t0;
+}
+async function aiRealistic(i){
+ if(!SB_TOKEN)return loginOpen();
+ if(!confirm('Bu g\u00f6rsel yapay zeka ile ger\u00e7ek\u00e7i foto\u011frafa d\u00f6n\u00fc\u015ft\u00fcr\u00fcls\u00fcn m\u00fc? (30-60 sn s\u00fcrebilir)'))return;
+ const it=LIB[LIB_TAB][i];
+ const hint=document.getElementById('libhint');
+ try{
+  hint.textContent='AI ger\u00e7ek\u00e7i g\u00f6rsel \u00fcretiyor...';
+  const blob=await (await fetch(it.url)).blob();
+  const b64=await new Promise(res=>{const r=new FileReader();r.onload=()=>res(r.result);r.readAsDataURL(blob)});
+  const j=await sbReq('/functions/v1/ai',{method:'POST',body:JSON.stringify({op:'image',image:b64})});
+  if(!j||!j.image)throw new Error((j&&j.error)||'yan\u0131t yok');
+  await libPut(LIB_TAB,j.image,'ai-gercekci');
+  libGrid();hint.textContent='';
+  alert('Ger\u00e7ek\u00e7i g\u00f6rsel k\u00fct\u00fcphaneye eklendi.');
+ }catch(e){hint.textContent='';alert('AI g\u00f6rsel ba\u015far\u0131s\u0131z: '+e.message)}
 }
 sbUI();
 if(SB_TOKEN)sbRefresh().then(()=>{brandsLoad();introLoad()});
