@@ -989,13 +989,17 @@ function enhanceCanvas(cv){
   }
   ctx.putImageData(im,0,0);
   /* koseye silinemez ÜÇEL filigrani */
-  const fs=Math.max(11,cv.width/38);
+  const TXT='ÜÇEL STEEL CONSTRUCTION';
+  let fs=Math.max(10,cv.width/42);
   ctx.font='700 '+fs+'px Arial';
+  const maxw=cv.width*0.45;
+  let tw=ctx.measureText(TXT).width;
+  if(tw>maxw){fs=Math.max(8,fs*maxw/tw);ctx.font='700 '+fs+'px Arial'}
   ctx.textAlign='right';ctx.textBaseline='bottom';
-  ctx.lineWidth=Math.max(1,fs/9);
-  ctx.strokeStyle='rgba(0,0,0,.35)';ctx.fillStyle='rgba(255,255,255,.75)';
-  ctx.strokeText('ÜÇEL STEEL CONSTRUCTION',cv.width-fs*0.7,cv.height-fs*0.55);
-  ctx.fillText('ÜÇEL STEEL CONSTRUCTION',cv.width-fs*0.7,cv.height-fs*0.55);
+  ctx.lineWidth=Math.max(1,fs/10);
+  ctx.strokeStyle='rgba(0,0,0,.30)';ctx.fillStyle='rgba(255,255,255,.65)';
+  ctx.strokeText(TXT,cv.width-fs*0.8,cv.height-fs*0.6);
+  ctx.fillText(TXT,cv.width-fs*0.8,cv.height-fs*0.6);
  }catch(e){}
 }
 function shrink(file,cb){
@@ -1366,6 +1370,8 @@ function render(){
    out=out.replace(/>([^<>]+)</g,(m,txt)=>'>'+txt.replace(/[A-Za-z\u00c7\u011e\u0130\u00d6\u015e\u00dc\u00e7\u011f\u0131\u00f6\u015f\u00fc]*[\u00e7\u011f\u0131\u00f6\u015f\u00fc\u00c7\u011e\u0130\u00d6\u015e\u00dc][A-Za-z\u00c7\u011e\u0130\u00d6\u015e\u00dc\u00e7\u011f\u0131\u00f6\u015f\u00fc]*/g,w=>{trx++;return '<mark class="trx">'+w+'</mark>'})+'<');
   }
   document.getElementById('preview').innerHTML=out;
+  /* alt bilgi (adres/iletisim) ozel isimdir: isaretleme disi */
+  document.querySelectorAll('#preview .pgfoot mark.trx').forEach(mm=>{trx--;mm.replaceWith(mm.textContent)});
   const tw=document.getElementById('trwarn');
   if(tw){
    tw.style.display=trx?'block':'none';
