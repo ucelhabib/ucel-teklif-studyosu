@@ -408,7 +408,9 @@ function flag(lang,w){
   en:`<svg width="${w}" height="${h}" viewBox="0 0 30 20"><rect width="30" height="20" fill="#012169"/><path d="M0 0L30 20M30 0L0 20" stroke="#fff" stroke-width="3.5"/><path d="M0 0L30 20M30 0L0 20" stroke="#C8102E" stroke-width="1.6"/><path d="M15 0V20M0 10H30" stroke="#fff" stroke-width="6"/><path d="M15 0V20M0 10H30" stroke="#C8102E" stroke-width="3.4"/></svg>`,
   ar:`<svg width="${w}" height="${h}" viewBox="0 0 30 20"><rect width="30" height="20" fill="#165d31"/><rect x="6" y="7" width="18" height="2.6" rx="1.3" fill="#fff"/><rect x="6" y="12" width="14" height="1.4" rx=".7" fill="#fff"/><rect x="21.5" y="11.6" width="2.5" height="2.2" rx=".5" fill="#fff"/></svg>`,
   ru:`<svg width="${w}" height="${h}" viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect y="6.7" width="30" height="6.6" fill="#0039A6"/><rect y="13.3" width="30" height="6.7" fill="#D52B1E"/><rect width="30" height="20" fill="none" stroke="#0002"/></svg>`,
-  uz:`<svg width="${w}" height="${h}" viewBox="0 0 30 20"><rect width="30" height="20" fill="#1eb53a"/><rect width="30" height="13.4" fill="#ce1126"/><rect width="30" height="12.4" y=".5" fill="#fff"/><rect width="30" height="6.2" fill="#0099b5"/><circle cx="4.2" cy="3.1" r="2.1" fill="#fff"/><circle cx="5" cy="3.1" r="1.75" fill="#0099b5"/><g fill="#fff"><circle cx="9" cy="1.6" r=".55"/><circle cx="11.5" cy="1.6" r=".55"/><circle cx="14" cy="1.6" r=".55"/><circle cx="9" cy="3.4" r=".55"/><circle cx="11.5" cy="3.4" r=".55"/><circle cx="14" cy="3.4" r=".55"/></g></svg>`};
+  uz:`<svg width="${w}" height="${h}" viewBox="0 0 30 20"><rect width="30" height="20" fill="#1eb53a"/><rect width="30" height="13.4" fill="#ce1126"/><rect width="30" height="12.4" y=".5" fill="#fff"/><rect width="30" height="6.2" fill="#0099b5"/><circle cx="4.2" cy="3.1" r="2.1" fill="#fff"/><circle cx="5" cy="3.1" r="1.75" fill="#0099b5"/><g fill="#fff"><circle cx="9" cy="1.6" r=".55"/><circle cx="11.5" cy="1.6" r=".55"/><circle cx="14" cy="1.6" r=".55"/><circle cx="9" cy="3.4" r=".55"/><circle cx="11.5" cy="3.4" r=".55"/><circle cx="14" cy="3.4" r=".55"/></g></svg>`,
+  fr:`<svg width="${w}" height="${h}" viewBox="0 0 30 20"><rect width="10" height="20" fill="#0055A4"/><rect x="10" width="10" height="20" fill="#fff"/><rect x="20" width="10" height="20" fill="#EF4135"/><rect width="30" height="20" fill="none" stroke="#0002"/></svg>`,
+  pt:`<svg width="${w}" height="${h}" viewBox="0 0 30 20"><rect width="30" height="20" fill="#DA291C"/><rect width="12" height="20" fill="#046A38"/><circle cx="12" cy="10" r="4.2" fill="#FFE900" stroke="#DA291C" stroke-width=".8"/><circle cx="12" cy="10" r="2" fill="#fff" stroke="#046A38" stroke-width=".6"/></svg>`};
  return svgs[lang];
 }
 /* stylized globe with routes from Konya */
@@ -610,7 +612,43 @@ TL to'lovlarida to'lov kunidagi "TCMB EFFEKTIV SOTISH KURSI" qo'llaniladi.
 Eksport ro'yxatga olingan hisob-faktura berilishi mumkin.
 Umumiy summa QQSsiz (KDV kirmagan).
 To'lov rejasi: shartnomada %..., jo'natishdan oldin %..., montaj tugagach %... to'lanadi.
-Boshqa tafsilotlar shartnomada belgilanadi.`}
+Boshqa tafsilotlar shartnomada belgilanadi.`},
+ fr:{name:'Français',rtl:0,title:'OFFRE DE PRIX',formTitle:'OFFRE DE PRIX',
+  slogan:'<b>le nom fort</b> des structures solides...',
+  firma:'SOCIÉTÉ',yetkili:'CONTACT',isadi:'PROJET',isyeri:'LIEU',tarih:'DATE',projeno:'N° PROJET',
+  no:'N°',malzeme:'DÉSIGNATION DES TRAVAUX / MATÉRIAUX',miktar:'QTÉ',birim:'UNITÉ',fiyat:'PRIX UNIT.',tutar:'MONTANT',
+  toplam:'TOTAL',toplamkap:'TOTAL BARDAGE',genel:'TOTAL GÉNÉRAL',
+  notlar:'NOTES ET CONDITIONS',veren:'ÉMETTEUR DE L\u2019OFFRE',onay:'APPROBATION DU CLIENT',ad:'Nom-Prénom',imza:'Signature',
+  tanitim:'PRÉSENTATION DE LA SOCIÉTÉ',referans:'PROJETS DE RÉFÉRENCE',reffirm:'SOCIÉTÉS DE RÉFÉRENCE',yapidet:'DÉTAILS DE LA STRUCTURE',fiyatlar:'OFFRE DE PRIX',
+  rproje:'PROJET',ryer:'LIEU / PAYS',rton:'TONNAGE / PORTÉE',
+  hazirlayan:'Langue de l\u2019offre',sayfa:'Page',tel:'Tél :',gsm:'GSM :',ep:'E-mail :',
+  world:'<span>le nom fort</span> des structures solides...',qr:'',
+  shipT:'Environ {n} camions (TIR) seront nécessaires pour l\u2019expédition.',
+  shipC:"Environ {n} conteneurs 40' OPEN TOP seront nécessaires pour l\u2019expédition.",
+  intro:`Forte d\u2019une longue expérience dans les structures et constructions métalliques, ÜÇEL Yapısal Çelik occupe une position solide dans le secteur. Depuis nos usines de Konya et nos bureaux d\u2019Istanbul et d\u2019Azerbaïdjan, nous réalisons clé en main des installations industrielles, des bâtiments d\u2019usine, des silos, des entrepôts et des projets de charpente métallique de toute taille, en Turquie et à l\u2019étranger.
+
+À chaque étape de nos projets, notre approche centrée sur le client garantit des solutions fiables et de qualité. Nos processus d\u2019ingénierie, de fabrication et de montage sont certifiés CE, ISO 9001:2015 et ISO 3834-2 (TÜV Austria).
+
+Grâce à nos technologies innovantes et à notre équipe experte, nous menons l\u2019ensemble du processus en interne — de la conception au montage — avec une livraison ponctuelle et une transparence totale.`,
+  notes:``},
+ pt:{name:'Português',rtl:0,title:'PROPOSTA DE PREÇO',formTitle:'PROPOSTA DE PREÇO',
+  slogan:'<b>o nome forte</b> das estruturas sólidas...',
+  firma:'EMPRESA',yetkili:'CONTACTO',isadi:'PROJETO',isyeri:'LOCAL',tarih:'DATA',projeno:'N.º PROJETO',
+  no:'N.º',malzeme:'DESCRIÇÃO DOS TRABALHOS / MATERIAIS',miktar:'QTD.',birim:'UNID.',fiyat:'PREÇO UNIT.',tutar:'VALOR',
+  toplam:'TOTAL',toplamkap:'TOTAL REVESTIMENTO',genel:'TOTAL GERAL',
+  notlar:'NOTAS E CONDIÇÕES',veren:'EMISSOR DA PROPOSTA',onay:'APROVAÇÃO DO CLIENTE',ad:'Nome e apelido',imza:'Assinatura',
+  tanitim:'APRESENTAÇÃO DA EMPRESA',referans:'PROJETOS DE REFERÊNCIA',reffirm:'EMPRESAS DE REFERÊNCIA',yapidet:'DETALHES DA ESTRUTURA',fiyatlar:'PROPOSTA DE PREÇO',
+  rproje:'PROJETO',ryer:'LOCAL / PAÍS',rton:'TONELAGEM / ÂMBITO',
+  hazirlayan:'Idioma da proposta',sayfa:'Página',tel:'Tel.:',gsm:'GSM:',ep:'E-mail:',
+  world:'<span>o nome forte</span> das estruturas sólidas...',qr:'',
+  shipT:'Serão necessários cerca de {n} camiões (TIR) para o transporte.',
+  shipC:"Serão necessários cerca de {n} contentores 40' OPEN TOP para o transporte.",
+  intro:`Com uma longa experiência em estruturas e construções metálicas, a ÜÇEL Yapısal Çelik ocupa uma posição sólida no setor. A partir das nossas fábricas em Konya e dos escritórios de Istambul e do Azerbaijão, realizamos chave na mão instalações industriais, edifícios fabris, silos, armazéns e projetos de estruturas metálicas de todas as dimensões, na Turquia e no estrangeiro.
+
+Em cada fase dos nossos projetos, a nossa abordagem centrada no cliente garante soluções fiáveis e de qualidade. Os nossos processos de engenharia, fabrico e montagem são certificados CE, ISO 9001:2015 e ISO 3834-2 (TÜV Austria).
+
+Com tecnologias inovadoras e uma equipa especializada, conduzimos todo o processo internamente — do projeto à montagem — com entrega pontual e total transparência.`,
+  notes:``},
 };
 
 /* phrase dictionary: TR -> other langs (longest first at apply time) */
@@ -653,6 +691,47 @@ const DICT={
  'Kazakistan':{en:'Kazakhstan',ar:'كازاخستان',ru:'Казахстан',uz:"Qozog'iston"},
  'Azerbaycan':{en:'Azerbaijan',ar:'أذربيجان',ru:'Азербайджан',uz:"Ozarbayjon"},
 };
+const DICT_FRPT={
+ 'Bölümü İmalat ve Montajı':{fr:'section \u2014 fabrication et montage',pt:'seção \u2014 fabrico e montagem'},
+ 'İmalat ve Montajı':{fr:'fabrication et montage',pt:'fabrico e montagem'},
+ 'Temini ve Montajı':{fr:'fourniture et pose',pt:'fornecimento e montagem'},
+ 'Kalınlığında':{fr:'épaisseur',pt:'espessura'},
+ 'ÇELİK KONSTRÜKSİYON':{fr:'CHARPENTE MÉTALLIQUE',pt:'ESTRUTURA METÁLICA'},
+ 'CEPHE PANELİ':{fr:'PANNEAU DE BARDAGE',pt:'PAINEL DE FACHADA'},
+ 'ÇATI PANELİ':{fr:'PANNEAU DE COUVERTURE',pt:'PAINEL DE COBERTURA'},
+ 'PVC PENCERE':{fr:'FENÊTRE PVC',pt:'JANELA PVC'},
+ 'SARMALI KEPENK KAPI':{fr:'PORTE À RIDEAU ENROULABLE',pt:'PORTA DE ENROLAR'},
+ 'KAPI':{fr:'PORTE',pt:'PORTA'},
+ 'ÖĞÜTME':{fr:'MOUTURE',pt:'MOAGEM'},
+ 'PAKETLEME':{fr:'EMBALLAGE',pt:'EMBALAGEM'},
+ 'TAV SİLO':{fr:'SILO DE REPOS',pt:'SILO DE DESCANSO'},
+ 'UN SİLO':{fr:'SILO À FARINE',pt:'SILO DE FARINHA'},
+ 'KEPEK SİLO':{fr:'SILO À SON',pt:'SILO DE FARELO'},
+ 'ÇATI':{fr:'TOITURE',pt:'COBERTURA'},
+ 'CEPHE':{fr:'FAÇADE',pt:'FACHADA'},
+ 'Adet':{fr:'pcs',pt:'un.'},
+ 'Un Değirmeni':{fr:'Moulin à farine',pt:'Moinho de farinha'},
+ 'Değirmen Binası':{fr:'Bâtiment du moulin',pt:'Edifício do moinho'},
+ 'Değirmen':{fr:'Moulin',pt:'Moinho'},
+ 'Kapasiteli':{fr:'de capacité',pt:'de capacidade'},
+ 'Ton/gün':{fr:'t/jour',pt:'t/dia'},
+ 'Ton/Gün':{fr:'t/jour',pt:'t/dia'},
+ 'Çelik Yapı':{fr:'Structure métallique',pt:'Estrutura metálica'},
+ 'Fabrika Binası':{fr:'Bâtiment d\u2019usine',pt:'Edifício fabril'},
+ 'Binası':{fr:'bâtiment',pt:'edifício'},
+ 'Depo':{fr:'Entrepôt',pt:'Armazém'},
+ 'Silo':{fr:'Silo',pt:'Silo'},
+ 'Siloları':{fr:'Silos',pt:'Silos'},
+ 'Özbekistan':{fr:'Ouzbékistan',pt:'Uzbequistão'},
+ 'Rusya':{fr:'Russie',pt:'Rússia'},
+ 'Türkiye':{fr:'Turquie',pt:'Turquia'},
+ 'Libya':{fr:'Libye',pt:'Líbia'},
+ 'Angola':{fr:'Angola',pt:'Angola'},
+ 'Kazakistan':{fr:'Kazakhstan',pt:'Cazaquistão'},
+ 'Azerbaycan':{fr:'Azerbaïdjan',pt:'Azerbaijão'},
+ 'Mısır':{en:'Egypt',ar:'مصر',ru:'Египет',uz:'Misr',fr:'Égypte',pt:'Egito'},
+};
+for(const k in DICT_FRPT)Object.assign(DICT[k]=DICT[k]||{},DICT_FRPT[k]);
 function trDesc(t,lang){
  if(lang==='tr'||!t)return t;
  let out=t,m;
@@ -668,6 +747,12 @@ function trDesc(t,lang){
  }
  if(lang==='en'){
   if(m=out.match(/^(\d[\d.,]*)\s*Ton\/[Gg]ün Kapasiteli\s+(.+)$/))out=m[2]+' with '+m[1]+' t/day Capacity';
+ }
+ if(lang==='fr'){
+  if(m=out.match(/^(\d[\d.,]*)\s*Ton\/[Gg]ün Kapasiteli\s+(.+)$/))out=m[2]+' d\u2019une capacité de '+m[1]+' t/jour';
+ }
+ if(lang==='pt'){
+  if(m=out.match(/^(\d[\d.,]*)\s*Ton\/[Gg]ün Kapasiteli\s+(.+)$/))out=m[2]+' com capacidade de '+m[1]+' t/dia';
  }
  const keys=Object.keys(DICT).sort((a,b)=>b.length-a.length);
  for(const k of keys){ if(DICT[k][lang]) out=out.split(k).join(DICT[k][lang]); }
@@ -690,30 +775,30 @@ const DEFAULT_BRANDS=[
 const UNITS=['kg','ton','Adet','m\u00b2','m','m\u00b3','tak\u0131m','set','saat'];
 /* Standart notlar / sartlar: 5 dil. Kutucukla secilir; secilenler PDF'e girer. */
 const NOTES_DEF=[
- {tr:'Teklif opsiyon süresi 15 gündür.',en:'This offer is valid for 15 days.',ar:'مدة صلاحية العرض 15 يوماً.',ru:'Срок действия предложения — 15 дней.',uz:'Taklifning amal qilish muddati 15 kun.'},
- {tr:'Tonaj teorik tonajdır. İş bitimi kantar kartelası baz alınacaktır. ± %10',en:'Tonnage is theoretical; final weighbridge tickets will be taken as basis. ± 10%',ar:'الوزن نظري؛ يُعتمد وزن الميزان عند نهاية العمل. ± 10%',ru:'Тоннаж теоретический; за основу принимаются весовые квитанции по завершении работ. ± 10%',uz:'Tonnaj nazariy; ish yakunida tarozi kvitansiyalari asos olinadi. ± 10%'},
- {tr:'Boya kaplaması, RAL9002 renginde, 60 mikron astar ve 80 mikron son kat olmak üzere 160 mikron epoksi boya uygulaması hesaplanmıştır.',en:'Paint coating calculated as RAL9002 epoxy, 160 microns in total (60 micron primer and 80 micron top coat).',ar:'الدهان: إيبوكسي بلون RAL9002 بسماكة إجمالية 160 ميكرون (أساس 60 ميكرون وطبقة نهائية 80 ميكرون).',ru:'Покраска: эпоксидная, RAL9002, всего 160 мкм (грунт 60 мкм и финишный слой 80 мкм).',uz:"Bo'yoq: RAL9002 rangida, jami 160 mikron epoksid (60 mikron astar va 80 mikron ustki qatlam)."},
- {tr:'Boya kaplaması, RAL9002 renginde, 120 mikron kalınlığında, epoksi boya hesaplanmıştır.',en:'Paint coating calculated as RAL9002 epoxy, 120 microns thickness.',ar:'الدهان: إيبوكسي بلون RAL9002 وسماكة 120 ميكرون.',ru:'Покраска: эпоксидная, RAL9002, толщиной 120 мкм.',uz:"Bo'yoq: RAL9002 rangida, 120 mikron qalinlikda epoksid."},
- {tr:'Bağlantı plakaları, S235/St37 olarak hesaplanmıştır.',en:'Connection plates are calculated as S235/St37.',ar:'صفائح الربط محسوبة من فولاذ S235/St37.',ru:'Соединительные пластины рассчитаны из стали S235/St37.',uz:"Biriktirish plitalari S235/St37 po'latidan hisoblangan."},
- {tr:'Civatalar, 8.8 kalite ve galvanizli olarak hesaplanmıştır.',en:'Bolts are grade 8.8, galvanized.',ar:'البراغي درجة 8.8 ومجلفنة.',ru:'Болты класса 8.8, оцинкованные.',uz:'Boltlar 8.8 sinf, galvanizlangan.'},
- {tr:'Döşemeler 3/4 mm baklavalı sac ile kaplanacaktır.',en:'Floors will be covered with 3/4 mm chequered steel plate.',ar:'تُغطى الأرضيات بصاج شطرنجي بسماكة 3/4 مم.',ru:'Полы покрываются рифлёным листом 3/4 мм.',uz:'Pollar 3/4 mm gofrirlangan (baklava) tunuka bilan qoplanadi.'},
- {tr:'Döşemeler 12 cm BETONARME KOMPOZİT DÖŞEME uygulaması yapılacaktır.',en:'Floors: 12 cm reinforced-concrete composite slab will be applied.',ar:'الأرضيات: تُنفذ بلاطة مركبة من الخرسانة المسلحة بسماكة 12 سم.',ru:'Полы: выполняется железобетонная композитная плита 12 см.',uz:'Pollar: 12 sm temir-beton kompozit plita bajariladi.'},
- {tr:'Betonarme temel ve beton içinde kalacak malzemeler (ankraj tiji, somunu, pulu ve şablon plakası) müşteriye aittir.',en:"Concrete foundations and embedded items (anchor bolts, nuts, washers and template plates) are on the customer's account.",ar:'الأساسات الخرسانية والعناصر المدفونة (قضبان التثبيت والصواميل والحلقات وصفائح القالب) على عاتق العميل.',ru:'Железобетонные фундаменты и закладные элементы (анкерные болты, гайки, шайбы, шаблонные пластины) — за счёт заказчика.',uz:'Temir-beton poydevor va beton ichida qoladigan elementlar (anker boltlari, gaykalar, shaybalar, shablon plitalari) buyurtmachi zimmasida.'},
- {tr:'Kapı ve pencereler GENÇ DEĞİRMEN tarafından temin edilecektir. Bilgilendirme amaçlıdır.',en:'Doors and windows will be supplied by GENÇ DEĞİRMEN. For information only.',ar:'الأبواب والنوافذ تورد من قبل GENÇ DEĞİRMEN. للعلم فقط.',ru:'Двери и окна поставляются компанией GENÇ DEĞİRMEN. Для информации.',uz:"Eshik va derazalar GENÇ DEĞİRMEN tomonidan yetkaziladi. Ma'lumot uchun."},
- {tr:'Montaj araçları (vinç, sepet, manlift vb.), sevkiyat ve konaklama müşteriye aittir.',en:"Erection equipment (crane, basket, manlift etc.), shipment and accommodation are on the customer's account.",ar:'معدات التركيب (رافعة، سلة، منصة رفع وغيرها) والشحن والإقامة على عاتق العميل.',ru:'Монтажная техника (кран, люлька, подъёмник и т.п.), доставка и проживание — за счёт заказчика.',uz:'Montaj texnikasi (kran, savat, manlift va h.k.), yetkazib berish va yashash buyurtmachi zimmasida.'},
- {tr:'Sevkiyat ve montaj fiyata dahil değildir.',en:'Shipment and erection are not included in the price.',ar:'الشحن والتركيب غير مشمولين بالسعر.',ru:'Доставка и монтаж в цену не включены.',uz:'Yetkazib berish va montaj narxga kirmaydi.'},
- {tr:'Montaj için 1 adet supervizor görevlendirilecektir.',en:'One supervisor will be assigned for erection.',ar:'يُعين مشرف واحد لأعمال التركيب.',ru:'Для монтажа выделяется 1 супервайзер.',uz:'Montaj uchun 1 nafar supervayzer tayinlanadi.'},
- {tr:'Üçüncü parti kalite kontrol işlemleri fiyata dahil değildir.',en:'Third-party quality control services are not included in the price.',ar:'خدمات مراقبة الجودة من طرف ثالث غير مشمولة بالسعر.',ru:'Услуги стороннего контроля качества в цену не включены.',uz:'Uchinchi tomon sifat nazorati xizmatlari narxga kirmaydi.'},
- {tr:"Sevkiyat için ...... adet 40'lık OPEN TOP konteyner ihtiyaç olacaktır.",en:"Shipment will require ...... units of 40' OPEN TOP containers.",ar:'يتطلب الشحن ...... حاوية 40 قدم OPEN TOP.',ru:"Для отгрузки потребуется ...... контейнеров 40' OPEN TOP.",uz:"Yuk jo'natish uchun ...... dona 40 futlik OPEN TOP konteyner kerak bo'ladi."},
- {tr:'Sevkiyat için ...... adet 13,6 mt TIR ihtiyaç olacaktır.',en:'Shipment will require ...... units of 13.6 m trucks (TIR).',ar:'يتطلب الشحن ...... شاحنة (TIR) بطول 13.6 م.',ru:'Для отгрузки потребуется ...... фур (TIR) 13,6 м.',uz:"Yuk jo'natish uchun ...... dona 13,6 m TIR kerak bo'ladi."},
- {tr:'Sözleşme itibariyle .... işgünü içinde iş teslimi yapılacaktır.',en:'Work will be delivered within .... working days from contract date.',ar:'يتم تسليم العمل خلال .... يوم عمل من تاريخ العقد.',ru:'Сдача работ — в течение .... рабочих дней с даты контракта.',uz:'Shartnomadan boshlab .... ish kuni ichida ish topshiriladi.'},
- {tr:'Sözleşme itibariyle .... işgünü içinde sevkiyata hazır olacaktır.',en:'Ready for shipment within .... working days from contract date.',ar:'الجاهزية للشحن خلال .... يوم عمل من تاريخ العقد.',ru:'Готовность к отгрузке — в течение .... рабочих дней с даты контракта.',uz:"Shartnomadan boshlab .... ish kuni ichida jo'natishga tayyor bo'ladi."},
- {tr:'Şantiye montaja uygun hale geldikten sonra .... işgünü içinde montaj tamamlanacaktır.',en:'Erection will be completed within .... working days after site readiness.',ar:'يكتمل التركيب خلال .... يوم عمل بعد جاهزية الموقع.',ru:'Монтаж завершается в течение .... рабочих дней после готовности площадки.',uz:'Maydon montajga tayyor bo`lgach .... ish kuni ichida montaj yakunlanadi.'},
- {tr:'TL ödemelerinde ödeme tarihindeki "TCMB EFEKTİF SATIŞ KURU" dikkate alınacaktır.',en:'For payments in TRY, the CBRT effective selling rate on the payment date applies.',ar:'للمدفوعات بالليرة التركية يُعتمد سعر البيع الفعلي للبنك المركزي التركي بتاريخ الدفع.',ru:'При оплате в TL применяется «эффективный курс продажи ЦБ Турции» на дату платежа.',uz:'TL to`lovlarida to`lov kunidagi "TCMB effektiv sotish kursi" qo`llanadi.'},
- {tr:'İhraç kayıtlı fatura edilebilir.',en:'Export-registered invoicing is available.',ar:'يمكن إصدار فاتورة مسجلة للتصدير.',ru:'Возможно выставление счёта с экспортной регистрацией.',uz:"Eksport ro'yxatidan o'tgan hisob-faktura berilishi mumkin."},
- {tr:'Toplam tutar KDV hariç tutardır.',en:'Total amount excludes VAT.',ar:'المبلغ الإجمالي لا يشمل ضريبة القيمة المضافة.',ru:'Общая сумма указана без НДС.',uz:'Umumiy summa QQSsiz.'},
- {tr:'Ödeme planı; %... sözleşme esnasında, %... sevkiyat öncesi, %... kısmı ise montaj sonunda yapılacaktır.',en:'Payment plan: %... at contract, %... before shipment, %... upon completion of erection.',ar:'خطة الدفع: %... عند العقد، %... قبل الشحن، %... بعد انتهاء التركيب.',ru:'План оплаты: %... при контракте, %... перед отгрузкой, %... по завершении монтажа.',uz:"To'lov rejasi: shartnomada %..., jo'natishdan oldin %..., montaj tugagach %... to'lanadi."},
- {tr:'Diğer detaylar sözleşmede yer alacaktır.',en:'Other details will be defined in the contract.',ar:'تُحدد باقي التفاصيل في العقد.',ru:'Прочие детали определяются контрактом.',uz:'Boshqa tafsilotlar shartnomada belgilanadi.'},
+ {tr:'Teklif opsiyon süresi 15 gündür.',en:'This offer is valid for 15 days.',ar:'مدة صلاحية العرض 15 يوماً.',ru:'Срок действия предложения — 15 дней.',uz:'Taklifning amal qilish muddati 15 kun.',fr:'La présente offre est valable 15 jours.',pt:'A presente proposta é válida por 15 dias.'},
+ {tr:'Tonaj teorik tonajdır. İş bitimi kantar kartelası baz alınacaktır. ± %10',en:'Tonnage is theoretical; final weighbridge tickets will be taken as basis. ± 10%',ar:'الوزن نظري؛ يُعتمد وزن الميزان عند نهاية العمل. ± 10%',ru:'Тоннаж теоретический; за основу принимаются весовые квитанции по завершении работ. ± 10%',uz:'Tonnaj nazariy; ish yakunida tarozi kvitansiyalari asos olinadi. ± 10%',fr:'Le tonnage est théorique ; les tickets de pesée en fin de travaux feront foi. ± 10%',pt:'A tonelagem é teórica; farão fé os talões de pesagem no final dos trabalhos. ± 10%'},
+ {tr:'Boya kaplaması, RAL9002 renginde, 60 mikron astar ve 80 mikron son kat olmak üzere 160 mikron epoksi boya uygulaması hesaplanmıştır.',en:'Paint coating calculated as RAL9002 epoxy, 160 microns in total (60 micron primer and 80 micron top coat).',ar:'الدهان: إيبوكسي بلون RAL9002 بسماكة إجمالية 160 ميكرون (أساس 60 ميكرون وطبقة نهائية 80 ميكرون).',ru:'Покраска: эпоксидная, RAL9002, всего 160 мкм (грунт 60 мкм и финишный слой 80 мкм).',uz:"Bo'yoq: RAL9002 rangida, jami 160 mikron epoksid (60 mikron astar va 80 mikron ustki qatlam).",fr:'Peinture : époxy RAL9002, 160 microns au total (60 microns de primaire et 80 microns de finition).',pt:'Pintura: epóxi RAL9002, total de 160 mícrons (60 de primário e 80 de acabamento).'},
+ {tr:'Boya kaplaması, RAL9002 renginde, 120 mikron kalınlığında, epoksi boya hesaplanmıştır.',en:'Paint coating calculated as RAL9002 epoxy, 120 microns thickness.',ar:'الدهان: إيبوكسي بلون RAL9002 وسماكة 120 ميكرون.',ru:'Покраска: эпоксидная, RAL9002, толщиной 120 мкм.',uz:"Bo'yoq: RAL9002 rangida, 120 mikron qalinlikda epoksid.",fr:'Peinture : époxy RAL9002, épaisseur 120 microns.',pt:'Pintura: epóxi RAL9002, espessura de 120 mícrons.'},
+ {tr:'Bağlantı plakaları, S235/St37 olarak hesaplanmıştır.',en:'Connection plates are calculated as S235/St37.',ar:'صفائح الربط محسوبة من فولاذ S235/St37.',ru:'Соединительные пластины рассчитаны из стали S235/St37.',uz:"Biriktirish plitalari S235/St37 po'latidan hisoblangan.",fr:'Les platines d’assemblage sont calculées en acier S235/St37.',pt:'As chapas de ligação são calculadas em aço S235/St37.'},
+ {tr:'Civatalar, 8.8 kalite ve galvanizli olarak hesaplanmıştır.',en:'Bolts are grade 8.8, galvanized.',ar:'البراغي درجة 8.8 ومجلفنة.',ru:'Болты класса 8.8, оцинкованные.',uz:'Boltlar 8.8 sinf, galvanizlangan.',fr:'Boulons de classe 8.8, galvanisés.',pt:'Parafusos classe 8.8, galvanizados.'},
+ {tr:'Döşemeler 3/4 mm baklavalı sac ile kaplanacaktır.',en:'Floors will be covered with 3/4 mm chequered steel plate.',ar:'تُغطى الأرضيات بصاج شطرنجي بسماكة 3/4 مم.',ru:'Полы покрываются рифлёным листом 3/4 мм.',uz:'Pollar 3/4 mm gofrirlangan (baklava) tunuka bilan qoplanadi.',fr:'Les planchers seront recouverts de tôle larmée de 3/4 mm.',pt:'Os pavimentos serão revestidos com chapa xadrez de 3/4 mm.'},
+ {tr:'Döşemeler 12 cm BETONARME KOMPOZİT DÖŞEME uygulaması yapılacaktır.',en:'Floors: 12 cm reinforced-concrete composite slab will be applied.',ar:'الأرضيات: تُنفذ بلاطة مركبة من الخرسانة المسلحة بسماكة 12 سم.',ru:'Полы: выполняется железобетонная композитная плита 12 см.',uz:'Pollar: 12 sm temir-beton kompozit plita bajariladi.',fr:'Planchers : dalle mixte en béton armé de 12 cm.',pt:'Pavimentos: laje mista de betão armado de 12 cm.'},
+ {tr:'Betonarme temel ve beton içinde kalacak malzemeler (ankraj tiji, somunu, pulu ve şablon plakası) müşteriye aittir.',en:"Concrete foundations and embedded items (anchor bolts, nuts, washers and template plates) are on the customer's account.",ar:'الأساسات الخرسانية والعناصر المدفونة (قضبان التثبيت والصواميل والحلقات وصفائح القالب) على عاتق العميل.',ru:'Железобетонные фундаменты и закладные элементы (анкерные болты, гайки, шайбы, шаблонные пластины) — за счёт заказчика.',uz:'Temir-beton poydevor va beton ichida qoladigan elementlar (anker boltlari, gaykalar, shaybalar, shablon plitalari) buyurtmachi zimmasida.',fr:'Les fondations en béton et les éléments noyés (tiges d’ancrage, écrous, rondelles, gabarits) sont à la charge du client.',pt:'As fundações de betão e os elementos embebidos (chumbadouros, porcas, anilhas e gabaritos) são por conta do cliente.'},
+ {tr:'Kapı ve pencereler GENÇ DEĞİRMEN tarafından temin edilecektir. Bilgilendirme amaçlıdır.',en:'Doors and windows will be supplied by GENÇ DEĞİRMEN. For information only.',ar:'الأبواب والنوافذ تورد من قبل GENÇ DEĞİRMEN. للعلم فقط.',ru:'Двери и окна поставляются компанией GENÇ DEĞİRMEN. Для информации.',uz:"Eshik va derazalar GENÇ DEĞİRMEN tomonidan yetkaziladi. Ma'lumot uchun.",fr:'Les portes et fenêtres seront fournies par GENÇ DEĞİRMEN. À titre informatif.',pt:'As portas e janelas serão fornecidas pela GENÇ DEĞİRMEN. A título informativo.'},
+ {tr:'Montaj araçları (vinç, sepet, manlift vb.), sevkiyat ve konaklama müşteriye aittir.',en:"Erection equipment (crane, basket, manlift etc.), shipment and accommodation are on the customer's account.",ar:'معدات التركيب (رافعة، سلة، منصة رفع وغيرها) والشحن والإقامة على عاتق العميل.',ru:'Монтажная техника (кран, люлька, подъёмник и т.п.), доставка и проживание — за счёт заказчика.',uz:'Montaj texnikasi (kran, savat, manlift va h.k.), yetkazib berish va yashash buyurtmachi zimmasida.',fr:'Les moyens de montage (grue, nacelle, manlift, etc.), le transport et l’hébergement sont à la charge du client.',pt:'Os meios de montagem (grua, cesto, manlift, etc.), o transporte e o alojamento são por conta do cliente.'},
+ {tr:'Sevkiyat ve montaj fiyata dahil değildir.',en:'Shipment and erection are not included in the price.',ar:'الشحن والتركيب غير مشمولين بالسعر.',ru:'Доставка и монтаж в цену не включены.',uz:'Yetkazib berish va montaj narxga kirmaydi.',fr:'Le transport et le montage ne sont pas inclus dans le prix.',pt:'O transporte e a montagem não estão incluídos no preço.'},
+ {tr:'Montaj için 1 adet supervizor görevlendirilecektir.',en:'One supervisor will be assigned for erection.',ar:'يُعين مشرف واحد لأعمال التركيب.',ru:'Для монтажа выделяется 1 супервайзер.',uz:'Montaj uchun 1 nafar supervayzer tayinlanadi.',fr:'Un superviseur sera affecté au montage.',pt:'Será destacado 1 supervisor para a montagem.'},
+ {tr:'Üçüncü parti kalite kontrol işlemleri fiyata dahil değildir.',en:'Third-party quality control services are not included in the price.',ar:'خدمات مراقبة الجودة من طرف ثالث غير مشمولة بالسعر.',ru:'Услуги стороннего контроля качества в цену не включены.',uz:'Uchinchi tomon sifat nazorati xizmatlari narxga kirmaydi.',fr:'Les contrôles qualité par tierce partie ne sont pas inclus dans le prix.',pt:'Os serviços de controlo de qualidade de terceiros não estão incluídos no preço.'},
+ {tr:"Sevkiyat için ...... adet 40'lık OPEN TOP konteyner ihtiyaç olacaktır.",en:"Shipment will require ...... units of 40' OPEN TOP containers.",ar:'يتطلب الشحن ...... حاوية 40 قدم OPEN TOP.',ru:"Для отгрузки потребуется ...... контейнеров 40' OPEN TOP.",uz:"Yuk jo'natish uchun ...... dona 40 futlik OPEN TOP konteyner kerak bo'ladi.",fr:"L’expédition nécessitera ...... conteneurs 40' OPEN TOP.",pt:"O transporte necessitará de ...... contentores 40' OPEN TOP."},
+ {tr:'Sevkiyat için ...... adet 13,6 mt TIR ihtiyaç olacaktır.',en:'Shipment will require ...... units of 13.6 m trucks (TIR).',ar:'يتطلب الشحن ...... شاحنة (TIR) بطول 13.6 م.',ru:'Для отгрузки потребуется ...... фур (TIR) 13,6 м.',uz:"Yuk jo'natish uchun ...... dona 13,6 m TIR kerak bo'ladi.",fr:'L’expédition nécessitera ...... camions (TIR) de 13,6 m.',pt:'O transporte necessitará de ...... camiões (TIR) de 13,6 m.'},
+ {tr:'Sözleşme itibariyle .... işgünü içinde iş teslimi yapılacaktır.',en:'Work will be delivered within .... working days from contract date.',ar:'يتم تسليم العمل خلال .... يوم عمل من تاريخ العقد.',ru:'Сдача работ — в течение .... рабочих дней с даты контракта.',uz:'Shartnomadan boshlab .... ish kuni ichida ish topshiriladi.',fr:'Livraison des travaux sous .... jours ouvrés à compter du contrat.',pt:'Entrega dos trabalhos em .... dias úteis a contar do contrato.'},
+ {tr:'Sözleşme itibariyle .... işgünü içinde sevkiyata hazır olacaktır.',en:'Ready for shipment within .... working days from contract date.',ar:'الجاهزية للشحن خلال .... يوم عمل من تاريخ العقد.',ru:'Готовность к отгрузке — в течение .... рабочих дней с даты контракта.',uz:"Shartnomadan boshlab .... ish kuni ichida jo'natishga tayyor bo'ladi.",fr:'Prêt à l’expédition sous .... jours ouvrés à compter du contrat.',pt:'Pronto para expedição em .... dias úteis a contar do contrato.'},
+ {tr:'Şantiye montaja uygun hale geldikten sonra .... işgünü içinde montaj tamamlanacaktır.',en:'Erection will be completed within .... working days after site readiness.',ar:'يكتمل التركيب خلال .... يوم عمل بعد جاهزية الموقع.',ru:'Монтаж завершается в течение .... рабочих дней после готовности площадки.',uz:'Maydon montajga tayyor bo`lgach .... ish kuni ichida montaj yakunlanadi.',fr:'Le montage sera achevé sous .... jours ouvrés après mise à disposition du chantier.',pt:'A montagem será concluída em .... dias úteis após a disponibilização do estaleiro.'},
+ {tr:'TL ödemelerinde ödeme tarihindeki "TCMB EFEKTİF SATIŞ KURU" dikkate alınacaktır.',en:'For payments in TRY, the CBRT effective selling rate on the payment date applies.',ar:'للمدفوعات بالليرة التركية يُعتمد سعر البيع الفعلي للبنك المركزي التركي بتاريخ الدفع.',ru:'При оплате в TL применяется «эффективный курс продажи ЦБ Турции» на дату платежа.',uz:'TL to`lovlarida to`lov kunidagi "TCMB effektiv sotish kursi" qo`llanadi.',fr:'Pour les paiements en TL, le cours de vente effectif de la Banque centrale de Turquie à la date du paiement fera foi.',pt:'Para pagamentos em TL, aplica-se a taxa de venda efetiva do Banco Central da Turquia na data do pagamento.'},
+ {tr:'İhraç kayıtlı fatura edilebilir.',en:'Export-registered invoicing is available.',ar:'يمكن إصدار فاتورة مسجلة للتصدير.',ru:'Возможно выставление счёта с экспортной регистрацией.',uz:"Eksport ro'yxatidan o'tgan hisob-faktura berilishi mumkin.",fr:'Facturation avec enregistrement à l’exportation possible.',pt:'É possível faturação com registo de exportação.'},
+ {tr:'Toplam tutar KDV hariç tutardır.',en:'Total amount excludes VAT.',ar:'المبلغ الإجمالي لا يشمل ضريبة القيمة المضافة.',ru:'Общая сумма указана без НДС.',uz:'Umumiy summa QQSsiz.',fr:'Le montant total s’entend hors TVA.',pt:'O valor total não inclui IVA.'},
+ {tr:'Ödeme planı; %... sözleşme esnasında, %... sevkiyat öncesi, %... kısmı ise montaj sonunda yapılacaktır.',en:'Payment plan: %... at contract, %... before shipment, %... upon completion of erection.',ar:'خطة الدفع: %... عند العقد، %... قبل الشحن، %... بعد انتهاء التركيب.',ru:'План оплаты: %... при контракте, %... перед отгрузкой, %... по завершении монтажа.',uz:"To'lov rejasi: shartnomada %..., jo'natishdan oldin %..., montaj tugagach %... to'lanadi.",fr:'Plan de paiement : %... à la signature, %... avant expédition, %... à la fin du montage.',pt:'Plano de pagamento: %... na assinatura, %... antes da expedição, %... no final da montagem.'},
+ {tr:'Diğer detaylar sözleşmede yer alacaktır.',en:'Other details will be defined in the contract.',ar:'تُحدد باقي التفاصيل في العقد.',ru:'Прочие детали определяются контрактом.',uz:'Boshqa tafsilotlar shartnomada belgilanadi.',fr:'Les autres détails seront définis dans le contrat.',pt:'Os restantes detalhes serão definidos no contrato.'},
 ];
 let S={lang:'tr',curr:'$',projeno:'',tarih:today,firma:'',yetkili:'',isadi:'',isyeri:'',covers:[],
  items1:[{d:'',q:'',u:'kg',p:''},{d:'',q:'',u:'kg',p:''},{d:'',q:'',u:'kg',p:''}],
@@ -802,7 +887,7 @@ function shipCalc(){
 /* ================= EDITOR RENDER ================= */
 function editorLang(){
  const bar=document.getElementById('langbar');bar.innerHTML='';
- for(const lg of ['tr','en','ar','ru','uz']){
+ for(const lg of ['tr','en','ar','ru','uz','fr','pt']){
   const b=document.createElement('button');
   b.className='langbtn'+(S.lang===lg?' active':'');
   b.innerHTML=flag(lg,22)+TR[lg].name;
