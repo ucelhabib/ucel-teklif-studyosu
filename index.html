@@ -190,6 +190,10 @@ body.viewmode #viewbar{display:flex}
 /* rapor sayfasi */
 #reportpage{display:none}
 .rpage{width:210mm;min-height:296mm;background:#fff;padding:12mm 10mm}
+/* ceviri kontrolu */
+mark.trx{background:#ffe58a;outline:1px dashed #d29b00;border-radius:2px;padding:0 1px;color:inherit}
+#trwarn{position:fixed;bottom:14px;right:16px;z-index:96;background:#b7791f;color:#fff;font-weight:800;font-size:12.5px;padding:9px 14px;border-radius:8px;box-shadow:0 2px 8px #0004}
+@media print{mark.trx{background:none!important;outline:none!important}#trwarn{display:none!important}}
 /* arsiv gorunumu */
 .pcards{display:flex;gap:10px;flex-wrap:wrap;margin:4px 0 10px}
 .pcard{flex:1;min-width:118px;background:#f5f8ff;border:1px solid #dfe6f3;border-radius:10px;padding:8px 12px}
@@ -341,6 +345,7 @@ body.viewmode #viewbar{display:flex}
  </div>
 </div>
 
+<div id="trwarn" style="display:none"></div>
 <div id="reportpage"></div>
 <div id="viewbar">
  <button onclick="window.print()">&#128424; PDF Oluştur</button>
@@ -1251,7 +1256,17 @@ function render(){
  const _html=p1+pDet+p3+p4+p2;
  if(_html!==window._lastHtml){
   window._lastHtml=_html;
-  document.getElementById('preview').innerHTML=_html.replace(/<img /g,'<img decoding="async" ');
+  let out=_html.replace(/<img /g,'<img decoding="async" ');
+  let trx=0;
+  if(S.lang!=='tr'){
+   out=out.replace(/>([^<>]+)</g,(m,txt)=>'>'+txt.replace(/[A-Za-z\u00c7\u011e\u0130\u00d6\u015e\u00dc\u00e7\u011f\u0131\u00f6\u015f\u00fc]*[\u00e7\u011f\u0131\u00f6\u015f\u00fc\u00c7\u011e\u0130\u00d6\u015e\u00dc][A-Za-z\u00c7\u011e\u0130\u00d6\u015e\u00dc\u00e7\u011f\u0131\u00f6\u015f\u00fc]*/g,w=>{trx++;return '<mark class="trx">'+w+'</mark>'})+'<');
+  }
+  document.getElementById('preview').innerHTML=out;
+  const tw=document.getElementById('trwarn');
+  if(tw){
+   tw.style.display=trx?'block':'none';
+   if(trx)tw.textContent='\u26a0 '+trx+' kelime \u00e7evrilmemi\u015f olabilir \u2014 sayfada sar\u0131 i\u015faretlileri kontrol edin';
+  }
   fitPages();
  }
 }
