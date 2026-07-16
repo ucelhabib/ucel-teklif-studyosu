@@ -176,7 +176,20 @@ ol.notes .nno{display:inline-block;min-width:6.5mm;font-weight:800;color:var(--n
 #poolmodal .lm{max-width:960px}
 .pool-sum{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;margin:4px 0}
 .pool-sum b{color:var(--navy)}
-@media print{#poolmodal,#loginmodal{display:none!important}}
+@media print{#poolmodal,#loginmodal,#viewbar{display:none!important}
+body.repmode #preview{display:none!important}
+body.repmode #reportpage{display:block}
+.rpage{page-break-after:always}
+}
+/* pdf gorunumu (teklif ac) */
+#viewbar{display:none;position:fixed;top:10px;right:14px;z-index:97;gap:8px}
+body.viewmode #editor{display:none}
+body.viewmode #viewbar{display:flex}
+#viewbar button{background:var(--navy);color:#fff;border:none;border-radius:8px;padding:9px 13px;font-weight:800;font-size:13px;cursor:pointer;box-shadow:0 2px 8px #0004}
+#viewbar button:first-child{background:var(--orange)}
+/* rapor sayfasi */
+#reportpage{display:none}
+.rpage{width:210mm;min-height:296mm;background:#fff;padding:12mm 10mm}
 /* ---------- MOBIL (telefon/tablet) ---------- */
 @media (max-width:900px){
  #app{display:block}
@@ -209,9 +222,16 @@ ol.notes .nno{display:inline-block;min-width:6.5mm;font-weight:800;color:var(--n
 <aside id="editor">
   <h1>ÜÇEL Teklif Stüdyosu</h1>
   <div class="sub">güçlü yapıların güçlü adı...</div>
-  <button class="printbtn" onclick="window.print()">&#128424; PDF Oluştur / Yazdır</button>
-  <div class="hint"><b>PDF ayarları:</b> Hedef = "PDF olarak kaydet" &middot; Kenar boşlukları = <b>Yok</b> &middot; Ölçek = <b>100</b> &middot; "Arka plan grafikleri" <b>işaretli</b> olsun — çıktı önizlemeyle birebir aynı olur.</div>
 
+  <fieldset>
+    <legend>Tekliflerim <span id="pool_count"></span></legend>
+    <div class="iobtns">
+      <button onclick="poolSave()">&#128190; Kaydet</button>
+      <button onclick="poolOpen()">&#128194; Tekliflerim / Raporlar</button>
+    </div>
+    <div class="hint" id="sb_who"></div>
+    <div class="hint" id="sb_msg">Kaydedilen teklif kilitlenir; içerik revizesi Habib onayı gerektirir. Durum (verildi/kazanıldı/kaybedildi) her zaman güncellenebilir.</div>
+  </fieldset>
   <fieldset>
     <legend>Teklif Dili Seç</legend>
     <div class="langbar" id="langbar"></div>
@@ -290,15 +310,8 @@ ol.notes .nno{display:inline-block;min-width:6.5mm;font-weight:800;color:var(--n
     <div class="hint">İşaretli maddeler PDF'te görünür; metinler tüm dillere otomatik çevrilidir. Konteyner/TIR adetleri tonajdan otomatik hesaplanır.</div>
   </fieldset>
 
-  <fieldset>
-    <legend>Tekliflerim <span id="pool_count"></span></legend>
-    <div class="iobtns">
-      <button onclick="poolSave()">&#128190; Kaydet</button>
-      <button onclick="poolOpen()">&#128194; Tekliflerim / Raporlar</button>
-    </div>
-    <div class="hint" id="sb_who"></div>
-    <div class="hint" id="sb_msg">Kaydedilen teklif kilitlenir; içerik revizesi Habib onayı gerektirir. Durum (verildi/kazanıldı/kaybedildi) her zaman güncellenebilir.</div>
-  </fieldset>
+  <button class="printbtn" onclick="window.print()">&#128424; PDF Oluştur / Yazdır</button>
+  <div class="hint"><b>PDF ayarları:</b> Hedef = "PDF olarak kaydet" &middot; Kenar boşlukları = <b>Yok</b> &middot; Ölçek = <b>100</b> &middot; "Arka plan grafikleri" <b>işaretli</b> olsun — çıktı önizlemeyle birebir aynı olur.</div>
 </aside>
 
 <main id="preview"></main>
@@ -317,18 +330,29 @@ ol.notes .nno{display:inline-block;min-width:6.5mm;font-weight:800;color:var(--n
  </div>
 </div>
 
+<div id="reportpage"></div>
+<div id="viewbar">
+ <button onclick="window.print()">&#128424; PDF Oluştur</button>
+ <button onclick="poolOpen()">&#128194; Tekliflerim</button>
+ <button onclick="exitView()">&#9998; Teklifi Düzenle</button>
+</div>
+
 <div id="poolmodal" onclick="if(event.target===this)poolClose()">
- <div class="lm">
+ <div class="lm" style="width:97vw;max-width:97vw;height:94vh;max-height:94vh;display:flex;flex-direction:column">
   <h3>&#128194; Tekliflerim &amp; Raporlar</h3>
   <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
    <select id="pf_yil" onchange="poolRender()"></select>
    <select id="pf_ulke" onchange="poolRender()"></select>
    <select id="pf_firma" onchange="poolRender()"></select>
+   <select id="pf_proje" onchange="poolRender()"></select>
    <select id="pf_durum" onchange="poolRender()"></select>
   </div>
   <div id="pool_sum"></div>
-  <div style="max-height:46vh;overflow:auto"><table class="doc" id="pool_tbl" style="font-size:11px"></table></div>
-  <div class="lmbtns" style="margin-top:10px"><button onclick="poolClose()">Kapat</button></div>
+  <div style="flex:1 1 auto;min-height:0;overflow:auto;border:1px solid #e2e5ee;border-radius:6px"><table class="doc" id="pool_tbl" style="font-size:11.5px"></table></div>
+  <div class="lmbtns" style="margin-top:10px">
+   <button class="pri" onclick="poolReport()">&#128424; Rapor Al (PDF)</button>
+   <button onclick="poolClose()">Kapat</button>
+  </div>
  </div>
 </div>
 
@@ -1295,11 +1319,34 @@ async function poolSave(){
 async function poolOpen(){
  if(!SB_TOKEN)return loginOpen();
  try{
-  POOL=await sbReq('/rest/v1/teklifler?select=id,proje_no,firma,ulke,para_birimi,toplam,durum,tarih,is_adi,version&order=tarih.desc,created_at.desc')||[];
+  POOL=await sbReq('/rest/v1/teklifler?select=id,proje_no,firma,yetkili,ulke,lokasyon,dil,para_birimi,toplam,durum,tarih,is_adi,version,updated_at&order=tarih.desc,created_at.desc')||[];
   poolFillFilters();poolRender();document.getElementById('poolmodal').style.display='flex';
  }catch(e){alert('Havuz a\u00e7\u0131lamad\u0131: '+e.message)}
 }
 function poolClose(){document.getElementById('poolmodal').style.display='none'}
+function enterView(){document.body.classList.add('viewmode');window.scrollTo(0,0)}
+function exitView(){document.body.classList.remove('viewmode')}
+function poolReport(){
+ const rows=poolFiltered();
+ if(!rows.length)return alert('Filtreye uyan teklif yok.');
+ const secim=[val('pf_yil'),val('pf_ulke'),val('pf_firma'),val('pf_proje'),val('pf_durum')].filter(x=>x&&!x.startsWith('T\u00fcm')).join(' \u00b7 ')||'T\u00fcm Teklifler';
+ const byCur={},byDur={};
+ rows.forEach(r=>{byCur[r.para_birimi]=(byCur[r.para_birimi]||0)+(+r.toplam||0);byDur[r.durum]=(byDur[r.durum]||0)+1});
+ const trs=rows.map((r,i)=>`<tr><td class="num">${i+1}</td><td>${(r.tarih||'').split('-').reverse().join('.')}</td><td>${esc(r.proje_no)}</td><td>${esc(r.firma)}</td><td>${esc(r.is_adi)}</td><td>${esc(r.lokasyon||'')}</td><td>${esc(r.ulke)}</td><td class="money">${moneyC(r.para_birimi,r.toplam)}</td><td>${r.durum}</td></tr>`).join('');
+ document.getElementById('reportpage').innerHTML=`<div class="rpage">
+  <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1mm solid var(--navy);padding-bottom:3mm;margin-bottom:5mm">
+   <img src="${LOGO}" style="height:13mm">
+   <div style="text-align:right"><div style="font-size:15pt;font-weight:900;color:var(--navy)">TEKL\u0130F RAPORU</div>
+   <div style="font-size:9pt;color:var(--gray)">${esc(secim)} \u2014 ${new Date().toLocaleDateString('tr-TR')}</div></div>
+  </div>
+  <table class="doc" style="font-size:9pt"><thead><tr><th class="num">#</th><th>Tarih</th><th>Proje No</th><th>Firma</th><th>\u0130\u015f</th><th>Lokasyon</th><th>\u00dclke</th><th class="num">Tutar</th><th>Durum</th></tr></thead><tbody>${trs}</tbody></table>
+  <div style="margin-top:6mm;font-size:10.5pt;color:var(--navy)"><b>Toplam ${rows.length} teklif</b> \u00b7 ${Object.entries(byCur).map(([c,n])=>moneyC(c,n)).join(' + ')||'\u2014'} \u00b7 ${Object.entries(byDur).map(([k,v])=>k+': '+v).join(' \u00b7 ')}</div>
+ </div>`;
+ document.body.classList.add('repmode');
+ poolClose();
+ setTimeout(()=>window.print(),150);
+}
+window.addEventListener('afterprint',()=>document.body.classList.remove('repmode'));
 function uniqv(a){return [...new Set(a.filter(x=>x))].sort()}
 function fillSel(id,arr){
  const sl=document.getElementById(id);const cur=sl.value;
@@ -1310,14 +1357,16 @@ function poolFillFilters(){
  fillSel('pf_yil',['T\u00fcm Y\u0131llar',...uniqv(POOL.map(r=>(r.tarih||'').slice(0,4)))]);
  fillSel('pf_ulke',['T\u00fcm \u00dclkeler',...uniqv(POOL.map(r=>r.ulke))]);
  fillSel('pf_firma',['T\u00fcm Firmalar',...uniqv(POOL.map(r=>r.firma))]);
+ fillSel('pf_proje',['T\u00fcm Projeler',...uniqv(POOL.map(r=>r.proje_no))]);
  fillSel('pf_durum',['T\u00fcm Durumlar','verildi','revize','kazan\u0131ld\u0131','kaybedildi','iptal']);
 }
 function poolFiltered(){
- const y=val('pf_yil'),u=val('pf_ulke'),f=val('pf_firma'),d=val('pf_durum');
+ const y=val('pf_yil'),u=val('pf_ulke'),f=val('pf_firma'),pj=val('pf_proje'),d=val('pf_durum');
  return POOL.filter(r=>
   (y.startsWith('T\u00fcm')||(r.tarih||'').slice(0,4)===y)&&
   (u.startsWith('T\u00fcm')||r.ulke===u)&&
   (f.startsWith('T\u00fcm')||r.firma===f)&&
+  (pj.startsWith('T\u00fcm')||r.proje_no===pj)&&
   (d.startsWith('T\u00fcm')||r.durum===d));
 }
 function moneyC(c,n){return (c||'')+(+n||0).toLocaleString('tr-TR',{maximumFractionDigits:0})}
@@ -1338,13 +1387,14 @@ function poolRender(){
   `<div class="pool-sum"><span>Firmalar: ${Object.entries(byFirma).sort((a,b)=>b[1]-a[1]).slice(0,8).map(([k,v])=>`${esc(k)} <b>${v}</b>`).join(' \u00b7 ')||'\u2014'}</span></div>`;
  const durs=['verildi','revize','kazan\u0131ld\u0131','kaybedildi','iptal'];
  document.getElementById('pool_tbl').innerHTML=
-  `<thead><tr><th>Tarih</th><th>Proje No</th><th>Firma</th><th>\u0130\u015f</th><th>\u00dclke</th><th class="num">Tutar</th><th>Durum</th><th class="num">v</th><th></th></tr></thead><tbody>`+
+  `<thead><tr><th>Tarih</th><th>Proje No</th><th>Firma</th><th>Yetkili</th><th>\u0130\u015f</th><th>Lokasyon</th><th>\u00dclke</th><th>Dil</th><th class="num">Tutar</th><th>Durum</th><th class="num">v</th><th>G\u00fcncelleme</th><th></th></tr></thead><tbody>`+
   rows.map(r=>`<tr>
    <td>${(r.tarih||'').split('-').reverse().join('.')}</td>
-   <td>${esc(r.proje_no)}</td><td>${esc(r.firma)}</td><td>${esc(r.is_adi)}</td><td>${esc(r.ulke)}</td>
+   <td>${esc(r.proje_no)}</td><td>${esc(r.firma)}</td><td>${esc(r.yetkili||'')}</td><td>${esc(r.is_adi)}</td><td>${esc(r.lokasyon||'')}</td><td>${esc(r.ulke)}</td><td style="text-transform:uppercase">${esc(r.dil||'')}</td>
    <td class="money">${moneyC(r.para_birimi,r.toplam)}</td>
    <td><select onchange="poolDurum('${r.id}',this.value)" style="font-size:11px;padding:2px">${durs.map(d=>`<option${d===r.durum?' selected':''}>${d}</option>`).join('')}</select></td>
    <td class="num">${r.version}</td>
+   <td>${(r.updated_at||'').slice(0,10).split('-').reverse().join('.')}</td>
    <td style="white-space:nowrap"><button class="addbtn" style="margin:0;padding:3px 8px" onclick="poolLoad('${r.id}')">A\u00e7</button> <button class="addbtn" style="margin:0;padding:3px 8px;background:#c0392b" onclick="poolDel('${r.id}')">Sil</button></td></tr>`).join('')+'</tbody>';
 }
 async function poolDurum(id,v){
@@ -1370,7 +1420,7 @@ async function poolLoad(id){
   S.noteSel=Array.isArray(j[0].data.noteSel)?j[0].data.noteSel:null;
   S.notesEk=(j[0].data.notesEk&&typeof j[0].data.notesEk==='object')?j[0].data.notesEk:{};
   S.noteTxt=(j[0].data.noteTxt&&typeof j[0].data.noteTxt==='object')?j[0].data.noteTxt:{};
-  POOL_ID=id;POOL_PN=S.projeno||'';syncEditor();render();poolClose();sbUI();
+  POOL_ID=id;POOL_PN=S.projeno||'';syncEditor();render();poolClose();sbUI();enterView();
  }catch(e){alert('Y\u00fcklenemedi: '+e.message)}
 }
 sbUI();
