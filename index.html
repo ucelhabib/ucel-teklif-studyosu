@@ -955,6 +955,31 @@ function syncEditor(){
 function addItem(t){ (t===1?S.items1:S.items2).push({d:'',q:'',u:t===1?'kg':'Adet',p:''});syncEditor();render() }
 function addRef(){ S.refs.push({n:'',y:'',t:''});syncEditor();render() }
 /* compress uploaded images (max 2400px, JPEG .9) - yuksek cozunurluk */
+/* beyaz kenar bosluklarini otomatik kirp (CAD/Tekla ekran goruntuleri icin) */
+function trimWhite(cv){
+ try{
+  const ctx=cv.getContext('2d'),w=cv.width,h=cv.height;
+  const d=ctx.getImageData(0,0,w,h).data;
+  const bg=i=>d[i]>238&&d[i+1]>238&&d[i+2]>238;
+  const rowBg=y=>{for(let x=0;x<w;x+=2){if(!bg((y*w+x)*4))return false}return true};
+  const colBg=x=>{for(let y=0;y<h;y+=2){if(!bg((y*w+x)*4))return false}return true};
+  let top=0,bot=h-1,left=0,right=w-1;
+  while(top<bot&&rowBg(top))top++;
+  while(bot>top&&rowBg(bot))bot--;
+  while(left<right&&colBg(left))left++;
+  while(right>left&&colBg(right))right--;
+  const pad=Math.round(Math.max(w,h)*0.015);
+  left=Math.max(0,left-pad);top=Math.max(0,top-pad);
+  right=Math.min(w-1,right+pad);bot=Math.min(h-1,bot+pad);
+  const nw=right-left+1,nh=bot-top+1;
+  if((nw<w*0.98||nh<h*0.98)&&nw>40&&nh>40){
+   const c2=document.createElement('canvas');c2.width=nw;c2.height=nh;
+   c2.getContext('2d').drawImage(cv,left,top,nw,nh,0,0,nw,nh);
+   return c2;
+  }
+ }catch(e){}
+ return cv;
+}
 /* otomatik iyilestirme: kontrast esitleme + hafif canlilik + netlestirme */
 function enhanceCanvas(cv){
  try{
@@ -1011,8 +1036,9 @@ function shrink(file,cb){
    const cv=document.createElement('canvas');
    cv.width=Math.round(im.width*k);cv.height=Math.round(im.height*k);
    cv.getContext('2d').drawImage(im,0,0,cv.width,cv.height);
-   enhanceCanvas(cv);
-   cb(cv.toDataURL('image/jpeg',.9));
+   const cvT=trimWhite(cv);
+   enhanceCanvas(cvT);
+   cb(cvT.toDataURL('image/jpeg',.9));
   };
   im.src=e.target.result;
  };
