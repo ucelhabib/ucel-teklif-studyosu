@@ -144,12 +144,12 @@ ol.notes .nno{display:inline-block;min-width:6.5mm;font-weight:800;color:var(--n
 /* cover: 1 or 2 images */
 .covergrid{display:grid;grid-template-columns:1fr;gap:3mm;margin:4mm auto 0;max-width:186mm}
 .covergrid figure{border:1px solid #d8dbe6;border-radius:2mm;overflow:hidden;margin:0;height:118mm}
-.covergrid.two figure{height:74mm}
+.covergrid.two figure{height:92mm}
 .covergrid.sidebyside{grid-template-columns:1fr 1fr}
 .covergrid.sidebyside figure{height:118mm}
 .covergrid.tekdikey{max-width:118mm}
 .covergrid.tekdikey figure{height:145mm}
-.covergrid img{width:100%;height:100%;object-fit:cover;display:block}
+.covergrid img{width:100%;height:100%;object-fit:contain;background:#fff;display:block}
 .coverthumbs{display:flex;gap:6px;margin-top:6px}
 .coverthumbs .bt{position:relative;border:1px solid #d5d9e4;border-radius:5px;padding:2px}
 .coverthumbs .bt img{height:38px;width:60px;object-fit:cover;display:block;border-radius:3px}
@@ -790,6 +790,7 @@ const NOTES_DEF=[
  {tr:'Civatalar, 8.8 kalite ve galvanizli olarak hesaplanmıştır.',en:'Bolts are grade 8.8, galvanized.',ar:'البراغي درجة 8.8 ومجلفنة.',ru:'Болты класса 8.8, оцинкованные.',uz:'Boltlar 8.8 sinf, galvanizlangan.',fr:'Boulons de classe 8.8, galvanisés.',pt:'Parafusos classe 8.8, galvanizados.'},
  {tr:'Döşemeler 3/4 mm baklavalı sac ile kaplanacaktır.',en:'Floors will be covered with 3/4 mm chequered steel plate.',ar:'تُغطى الأرضيات بصاج شطرنجي بسماكة 3/4 مم.',ru:'Полы покрываются рифлёным листом 3/4 мм.',uz:'Pollar 3/4 mm gofrirlangan (baklava) tunuka bilan qoplanadi.',fr:'Les planchers seront recouverts de tôle larmée de 3/4 mm.',pt:'Os pavimentos serão revestidos com chapa xadrez de 3/4 mm.'},
  {tr:'Döşemeler 12 cm BETONARME KOMPOZİT DÖŞEME uygulaması yapılacaktır.',en:'Floors: 12 cm reinforced-concrete composite slab will be applied.',ar:'الأرضيات: تُنفذ بلاطة مركبة من الخرسانة المسلحة بسماكة 12 سم.',ru:'Полы: выполняется железобетонная композитная плита 12 см.',uz:'Pollar: 12 sm temir-beton kompozit plita bajariladi.',fr:'Planchers : dalle mixte en béton armé de 12 cm.',pt:'Pavimentos: laje mista de betão armado de 12 cm.'},
+ {tr:'Betonarme kompozit döşemede kullanılacak stud kaması, çivisi ve hasır çelik malzeme dahil değildir.',en:'Shear studs, stud nails and steel mesh to be used in the reinforced-concrete composite slab are not included.',ar:'أوتاد القص (stud) ومساميرها وشبك الحديد المستخدمة في البلاطة المركبة من الخرسانة المسلحة غير مشمولة.',ru:'Упоры (стад-болты), их гвозди и арматурная сетка для железобетонной композитной плиты не включены.',uz:"Temir-beton kompozit plitada ishlatiladigan stud qoziqlari, mixlari va sim to'r narxga kirmaydi.",fr:'Les goujons (studs), leurs clous et le treillis soudé utilisés dans la dalle mixte en béton armé ne sont pas inclus.',pt:'Os conectores (studs), respetivos pregos e a malha de aço utilizados na laje mista de betão armado não estão incluídos.'},
  {tr:'Betonarme temel ve beton içinde kalacak malzemeler (ankraj tiji, somunu, pulu ve şablon plakası) müşteriye aittir.',en:"Concrete foundations and embedded items (anchor bolts, nuts, washers and template plates) are on the customer's account.",ar:'الأساسات الخرسانية والعناصر المدفونة (قضبان التثبيت والصواميل والحلقات وصفائح القالب) على عاتق العميل.',ru:'Железобетонные фундаменты и закладные элементы (анкерные болты, гайки, шайбы, шаблонные пластины) — за счёт заказчика.',uz:'Temir-beton poydevor va beton ichida qoladigan elementlar (anker boltlari, gaykalar, shaybalar, shablon plitalari) buyurtmachi zimmasida.',fr:'Les fondations en béton et les éléments noyés (tiges d’ancrage, écrous, rondelles, gabarits) sont à la charge du client.',pt:'As fundações de betão e os elementos embebidos (chumbadouros, porcas, anilhas e gabaritos) são por conta do cliente.'},
  {tr:'Kapı ve pencereler GENÇ DEĞİRMEN tarafından temin edilecektir. Bilgilendirme amaçlıdır.',en:'Doors and windows will be supplied by GENÇ DEĞİRMEN. For information only.',ar:'الأبواب والنوافذ تورد من قبل GENÇ DEĞİRMEN. للعلم فقط.',ru:'Двери и окна поставляются компанией GENÇ DEĞİRMEN. Для информации.',uz:"Eshik va derazalar GENÇ DEĞİRMEN tomonidan yetkaziladi. Ma'lumot uchun.",fr:'Les portes et fenêtres seront fournies par GENÇ DEĞİRMEN. À titre informatif.',pt:'As portas e janelas serão fornecidas pela GENÇ DEĞİRMEN. A título informativo.'},
  {tr:'Montaj araçları (vinç, sepet, manlift vb.), sevkiyat ve konaklama müşteriye aittir.',en:"Erection equipment (crane, basket, manlift etc.), shipment and accommodation are on the customer's account.",ar:'معدات التركيب (رافعة، سلة، منصة رفع وغيرها) والشحن والإقامة على عاتق العميل.',ru:'Монтажная техника (кран, люлька, подъёмник и т.п.), доставка и проживание — за счёт заказчика.',uz:'Montaj texnikasi (kran, savat, manlift va h.k.), yetkazib berish va yashash buyurtmachi zimmasida.',fr:'Les moyens de montage (grue, nacelle, manlift, etc.), le transport et l’hébergement sont à la charge du client.',pt:'Os meios de montagem (grua, cesto, manlift, etc.), o transporte e o alojamento são por conta do cliente.'},
@@ -814,7 +815,7 @@ let S={lang:'tr',curr:'$',projeno:'',tarih:today,firma:'',yetkili:'',isadi:'',is
  brands:DEFAULT_BRANDS.slice(),details:[],
  intro:{},notes:{},notesEk:{},noteSel:null,noteTxt:{},trx:{}};
 /* varsayilan secimler: 120 mikron (4) ve betonarme (8) alternatifleri kapali baslar */
-if(!Array.isArray(S.noteSel))S.noteSel=NOTES_DEF.map((_,i)=>i!==3&&i!==7);
+if(!Array.isArray(S.noteSel))S.noteSel=NOTES_DEF.map((_,i)=>i!==3&&i!==7&&i!==8);
 
 /* ================= HELPERS ================= */
 function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
@@ -1645,6 +1646,7 @@ async function poolLoad(id){
   if(!j||!j[0])return alert('Kay\u0131t bulunamad\u0131');
   S=Object.assign(S,j[0].data);if(!Array.isArray(S.covers))S.covers=[];
   S.noteSel=Array.isArray(j[0].data.noteSel)?j[0].data.noteSel:null;
+  if(S.noteSel&&S.noteSel.length===24)S.noteSel.splice(8,0,false); /* stud maddesi sonradan eklendi */
   S.notesEk=(j[0].data.notesEk&&typeof j[0].data.notesEk==='object')?j[0].data.notesEk:{};
   S.noteTxt=(j[0].data.noteTxt&&typeof j[0].data.noteTxt==='object')?j[0].data.noteTxt:{};
   S.trx=(j[0].data.trx&&typeof j[0].data.trx==='object')?j[0].data.trx:{};
