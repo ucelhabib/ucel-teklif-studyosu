@@ -190,6 +190,15 @@ body.viewmode #viewbar{display:flex}
 /* rapor sayfasi */
 #reportpage{display:none}
 .rpage{width:210mm;min-height:296mm;background:#fff;padding:12mm 10mm}
+/* arsiv gorunumu */
+.pcards{display:flex;gap:10px;flex-wrap:wrap;margin:4px 0 10px}
+.pcard{flex:1;min-width:118px;background:#f5f8ff;border:1px solid #dfe6f3;border-radius:10px;padding:8px 12px}
+.pcard .pk{font-size:10.5px;color:var(--gray);font-weight:700;text-transform:uppercase;letter-spacing:.3px}
+.pcard .pv{font-size:17px;font-weight:900;color:var(--navy);margin-top:2px;white-space:nowrap}
+.pcard .ps{font-size:10.5px;color:var(--gray)}
+.pcard.win .pv{color:#2e8b57}.pcard.lose .pv{color:#c0392b}
+#pool_tbl thead th{position:sticky;top:0;z-index:1;cursor:pointer;user-select:none}
+#pool_tbl tbody tr:hover td{background:#e8f0ff!important}
 /* ---------- MOBIL (telefon/tablet) ---------- */
 @media (max-width:900px){
  #app{display:block}
@@ -310,7 +319,10 @@ body.viewmode #viewbar{display:flex}
     <div class="hint">İşaretli maddeler PDF'te görünür; metinler tüm dillere otomatik çevrilidir. Konteyner/TIR adetleri tonajdan otomatik hesaplanır.</div>
   </fieldset>
 
-  <button class="printbtn" onclick="window.print()">&#128424; PDF Oluştur / Yazdır</button>
+  <div style="display:flex;gap:8px">
+    <button class="printbtn" style="flex:1;width:auto" onclick="window.print()">&#128424; PDF Oluştur / Yazdır</button>
+    <button class="printbtn" style="flex:1;width:auto" onclick="poolSave()">&#128190; Kaydet</button>
+  </div>
   <div class="hint"><b>PDF ayarları:</b> Hedef = "PDF olarak kaydet" &middot; Kenar boşlukları = <b>Yok</b> &middot; Ölçek = <b>100</b> &middot; "Arka plan grafikleri" <b>işaretli</b> olsun — çıktı önizlemeyle birebir aynı olur.</div>
 </aside>
 
@@ -346,6 +358,7 @@ body.viewmode #viewbar{display:flex}
    <select id="pf_firma" onchange="poolRender()"></select>
    <select id="pf_proje" onchange="poolRender()"></select>
    <select id="pf_durum" onchange="poolRender()"></select>
+   <input type="text" id="pf_ara" placeholder="&#128269; Ara: proje no, firma, iş..." oninput="poolRender()" style="flex:1;min-width:170px;width:auto">
   </div>
   <div id="pool_sum"></div>
   <div style="flex:1 1 auto;min-height:0;overflow:auto;border:1px solid #e2e5ee;border-radius:6px"><table class="doc" id="pool_tbl" style="font-size:11.5px"></table></div>
@@ -1370,29 +1383,49 @@ function poolFiltered(){
   (d.startsWith('T\u00fcm')||r.durum===d));
 }
 function moneyC(c,n){return (c||'')+(+n||0).toLocaleString('tr-TR',{maximumFractionDigits:0})}
+let POOL_SORT={k:'tarih',d:-1};
+function poolSort(k){
+ if(POOL_SORT.k===k)POOL_SORT.d*=-1;
+ else POOL_SORT={k:k,d:(k==='tarih'||k==='updated_at'||k==='toplam')?-1:1};
+ poolRender();
+}
+const DURCLR={'verildi':'#3D67AB','revize':'#F47936','kazan\u0131ld\u0131':'#2e8b57','kaybedildi':'#c0392b','iptal':'#7a7f8a'};
 function poolRender(){
- const rows=poolFiltered();
- const byCur={},byUlke={},byFirma={},byDurum={};
+ let rows=poolFiltered();
+ const q=trLow(val('pf_ara')||'');
+ if(q)rows=rows.filter(r=>trLow([r.proje_no,r.firma,r.yetkili,r.is_adi,r.lokasyon,r.ulke].join(' ')).includes(q));
+ rows=rows.slice().sort((a,b)=>{
+  let x=a[POOL_SORT.k],y=b[POOL_SORT.k];
+  if(POOL_SORT.k==='toplam')return POOL_SORT.d*((+x||0)-(+y||0));
+  return POOL_SORT.d*String(x||'').localeCompare(String(y||''),'tr');
+ });
+ /* ozet kartlari */
+ const byCur={},kzC={},kbC={};
+ let kz=0,kb=0,ac=0;
  rows.forEach(r=>{
   byCur[r.para_birimi]=(byCur[r.para_birimi]||0)+(+r.toplam||0);
-  byUlke[r.ulke||'\u2014']=(byUlke[r.ulke||'\u2014']||0)+1;
-  byFirma[r.firma||'\u2014']=(byFirma[r.firma||'\u2014']||0)+1;
-  byDurum[r.durum]=(byDurum[r.durum]||0)+1;
+  if(r.durum==='kazan\u0131ld\u0131'){kz++;kzC[r.para_birimi]=(kzC[r.para_birimi]||0)+(+r.toplam||0)}
+  else if(r.durum==='kaybedildi')kb++;
+  else if(r.durum==='verildi'||r.durum==='revize')ac++;
  });
- const sumTxt=Object.entries(byCur).map(([c,n])=>`<b>${moneyC(c,n)}</b>`).join(' + ')||'\u2014';
- document.getElementById('pool_sum').innerHTML=
-  `<div class="pool-sum"><span>Teklif: <b>${rows.length}</b></span><span>Toplam: ${sumTxt}</span>`+
-  `<span>${Object.entries(byDurum).map(([k,v])=>`${k} <b>${v}</b>`).join(' \u00b7 ')}</span></div>`+
-  `<div class="pool-sum"><span>\u00dclkeler: ${Object.entries(byUlke).sort((a,b)=>b[1]-a[1]).slice(0,8).map(([k,v])=>`${esc(k)} <b>${v}</b>`).join(' \u00b7 ')||'\u2014'}</span></div>`+
-  `<div class="pool-sum"><span>Firmalar: ${Object.entries(byFirma).sort((a,b)=>b[1]-a[1]).slice(0,8).map(([k,v])=>`${esc(k)} <b>${v}</b>`).join(' \u00b7 ')||'\u2014'}</span></div>`;
+ const cur=o=>Object.entries(o).map(([c,n])=>moneyC(c,n)).join(' + ')||'\u2014';
+ const oran=(kz+kb)>0?Math.round(kz*100/(kz+kb)):null;
+ document.getElementById('pool_sum').innerHTML=`<div class="pcards">
+  <div class="pcard"><div class="pk">Teklif</div><div class="pv">${rows.length}</div><div class="ps">a\u00e7\u0131k: ${ac}</div></div>
+  <div class="pcard"><div class="pk">Toplam Tutar</div><div class="pv">${cur(byCur)}</div></div>
+  <div class="pcard win"><div class="pk">Kazan\u0131lan</div><div class="pv">${kz}</div><div class="ps">${cur(kzC)}</div></div>
+  <div class="pcard lose"><div class="pk">Kaybedilen</div><div class="pv">${kb}</div></div>
+  <div class="pcard"><div class="pk">Ba\u015far\u0131 Oran\u0131</div><div class="pv">${oran===null?'\u2014':'%'+oran}</div><div class="ps">kazan\u0131lan / sonu\u00e7lanan</div></div>
+ </div>`;
  const durs=['verildi','revize','kazan\u0131ld\u0131','kaybedildi','iptal'];
+ const th=(k,l)=>`<th onclick="poolSort('${k}')">${l}${POOL_SORT.k===k?(POOL_SORT.d>0?' \u25b2':' \u25bc'):''}</th>`;
  document.getElementById('pool_tbl').innerHTML=
-  `<thead><tr><th>Tarih</th><th>Proje No</th><th>Firma</th><th>Yetkili</th><th>\u0130\u015f</th><th>Lokasyon</th><th>\u00dclke</th><th>Dil</th><th class="num">Tutar</th><th>Durum</th><th class="num">v</th><th>G\u00fcncelleme</th><th></th></tr></thead><tbody>`+
+  `<thead><tr>${th('tarih','Tarih')}${th('proje_no','Proje No')}${th('firma','Firma')}${th('yetkili','Yetkili')}${th('is_adi','\u0130\u015f')}${th('lokasyon','Lokasyon')}${th('ulke','\u00dclke')}${th('dil','Dil')}${th('toplam','Tutar')}${th('durum','Durum')}<th>v</th>${th('updated_at','G\u00fcncelleme')}<th></th></tr></thead><tbody>`+
   rows.map(r=>`<tr>
    <td>${(r.tarih||'').split('-').reverse().join('.')}</td>
-   <td>${esc(r.proje_no)}</td><td>${esc(r.firma)}</td><td>${esc(r.yetkili||'')}</td><td>${esc(r.is_adi)}</td><td>${esc(r.lokasyon||'')}</td><td>${esc(r.ulke)}</td><td style="text-transform:uppercase">${esc(r.dil||'')}</td>
-   <td class="money">${moneyC(r.para_birimi,r.toplam)}</td>
-   <td><select onchange="poolDurum('${r.id}',this.value)" style="font-size:11px;padding:2px">${durs.map(d=>`<option${d===r.durum?' selected':''}>${d}</option>`).join('')}</select></td>
+   <td><b>${esc(r.proje_no)}</b></td><td>${esc(r.firma)}</td><td>${esc(r.yetkili||'')}</td><td>${esc(r.is_adi)}</td><td>${esc(r.lokasyon||'')}</td><td>${esc(r.ulke)}</td><td style="text-transform:uppercase">${esc(r.dil||'')}</td>
+   <td class="money"><b>${moneyC(r.para_birimi,r.toplam)}</b></td>
+   <td><select onchange="poolDurum('${r.id}',this.value)" style="font-size:11px;padding:2px 4px;background:${DURCLR[r.durum]||'#888'};color:#fff;border:none;border-radius:5px;font-weight:700">${durs.map(d=>`<option${d===r.durum?' selected':''}>${d}</option>`).join('')}</select></td>
    <td class="num">${r.version}</td>
    <td>${(r.updated_at||'').slice(0,10).split('-').reverse().join('.')}</td>
    <td style="white-space:nowrap"><button class="addbtn" style="margin:0;padding:3px 8px" onclick="poolLoad('${r.id}')">A\u00e7</button> <button class="addbtn" style="margin:0;padding:3px 8px;background:#c0392b" onclick="poolDel('${r.id}')">Sil</button></td></tr>`).join('')+'</tbody>';
