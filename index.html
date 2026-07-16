@@ -145,6 +145,10 @@ ol.notes .nno{display:inline-block;min-width:6.5mm;font-weight:800;color:var(--n
 .covergrid{display:grid;grid-template-columns:1fr;gap:3mm;margin:4mm auto 0;max-width:186mm}
 .covergrid figure{border:1px solid #d8dbe6;border-radius:2mm;overflow:hidden;margin:0;height:118mm}
 .covergrid.two figure{height:74mm}
+.covergrid.sidebyside{grid-template-columns:1fr 1fr}
+.covergrid.sidebyside figure{height:118mm}
+.covergrid.tekdikey{max-width:118mm}
+.covergrid.tekdikey figure{height:145mm}
 .covergrid img{width:100%;height:100%;object-fit:cover;display:block}
 .coverthumbs{display:flex;gap:6px;margin-top:6px}
 .coverthumbs .bt{position:relative;border:1px solid #d5d9e4;border-radius:5px;padding:2px}
@@ -1229,6 +1233,18 @@ function noteGet(i){return (S.noteTxt&&S.noteTxt[i]&&S.noteTxt[i][S.lang])||NOTE
 function noteTxtSet(i,v){if(!S.noteTxt)S.noteTxt={};if(!S.noteTxt[i])S.noteTxt[i]={};S.noteTxt[i][S.lang]=v;renderSoon()}
 let _rT=null;
 function renderSoon(){clearTimeout(_rT);_rT=setTimeout(render,700)}
+function covOri(img){
+ try{
+  const f=img.closest('figure');if(!f)return;
+  f.dataset.ori=img.naturalWidth>=img.naturalHeight?'yatay':'dikey';
+  const g=img.closest('.covergrid');if(!g)return;
+  const figs=[...g.querySelectorAll('figure')];
+  if(!figs.every(x=>x.dataset.ori))return;
+  const dikey=figs.filter(x=>x.dataset.ori==='dikey').length;
+  g.classList.toggle('sidebyside',figs.length===2&&dikey===2);
+  g.classList.toggle('tekdikey',figs.length===1&&dikey===1);
+ }catch(e){}
+}
 function render(){
  const L=TR[S.lang];const dir=L.rtl?'rtl':'ltr';
  const firma=trTitle(S.firma),yetkili=trTitle(S.yetkili),isadi=trX('isadi',trDesc(trTitle(S.isadi),S.lang)),isyeri=trX('isyeri',trDesc(trTitle(S.isyeri),S.lang));
@@ -1255,7 +1271,7 @@ function render(){
     <div class="cproj">${esc(isadi)||'&nbsp;'}</div>
     <div class="ccust">${esc(firma)}${isyeri?' — '+esc(isyeri):''}</div>
    </div>
-   ${S.covers.length?`<div class="covergrid${S.covers.length===2?' two':''}">${S.covers.map(c=>`<figure><img src="${c}"></figure>`).join('')}</div>`:''}
+   ${S.covers.length?`<div class="covergrid${S.covers.length===2?' two':''}">${S.covers.map(c=>`<figure><img src="${c}" onload="covOri(this)"></figure>`).join('')}</div>`:''}
    <div class="covermeta">
     <div><div class="k">${L.projeno}</div><div class="v">${esc(S.projeno)||'—'}</div></div>
     <div><div class="k">${L.tarih}</div><div class="v">${fmtDate(S.tarih)}</div></div>
