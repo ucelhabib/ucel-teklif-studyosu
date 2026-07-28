@@ -1512,7 +1512,7 @@ async function poolSave(){
  if(!S.refs.some(r=>(r.n||'').trim())&&!confirm('Hat\u0131rlatma: Referans projeler bo\u015f. Teklife g\u00fc\u00e7 katar \u2014 referanss\u0131z kaydedilsin mi?'))return;
  if(POOL_ID&&POOL_PN!==null&&(S.projeno||'')!==POOL_PN)POOL_ID=null; /* farkli proje no = yeni teklif */
  if(POOL_ID&&!ADMINS.includes((SB_USER||'').toLowerCase()))return alert('Kay\u0131tl\u0131 teklif revize edilemez; Habib onay\u0131 gerekir. Onaylanan revize Habib hesab\u0131yla kaydedilir. Yeni teklif i\u00e7in Proje No de\u011fi\u015ftirin.');
- const rec={proje_no:S.projeno||'',firma:S.firma||'',yetkili:S.yetkili||'',is_adi:S.isadi||'',lokasyon:S.isyeri||'',ulke:detectUlke(S.isyeri),para_birimi:S.curr,dil:S.lang,tarih:S.tarih||null,toplam:grandTotal(),data:S};
+ const rec={proje_no:(S.projeno||'').trim(),firma:(S.firma||'').trim(),yetkili:(S.yetkili||'').trim(),is_adi:(S.isadi||'').trim(),lokasyon:(S.isyeri||'').trim(),ulke:detectUlke(S.isyeri),para_birimi:S.curr,dil:S.lang,tarih:S.tarih||null,toplam:grandTotal(),data:S};
  try{
   if(POOL_ID){
    await sbReq('/rest/v1/teklifler?id=eq.'+POOL_ID,{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify(rec)});
@@ -1555,7 +1555,12 @@ function poolReport(){
  setTimeout(()=>window.print(),150);
 }
 window.addEventListener('afterprint',()=>document.body.classList.remove('repmode'));
-function uniqv(a){return [...new Set(a.filter(x=>x))].sort()}
+function normT(x){return trLow(String(x||'').trim())}
+function uniqv(a){
+ const m=new Map();
+ a.forEach(x=>{const t=String(x||'').trim();if(!t)return;const k=trLow(t);if(!m.has(k))m.set(k,t)});
+ return [...m.values()].sort((x,y)=>x.localeCompare(y,'tr'));
+}
 function fillSel(id,arr){
  const sl=document.getElementById(id);const cur=sl.value;
  sl.innerHTML=arr.map(o=>`<option>${esc(o)}</option>`).join('');
@@ -1572,9 +1577,9 @@ function poolFiltered(){
  const y=val('pf_yil'),u=val('pf_ulke'),f=val('pf_firma'),pj=val('pf_proje'),d=val('pf_durum');
  return POOL.filter(r=>
   (y.startsWith('T\u00fcm')||(r.tarih||'').slice(0,4)===y)&&
-  (u.startsWith('T\u00fcm')||r.ulke===u)&&
-  (f.startsWith('T\u00fcm')||r.firma===f)&&
-  (pj.startsWith('T\u00fcm')||r.proje_no===pj)&&
+  (u.startsWith('T\u00fcm')||normT(r.ulke)===normT(u))&&
+  (f.startsWith('T\u00fcm')||normT(r.firma)===normT(f))&&
+  (pj.startsWith('T\u00fcm')||normT(r.proje_no)===normT(pj))&&
   (d.startsWith('T\u00fcm')||r.durum===d));
 }
 function moneyC(c,n){return (c||'')+(+n||0).toLocaleString('tr-TR',{maximumFractionDigits:0})}
