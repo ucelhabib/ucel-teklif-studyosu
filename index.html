@@ -1325,7 +1325,7 @@ function render(){
  const refRows=S.refs.filter(r=>r.n).map(r=>`<tr><td>${esc(trDesc(trTitle(r.n),S.lang))}</td><td class="num">${esc(trDesc(trTitle(r.y),S.lang))}</td><td class="num">${esc(r.t)}</td></tr>`).join('');
  const brandGrid=S.brands.length?`<h2 class="sec" style="margin-top:6mm">${L.reffirm}</h2>
    <div class="brandgrid">${S.brands.map(b=>`<img src="${b.src}" alt="${esc(b.name)}" title="${esc(b.name)}">`).join('')}</div>`:'';
- const worldBlock=`<div class="worldwrap">${worldSVG()}<div class="wcap">${L.world}</div></div>`;
+ const worldBlock=`<div class="worldwrap"><img src="${WORLD}" alt="world map"><div class="wcap">${L.world}</div></div>`;
  const p2=`<div class="page" dir="${dir}">
   ${pgHead(L)}
   <div class="pgbody">
