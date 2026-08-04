@@ -1,0 +1,348 @@
+
+/* ================= TRANSLATIONS ================= */
+const TR={
+ tr:{name:'Türkçe',rtl:0,title:'TEKLİF',formTitle:'TEKLİF FORMU',
+  slogan:'<b>güçlü yapıların</b> güçlü adı...',
+  firma:'FİRMA ADI',yetkili:'FİRMA YETKİLİSİ',isadi:'İŞİN ADI',isyeri:'LOKASYON',tarih:'TARİH',projeno:'PROJE NO',
+  no:'NO',malzeme:'MALZEME, ÜRÜN ADI',miktar:'MİKTAR',birim:'BİRİM',fiyat:'FİYAT',tutar:'TUTAR',
+  toplam:'TOPLAM',toplamkap:'TOPLAM KAPLAMA',genel:'GENEL TOPLAM',
+  notlar:'NOTLAR VE ŞARTLAR',veren:'TEKLİF VEREN',onay:'MÜŞTERİ ONAYI',ad:'Adı-Soyadı',imza:'İmza',
+  tanitim:'FİRMA TANITIMI',referans:'REFERANS PROJELER',reffirm:'REFERANS FİRMALAR',yapidet:'YAPI DETAYLARI',fiyatlar:'FİYAT TEKLİFİ',
+  rproje:'PROJE',ryer:'YER / ÜLKE',rton:'TONAJ / KAPSAM',
+  hazirlayan:'Teklif Dili',sayfa:'Sayfa',tel:'Tel:',gsm:'GSM:',ep:'E-posta:',
+  world:"<span>GÜÇLÜ YAPILARIN</span> GÜÇLÜ ADI...",qr:'',
+  shipT:'Sevkiyat için yaklaşık {n} adet TIR ihtiyaç olacaktır.',
+  shipC:"Sevkiyat için yaklaşık {n} adet 40'lık OPEN TOP konteyner ihtiyaç olacaktır.",
+  intro:`ÜÇEL Yapısal Çelik, çelik yapı ve çelik konstrüksiyon alanındaki uzun yıllara dayanan tecrübesiyle sektörde güçlü bir konuma sahiptir. Konya merkezli üretim tesislerimiz ile İstanbul ve Azerbaycan ofislerimiz üzerinden yurt içi ve yurt dışında endüstriyel tesisler, fabrika binaları, silolar, depolar ve her ölçekte çelik yapı projesini anahtar teslim gerçekleştirmekteyiz.
+
+Projelerimizin her aşamasında müşteri odaklı yaklaşımımızla güvenilir ve kaliteli çözümler sunuyoruz. Mühendislik, imalat ve montaj süreçlerimiz CE, ISO 9001:2015 ve ISO 3834-2 (TÜV Austria) sertifikaları ile belgelendirilmiş kalite yönetim sistemlerimiz güvencesindedir.
+
+Yenilikçi teknolojiler ve uzman kadromuzla, projelendirmeden montaja kadar tüm süreçleri kendi bünyemizde yürütüyor; zamanında teslimat ve tam şeffaflık ilkesiyle çalışıyoruz.`,
+  notes:`Teklif opsiyon süresi 15 gündür.
+Tonaj teorik tonajdır. İş bitimi kantar kartelası baz alınacaktır. ± %10
+Boya kaplaması, RAL9002 renginde, 120 mikron kalınlığında, epoksi boya hesaplanmıştır.
+Bağlantı plakaları, S235/St37 olarak hesaplanmıştır.
+Civatalar, 8.8 kalite ve galvanizli olarak hesaplanmıştır.
+Döşemeler 12cm BETONARME KOMPOZİT DÖŞEME uygulaması yapılacaktır.
+Betonarme temel ve beton içinde kalacak malzemeler (ankraj tiji, somunu, pulu ve şablon plakası) müşteriye aittir.
+Montaj için 1 adet supervizor görevlendirilecektir.
+Üçüncü parti kalite kontrol işlemleri fiyata dahil değildir.
+Sevkiyat için ...... adet 40'lık OPEN TOP konteyner ihtiyaç olacaktır.
+Sözleşme itibariyle 90 işgünü içinde sevkiyata hazır olacaktır.
+Şantiye montaja uygun hale geldikten sonra 120 işgünü içinde montaj tamamlanacaktır.
+TL ödemelerinde ödeme tarihindeki "TCMB EFEKTİF SATIŞ KURU" dikkate alınacaktır.
+İhraç kayıtlı fatura edilebilir.
+Toplam tutar KDV hariç tutardır.
+Ödeme planı; %... sözleşme esnasında, %... sevkiyat öncesi, %... kısmı ise montaj sonunda yapılacaktır.
+Diğer detaylar sözleşmede yer alacaktır.`},
+ en:{name:'English',rtl:0,title:'QUOTATION',formTitle:'QUOTATION FORM',
+  slogan:'<b>the strong name of</b> strong structures...',
+  firma:'COMPANY',yetkili:'CONTACT PERSON',isadi:'PROJECT NAME',isyeri:'LOCATION',tarih:'DATE',projeno:'PROJECT NO',
+  no:'NO',malzeme:'DESCRIPTION OF WORK / MATERIAL',miktar:'QTY',birim:'UNIT',fiyat:'UNIT PRICE',tutar:'AMOUNT',
+  toplam:'TOTAL',toplamkap:'TOTAL CLADDING',genel:'GRAND TOTAL',
+  notlar:'NOTES & TERMS',veren:'ISSUED BY',onay:'CUSTOMER APPROVAL',ad:'Name-Surname',imza:'Signature',
+  tanitim:'COMPANY PROFILE',referans:'REFERENCE PROJECTS',reffirm:'REFERENCE COMPANIES',yapidet:'STRUCTURE DETAILS',fiyatlar:'PRICE QUOTATION',
+  rproje:'PROJECT',ryer:'LOCATION / COUNTRY',rton:'TONNAGE / SCOPE',
+  hazirlayan:'Quotation Language',sayfa:'Page',tel:'Tel:',gsm:'Mobile:',ep:'E-mail:',
+  world:'<span>THE STRONG NAME OF</span> STRONG STRUCTURES...',qr:'',
+  shipT:'Approx. {n} trucks (TIR) will be required for shipment.',
+  shipC:"Approx. {n} units of 40' OPEN TOP containers will be required for shipment.",
+  intro:`UCEL Steel Construction holds a strong position in the industry with many years of experience in steel structures and steel construction. Through our production facilities based in Konya and our offices in Istanbul and Azerbaijan, we deliver turnkey industrial facilities, factory buildings, silos, warehouses and steel structure projects of every scale, both in Turkey and abroad.
+
+With our customer-focused approach we provide reliable, high-quality solutions at every stage of our projects. Our engineering, fabrication and erection processes are backed by certified quality management systems: CE, ISO 9001:2015 and ISO 3834-2 (TUV Austria).
+
+With innovative technologies and an expert team, we carry out all processes in-house — from design to erection — working on the principles of on-time delivery and full transparency.`,
+  notes:`This offer is valid for 15 days.
+Tonnage is theoretical; final weighbridge tickets shall apply. ± 10%
+Painting: epoxy paint, colour RAL9002, 120 micron DFT.
+Connection plates are calculated as S235/St37.
+Bolts are grade 8.8, galvanized.
+Floors: 12 cm reinforced concrete composite slab will be applied.
+R.C. foundations and embedded items (anchor rods, nuts, washers, template plates) are in customer's scope.
+One (1) erection supervisor will be assigned.
+Third-party quality control services are not included in the price.
+Approx. ...... units of 40' OPEN TOP containers will be required for shipment.
+Goods will be ready for shipment within 90 working days from contract date.
+Erection will be completed within 120 working days after the site becomes ready for erection.
+For payments in TL, the "CBRT EFFECTIVE SELLING RATE" on the payment date shall apply.
+Export-registered invoicing is possible.
+Total amount is exclusive of VAT.
+Payment plan: ...% upon contract, ...% before shipment, ...% upon completion of erection.
+All other details will be defined in the contract.`},
+ ar:{name:'العربية',rtl:1,title:'عرض سعر',formTitle:'نموذج عرض سعر',
+  slogan:'<b>الاسم القوي</b> للمنشآت القوية...',
+  firma:'اسم الشركة',yetkili:'الشخص المسؤول',isadi:'اسم المشروع',isyeri:'الموقع',tarih:'التاريخ',projeno:'رقم المشروع',
+  no:'رقم',malzeme:'وصف الأعمال / المواد',miktar:'الكمية',birim:'الوحدة',fiyat:'سعر الوحدة',tutar:'المبلغ',
+  toplam:'المجموع',toplamkap:'مجموع التغطية',genel:'المجموع الكلي',
+  notlar:'ملاحظات وشروط',veren:'مقدم العرض',onay:'موافقة العميل',ad:'الاسم واللقب',imza:'التوقيع',
+  tanitim:'نبذة عن الشركة',referans:'مشاريع مرجعية',reffirm:'شركات مرجعية',yapidet:'تفاصيل الهيكل',fiyatlar:'عرض الأسعار',
+  rproje:'المشروع',ryer:'الموقع / الدولة',rton:'الوزن / النطاق',
+  hazirlayan:'لغة العرض',sayfa:'صفحة',tel:'هاتف:',gsm:'جوال:',ep:'بريد إلكتروني:',
+  world:'<span>الاسم القوي</span> للمنشآت القوية...',qr:'',
+  shipT:'يتطلب الشحن حوالي {n} شاحنة (TIR).',
+  shipC:'يتطلب الشحن حوالي {n} حاوية 40 قدم OPEN TOP.',
+  intro:`تحتل شركة أوتشيل للإنشاءات الفولاذية (UCEL Steel Construction) مكانة قوية في القطاع بفضل خبرتها الطويلة في الهياكل الفولاذية والإنشاءات المعدنية. من خلال منشآتنا الإنتاجية في قونيا ومكاتبنا في إسطنبول وأذربيجان، ننفذ مشاريع تسليم مفتاح للمنشآت الصناعية ومباني المصانع والصوامع والمستودعات ومشاريع الهياكل الفولاذية بجميع الأحجام داخل تركيا وخارجها.
+
+بنهجنا الذي يركز على العميل نقدم حلولاً موثوقة وعالية الجودة في كل مرحلة من مراحل مشاريعنا. عمليات الهندسة والتصنيع والتركيب لدينا مدعومة بأنظمة إدارة جودة معتمدة: CE و ISO 9001:2015 و ISO 3834-2 (TUV Austria).
+
+بتقنياتنا المبتكرة وفريقنا المتخصص ننفذ جميع المراحل داخلياً — من التصميم إلى التركيب — ونعمل وفق مبدأ التسليم في الموعد والشفافية الكاملة.`,
+  notes:`مدة صلاحية العرض 15 يوماً.
+الوزن نظري؛ يعتمد الوزن النهائي على بطاقات الميزان. ± 10%
+الدهان: إيبوكسي بلون RAL9002 وسماكة 120 ميكرون.
+صفائح الربط محسوبة من فولاذ S235/St37.
+البراغي درجة 8.8 ومجلفنة.
+الأرضيات: سيتم تطبيق بلاطة مركبة من الخرسانة المسلحة بسماكة 12 سم.
+الأساسات الخرسانية والعناصر المدفونة (قضبان التثبيت والصواميل والحلقات وصفائح القالب) على عاتق العميل.
+سيتم تعيين مشرف واحد لأعمال التركيب.
+خدمات مراقبة الجودة من طرف ثالث غير مشمولة بالسعر.
+يتطلب الشحن ...... حاوية 40 قدم OPEN TOP.
+الجاهزية للشحن خلال 90 يوم عمل من تاريخ العقد.
+يكتمل التركيب خلال 120 يوم عمل بعد جاهزية الموقع.
+للمدفوعات بالليرة التركية يعتمد "سعر البيع الفعلي للبنك المركزي التركي" بتاريخ الدفع.
+يمكن إصدار فاتورة مسجلة للتصدير.
+المبلغ الإجمالي لا يشمل ضريبة القيمة المضافة.
+خطة الدفع: %... عند العقد، %... قبل الشحن، %... بعد انتهاء التركيب.
+تُحدد باقي التفاصيل في العقد.`},
+ ru:{name:'Русский',rtl:0,title:'КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ',formTitle:'КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ',
+  slogan:'<b>сильное имя</b> сильных конструкций...',
+  firma:'ФИРМА',yetkili:'ПРЕДСТАВИТЕЛЬ',isadi:'ПРОЕКТ',isyeri:'ЛОКАЦИЯ',tarih:'ДАТА',projeno:'№ ПРОЕКТА',
+  no:'№',malzeme:'НАИМЕНОВАНИЕ РАБОТ / МАТЕРИАЛОВ',miktar:'КОЛ-ВО',birim:'ЕД.',fiyat:'ЦЕНА',tutar:'СУММА',
+  toplam:'ИТОГО',toplamkap:'ИТОГО ОБШИВКА',genel:'ОБЩАЯ СУММА',
+  notlar:'ПРИМЕЧАНИЯ И УСЛОВИЯ',veren:'ОТ ИСПОЛНИТЕЛЯ',onay:'ПОДТВЕРЖДЕНИЕ ЗАКАЗЧИКА',ad:'Ф.И.О.',imza:'Подпись',
+  tanitim:'О КОМПАНИИ',referans:'РЕФЕРЕНС-ПРОЕКТЫ',reffirm:'РЕФЕРЕНС-КОМПАНИИ',yapidet:'ДЕТАЛИ КОНСТРУКЦИИ',fiyatlar:'ЦЕНОВОЕ ПРЕДЛОЖЕНИЕ',
+  rproje:'ПРОЕКТ',ryer:'МЕСТО / СТРАНА',rton:'ТОННАЖ / ОБЪЁМ',
+  hazirlayan:'Язык предложения',sayfa:'Стр.',tel:'Тел.:',gsm:'Моб.:',ep:'Эл. почта:',
+  world:'<span>СИЛЬНОЕ ИМЯ</span> СИЛЬНЫХ КОНСТРУКЦИЙ...',qr:'',
+  shipT:'Для отгрузки потребуется около {n} грузовиков (TIR).',
+  shipC:"Для отгрузки потребуется около {n} контейнеров 40' OPEN TOP.",
+  intro:`Компания UCEL Steel Construction занимает прочные позиции в отрасли благодаря многолетнему опыту в области стальных конструкций и металлостроительства. Через производственные мощности в Конье и офисы в Стамбуле и Азербайджане мы реализуем «под ключ» промышленные объекты, производственные здания, силосы, склады и стальные конструкции любого масштаба в Турции и за рубежом.
+
+Ориентируясь на клиента, мы предлагаем надёжные и качественные решения на каждом этапе проекта. Процессы проектирования, изготовления и монтажа подтверждены сертифицированными системами менеджмента качества: CE, ISO 9001:2015 и ISO 3834-2 (TUV Austria).
+
+Используя инновационные технологии и опыт нашей команды, мы выполняем все этапы собственными силами — от проектирования до монтажа — по принципам своевременной поставки и полной прозрачности.`,
+  notes:`Срок действия предложения — 15 дней.
+Тоннаж теоретический; окончательный расчёт — по данным весовой. ± 10%
+Окраска: эпоксидная краска RAL9002, толщина 120 мкм.
+Соединительные пластины рассчитаны из стали S235/St37.
+Болты — класс прочности 8.8, оцинкованные.
+Перекрытия: железобетонная композитная плита 12 см.
+Ж/б фундаменты и закладные детали (анкерные болты, гайки, шайбы, шаблонные пластины) — за счёт заказчика.
+Для монтажа будет назначен 1 супервайзер.
+Услуги стороннего контроля качества в цену не включены.
+Для отгрузки потребуется ...... контейнеров 40' OPEN TOP.
+Готовность к отгрузке — в течение 90 рабочих дней с даты контракта.
+Монтаж будет завершён в течение 120 рабочих дней после готовности площадки.
+При оплате в TL применяется «эффективный курс продажи ЦБ Турции» на дату платежа.
+Возможно выставление счёта с экспортной регистрацией.
+Общая сумма указана без НДС.
+План оплаты: ...% при контракте, ...% перед отгрузкой, ...% по завершении монтажа.
+Остальные условия — в контракте.`},
+ uz:{name:"O'zbekcha",rtl:0,title:"TAKLIF",formTitle:"TAKLIF SHAKLI",
+  slogan:"<b>mustahkam inshootlarning</b> mustahkam nomi...",
+  firma:"KOMPANIYA",yetkili:"MAS'UL SHAXS",isadi:"LOYIHA NOMI",isyeri:"JOYLASHUV",tarih:"SANA",projeno:"LOYIHA RAQAMI",
+  no:"№",malzeme:"ISHLAR / MATERIALLAR TAVSIFI",miktar:"MIQDOR",birim:"BIRLIK",fiyat:"NARX",tutar:"SUMMA",
+  toplam:"JAMI",toplamkap:"QOPLAMA JAMI",genel:"UMUMIY SUMMA",
+  notlar:"IZOHLAR VA SHARTLAR",veren:"TAKLIF BERUVCHI",onay:"BUYURTMACHI TASDIG'I",ad:"Familiya-Ism",imza:"Imzo",
+  tanitim:"KOMPANIYA HAQIDA",referans:"NAMUNAVIY LOYIHALAR",reffirm:"HAMKOR KOMPANIYALAR",yapidet:"KONSTRUKSIYA TAFSILOTLARI",fiyatlar:"NARX TAKLIFI",
+  rproje:"LOYIHA",ryer:"JOY / MAMLAKAT",rton:"TONNAJ / HAJM",
+  hazirlayan:"Taklif tili",sayfa:"Sahifa",tel:"Tel:",gsm:"Mob.:",ep:"E-mail:",
+  world:"<span>MUSTAHKAM INSHOOTLARNING</span> MUSTAHKAM NOMI...",qr:"",
+  shipT:"Yuk tashish uchun taxminan {n} dona TIR kerak bo'ladi.",
+  shipC:"Yuk tashish uchun taxminan {n} dona 40' OPEN TOP konteyner kerak bo'ladi.",
+  intro:`UCEL Steel Construction po'lat konstruksiyalar sohasidagi ko'p yillik tajribasi bilan tarmoqda mustahkam o'ringa ega. Konyadagi ishlab chiqarish quvvatlarimiz hamda Istanbul va Ozarbayjondagi ofislarimiz orqali Turkiyada va xorijda sanoat inshootlari, zavod binolari, siloslar, omborlar va har qanday hajmdagi po'lat konstruksiya loyihalarini "kalit topshirish" sharti bilan amalga oshiramiz.
+
+Mijozga yo'naltirilgan yondashuvimiz bilan loyihalarimizning har bir bosqichida ishonchli va sifatli yechimlar taklif etamiz. Muhandislik, ishlab chiqarish va montaj jarayonlarimiz CE, ISO 9001:2015 va ISO 3834-2 (TUV Austria) sertifikatlari bilan tasdiqlangan.
+
+Innovatsion texnologiyalar va tajribali jamoamiz bilan loyihalashdan montajgacha barcha bosqichlarni o'z kuchimiz bilan bajaramiz; o'z vaqtida yetkazib berish va to'liq shaffoflik tamoyillariga amal qilamiz.`,
+  notes:`Taklifning amal qilish muddati 15 kun.
+Tonnaj nazariy hisoblangan; yakuniy hisob tarozi ma'lumotlariga asoslanadi. ± 10%
+Bo'yoq: RAL9002 rangli, 120 mikron qalinlikdagi epoksid bo'yoq.
+Biriktirish plitalari S235/St37 po'latidan hisoblangan.
+Boltlar 8.8 sinf, galvanizlangan.
+Pollar: 12 sm temir-beton kompozit plita.
+Temir-beton poydevorlar va betonga ko'miladigan elementlar (anker boltlari, gaykalar, shaybalar, shablon plitalari) buyurtmachi zimmasida.
+Montaj uchun 1 nafar supervayzer tayinlanadi.
+Uchinchi tomon sifat nazorati xizmatlari narxga kirmaydi.
+Yuk tashish uchun ...... dona 40' OPEN TOP konteyner kerak bo'ladi.
+Shartnomadan boshlab 90 ish kuni ichida jo'natishga tayyor bo'ladi.
+Maydon montajga tayyor bo'lgach 120 ish kuni ichida montaj yakunlanadi.
+TL to'lovlarida to'lov kunidagi "TCMB EFFEKTIV SOTISH KURSI" qo'llaniladi.
+Eksport ro'yxatga olingan hisob-faktura berilishi mumkin.
+Umumiy summa QQSsiz (KDV kirmagan).
+To'lov rejasi: shartnomada %..., jo'natishdan oldin %..., montaj tugagach %... to'lanadi.
+Boshqa tafsilotlar shartnomada belgilanadi.`},
+ fr:{name:'Français',rtl:0,title:'OFFRE DE PRIX',formTitle:'OFFRE DE PRIX',
+  slogan:'<b>le nom fort</b> des structures solides...',
+  firma:'SOCIÉTÉ',yetkili:'CONTACT',isadi:'PROJET',isyeri:'LIEU',tarih:'DATE',projeno:'N° PROJET',
+  no:'N°',malzeme:'DÉSIGNATION DES TRAVAUX / MATÉRIAUX',miktar:'QTÉ',birim:'UNITÉ',fiyat:'PRIX UNIT.',tutar:'MONTANT',
+  toplam:'TOTAL',toplamkap:'TOTAL BARDAGE',genel:'TOTAL GÉNÉRAL',
+  notlar:'NOTES ET CONDITIONS',veren:'ÉMETTEUR DE L\u2019OFFRE',onay:'APPROBATION DU CLIENT',ad:'Nom-Prénom',imza:'Signature',
+  tanitim:'PRÉSENTATION DE LA SOCIÉTÉ',referans:'PROJETS DE RÉFÉRENCE',reffirm:'SOCIÉTÉS DE RÉFÉRENCE',yapidet:'DÉTAILS DE LA STRUCTURE',fiyatlar:'OFFRE DE PRIX',
+  rproje:'PROJET',ryer:'LIEU / PAYS',rton:'TONNAGE / PORTÉE',
+  hazirlayan:'Langue de l\u2019offre',sayfa:'Page',tel:'Tél :',gsm:'GSM :',ep:'E-mail :',
+  world:'<span>le nom fort</span> des structures solides...',qr:'',
+  shipT:'Environ {n} camions (TIR) seront nécessaires pour l\u2019expédition.',
+  shipC:"Environ {n} conteneurs 40' OPEN TOP seront nécessaires pour l\u2019expédition.",
+  intro:`Forte d\u2019une longue expérience dans les structures et constructions métalliques, ÜÇEL Yapısal Çelik occupe une position solide dans le secteur. Depuis nos usines de Konya et nos bureaux d\u2019Istanbul et d\u2019Azerbaïdjan, nous réalisons clé en main des installations industrielles, des bâtiments d\u2019usine, des silos, des entrepôts et des projets de charpente métallique de toute taille, en Turquie et à l\u2019étranger.
+
+À chaque étape de nos projets, notre approche centrée sur le client garantit des solutions fiables et de qualité. Nos processus d\u2019ingénierie, de fabrication et de montage sont certifiés CE, ISO 9001:2015 et ISO 3834-2 (TÜV Austria).
+
+Grâce à nos technologies innovantes et à notre équipe experte, nous menons l\u2019ensemble du processus en interne — de la conception au montage — avec une livraison ponctuelle et une transparence totale.`,
+  notes:``},
+ pt:{name:'Português',rtl:0,title:'PROPOSTA DE PREÇO',formTitle:'PROPOSTA DE PREÇO',
+  slogan:'<b>o nome forte</b> das estruturas sólidas...',
+  firma:'EMPRESA',yetkili:'CONTACTO',isadi:'PROJETO',isyeri:'LOCAL',tarih:'DATA',projeno:'N.º PROJETO',
+  no:'N.º',malzeme:'DESCRIÇÃO DOS TRABALHOS / MATERIAIS',miktar:'QTD.',birim:'UNID.',fiyat:'PREÇO UNIT.',tutar:'VALOR',
+  toplam:'TOTAL',toplamkap:'TOTAL REVESTIMENTO',genel:'TOTAL GERAL',
+  notlar:'NOTAS E CONDIÇÕES',veren:'EMISSOR DA PROPOSTA',onay:'APROVAÇÃO DO CLIENTE',ad:'Nome e apelido',imza:'Assinatura',
+  tanitim:'APRESENTAÇÃO DA EMPRESA',referans:'PROJETOS DE REFERÊNCIA',reffirm:'EMPRESAS DE REFERÊNCIA',yapidet:'DETALHES DA ESTRUTURA',fiyatlar:'PROPOSTA DE PREÇO',
+  rproje:'PROJETO',ryer:'LOCAL / PAÍS',rton:'TONELAGEM / ÂMBITO',
+  hazirlayan:'Idioma da proposta',sayfa:'Página',tel:'Tel.:',gsm:'GSM:',ep:'E-mail:',
+  world:'<span>o nome forte</span> das estruturas sólidas...',qr:'',
+  shipT:'Serão necessários cerca de {n} camiões (TIR) para o transporte.',
+  shipC:"Serão necessários cerca de {n} contentores 40' OPEN TOP para o transporte.",
+  intro:`Com uma longa experiência em estruturas e construções metálicas, a ÜÇEL Yapısal Çelik ocupa uma posição sólida no setor. A partir das nossas fábricas em Konya e dos escritórios de Istambul e do Azerbaijão, realizamos chave na mão instalações industriais, edifícios fabris, silos, armazéns e projetos de estruturas metálicas de todas as dimensões, na Turquia e no estrangeiro.
+
+Em cada fase dos nossos projetos, a nossa abordagem centrada no cliente garante soluções fiáveis e de qualidade. Os nossos processos de engenharia, fabrico e montagem são certificados CE, ISO 9001:2015 e ISO 3834-2 (TÜV Austria).
+
+Com tecnologias inovadoras e uma equipa especializada, conduzimos todo o processo internamente — do projeto à montagem — com entrega pontual e total transparência.`,
+  notes:``},
+};
+
+/* phrase dictionary: TR -> other langs (longest first at apply time) */
+const DICT={
+ 'Bölümü İmalat ve Montajı':{en:'Section Fabrication & Erection',ar:'قسم — تصنيع وتركيب',ru:'секция — изготовление и монтаж',uz:"bo'limi ishlab chiqarish va montaji"},
+ 'İmalat ve Montajı':{en:'Fabrication & Erection',ar:'تصنيع وتركيب',ru:'изготовление и монтаж',uz:"ishlab chiqarish va montaj"},
+ 'Temini ve Montajı':{en:'Supply & Installation',ar:'توريد وتركيب',ru:'поставка и монтаж',uz:"yetkazib berish va montaj"},
+ 'Kalınlığında':{en:'thickness',ar:'بسماكة',ru:'толщиной',uz:"qalinlikda"},
+ 'ÇELİK KONSTRÜKSİYON':{en:'STEEL STRUCTURE',ar:'الهيكل الفولاذي',ru:'МЕТАЛЛОКОНСТРУКЦИИ',uz:"PO'LAT KONSTRUKSIYA"},
+ 'CEPHE PANELİ':{en:'WALL CLADDING PANEL',ar:'لوح تغطية الواجهات',ru:'СТЕНОВЫЕ ПАНЕЛИ',uz:"DEVOR PANELI"},
+ 'ÇATI PANELİ':{en:'ROOF CLADDING PANEL',ar:'لوح تغطية الأسقف',ru:'КРОВЕЛЬНЫЕ ПАНЕЛИ',uz:"TOM PANELI"},
+ 'PVC PENCERE':{en:'PVC WINDOW',ar:'نافذة PVC',ru:'ОКНО ПВХ',uz:"PVX DERAZA"},
+ 'SARMALI KEPENK KAPI':{en:'ROLLER SHUTTER DOOR',ar:'باب ستارة دوارة',ru:'РУЛОННЫЕ ВОРОТА',uz:"RULONLI DARVOZA"},
+ 'KAPI':{en:'DOOR',ar:'باب',ru:'ДВЕРЬ',uz:"ESHIK"},
+ 'ÖĞÜTME':{en:'MILLING',ar:'الطحن',ru:'РАЗМОЛ',uz:"YANCHISH"},
+ 'PAKETLEME':{en:'PACKING',ar:'التعبئة',ru:'УПАКОВКА',uz:"QADOQLASH"},
+ 'TAV SİLO':{en:'TEMPERING SILO',ar:'صومعة الترطيب',ru:'СИЛОС ОТВОЛАЖИВАНИЯ',uz:"DAM BERISH SILOSI"},
+ 'UN SİLO':{en:'FLOUR SILO',ar:'صومعة الدقيق',ru:'МУЧНОЙ СИЛОС',uz:"UN SILOSI"},
+ 'KEPEK SİLO':{en:'BRAN SILO',ar:'صومعة النخالة',ru:'СИЛОС ОТРУБЕЙ',uz:"KEPAK SILOSI"},
+ 'ÇATI':{en:'ROOF',ar:'سقف',ru:'КРЫША',uz:"TOM"},
+ 'CEPHE':{en:'FACADE',ar:'واجهة',ru:'ФАСАД',uz:"FASAD"},
+ 'Adet':{en:'pcs',ar:'قطعة',ru:'шт',uz:"dona"},
+ 'Un Değirmeni':{en:'Flour Mill',ar:'مطحنة دقيق',ru:'Мукомольная мельница',uz:"Un tegirmoni"},
+ 'Değirmen Binası':{en:'Mill Building',ar:'مبنى المطحنة',ru:'Здание мельницы',uz:"Tegirmon binosi"},
+ 'Değirmen':{en:'Mill',ar:'مطحنة',ru:'Мельница',uz:"Tegirmon"},
+ 'Kapasiteli':{en:'Capacity',ar:'بسعة',ru:'производительностью',uz:"quvvatli"},
+ 'Ton/gün':{en:'t/day',ar:'طن/يوم',ru:'т/сутки',uz:"tonna/kun"},
+ 'Ton/Gün':{en:'t/day',ar:'طن/يوم',ru:'т/сутки',uz:"tonna/kun"},
+ 'Çelik Yapı':{en:'Steel Structure',ar:'منشأ فولاذي',ru:'Стальная конструкция',uz:"Po'lat inshoot"},
+ 'Fabrika Binası':{en:'Factory Building',ar:'مبنى مصنع',ru:'Здание завода',uz:"Zavod binosi"},
+ 'Binası':{en:'Building',ar:'مبنى',ru:'Здание',uz:"binosi"},
+ 'Depo':{en:'Warehouse',ar:'مستودع',ru:'Склад',uz:"Ombor"},
+ 'Silo':{en:'Silo',ar:'صومعة',ru:'Силос',uz:"Silos"},
+ 'Siloları':{en:'Silos',ar:'صوامع',ru:'Силосы',uz:"Silolari"},
+ 'Özbekistan':{en:'Uzbekistan',ar:'أوزبكستان',ru:'Узбекистан',uz:"O'zbekiston"},
+ 'Rusya':{en:'Russia',ar:'روسيا',ru:'Россия',uz:"Rossiya"},
+ 'Türkiye':{en:'Türkiye',ar:'تركيا',ru:'Турция',uz:"Turkiya"},
+ 'Libya':{en:'Libya',ar:'ليبيا',ru:'Ливия',uz:"Liviya"},
+ 'Angola':{en:'Angola',ar:'أنغولا',ru:'Ангола',uz:"Angola"},
+ 'Kazakistan':{en:'Kazakhstan',ar:'كازاخستان',ru:'Казахстан',uz:"Qozog'iston"},
+ 'Azerbaycan':{en:'Azerbaijan',ar:'أذربيجان',ru:'Азербайджан',uz:"Ozarbayjon"},
+};
+const DICT_FRPT={
+ 'Bölümü İmalat ve Montajı':{fr:'section \u2014 fabrication et montage',pt:'seção \u2014 fabrico e montagem'},
+ 'İmalat ve Montajı':{fr:'fabrication et montage',pt:'fabrico e montagem'},
+ 'Temini ve Montajı':{fr:'fourniture et pose',pt:'fornecimento e montagem'},
+ 'Kalınlığında':{fr:'épaisseur',pt:'espessura'},
+ 'ÇELİK KONSTRÜKSİYON':{fr:'CHARPENTE MÉTALLIQUE',pt:'ESTRUTURA METÁLICA'},
+ 'CEPHE PANELİ':{fr:'PANNEAU DE BARDAGE',pt:'PAINEL DE FACHADA'},
+ 'ÇATI PANELİ':{fr:'PANNEAU DE COUVERTURE',pt:'PAINEL DE COBERTURA'},
+ 'PVC PENCERE':{fr:'FENÊTRE PVC',pt:'JANELA PVC'},
+ 'SARMALI KEPENK KAPI':{fr:'PORTE À RIDEAU ENROULABLE',pt:'PORTA DE ENROLAR'},
+ 'KAPI':{fr:'PORTE',pt:'PORTA'},
+ 'ÖĞÜTME':{fr:'MOUTURE',pt:'MOAGEM'},
+ 'PAKETLEME':{fr:'EMBALLAGE',pt:'EMBALAGEM'},
+ 'TAV SİLO':{fr:'SILO DE REPOS',pt:'SILO DE DESCANSO'},
+ 'UN SİLO':{fr:'SILO À FARINE',pt:'SILO DE FARINHA'},
+ 'KEPEK SİLO':{fr:'SILO À SON',pt:'SILO DE FARELO'},
+ 'ÇATI':{fr:'TOITURE',pt:'COBERTURA'},
+ 'CEPHE':{fr:'FAÇADE',pt:'FACHADA'},
+ 'Adet':{fr:'pcs',pt:'un.'},
+ 'Un Değirmeni':{fr:'Moulin à farine',pt:'Moinho de farinha'},
+ 'Değirmen Binası':{fr:'Bâtiment du moulin',pt:'Edifício do moinho'},
+ 'Değirmen':{fr:'Moulin',pt:'Moinho'},
+ 'Kapasiteli':{fr:'de capacité',pt:'de capacidade'},
+ 'Ton/gün':{fr:'t/jour',pt:'t/dia'},
+ 'Ton/Gün':{fr:'t/jour',pt:'t/dia'},
+ 'Çelik Yapı':{fr:'Structure métallique',pt:'Estrutura metálica'},
+ 'Fabrika Binası':{fr:'Bâtiment d\u2019usine',pt:'Edifício fabril'},
+ 'Binası':{fr:'bâtiment',pt:'edifício'},
+ 'Depo':{fr:'Entrepôt',pt:'Armazém'},
+ 'Silo':{fr:'Silo',pt:'Silo'},
+ 'Siloları':{fr:'Silos',pt:'Silos'},
+ 'Özbekistan':{fr:'Ouzbékistan',pt:'Uzbequistão'},
+ 'Rusya':{fr:'Russie',pt:'Rússia'},
+ 'Türkiye':{fr:'Turquie',pt:'Turquia'},
+ 'Libya':{fr:'Libye',pt:'Líbia'},
+ 'Angola':{fr:'Angola',pt:'Angola'},
+ 'Kazakistan':{fr:'Kazakhstan',pt:'Cazaquistão'},
+ 'Azerbaycan':{fr:'Azerbaïdjan',pt:'Azerbaijão'},
+ 'Mısır':{en:'Egypt',ar:'مصر',ru:'Египет',uz:'Misr',fr:'Égypte',pt:'Egito'},
+};
+for(const k in DICT_FRPT)Object.assign(DICT[k]=DICT[k]||{},DICT_FRPT[k]);
+function trX(key,txt){return (S.trx&&S.trx[S.lang]&&S.trx[S.lang][key])||txt}
+function trDesc(t,lang){
+ if(lang==='tr'||!t)return t;
+ let out=t,m;
+ /* Arapca: kelime sirasi Turkceden ters — yaygin kaliplari yeniden kur */
+ if(lang==='ar'){
+  if(m=out.match(/^(.+?)\s+Bölümü İmalat ve Montajı$/i))out='تصنيع وتركيب قسم '+m[1];
+  else if(m=out.match(/^(.+?)\s+İmalat ve Montajı$/i))out='تصنيع وتركيب '+m[1];
+  else if(m=out.match(/^(.+?)\s+Temini ve Montajı$/i))out='توريد وتركيب '+m[1];
+  if(m=out.match(/^(\d[\d.,]*)\s*Ton\/[Gg]ün Kapasiteli\s+(.+)$/))out=m[2]+' بسعة '+m[1]+' طن/يوم';
+ }
+ if(lang==='ru'){
+  if(m=out.match(/^(\d[\d.,]*)\s*Ton\/[Gg]ün Kapasiteli\s+(.+)$/))out=m[2]+' производительностью '+m[1]+' т/сутки';
+ }
+ if(lang==='en'){
+  if(m=out.match(/^(\d[\d.,]*)\s*Ton\/[Gg]ün Kapasiteli\s+(.+)$/))out=m[2]+' with '+m[1]+' t/day Capacity';
+ }
+ if(lang==='fr'){
+  if(m=out.match(/^(\d[\d.,]*)\s*Ton\/[Gg]ün Kapasiteli\s+(.+)$/))out=m[2]+' d\u2019une capacité de '+m[1]+' t/jour';
+ }
+ if(lang==='pt'){
+  if(m=out.match(/^(\d[\d.,]*)\s*Ton\/[Gg]ün Kapasiteli\s+(.+)$/))out=m[2]+' com capacidade de '+m[1]+' t/dia';
+ }
+ const keys=Object.keys(DICT).sort((a,b)=>b.length-a.length);
+ for(const k of keys){ if(DICT[k][lang]) out=out.split(k).join(DICT[k][lang]); }
+ return out;
+}
+function trUnit(u,lang){ return (u&&DICT[u]&&DICT[u][lang])?DICT[u][lang]:u; }
+
+/* ================= STATE ================= */
+const today=new Date().toISOString().slice(0,10);
+const SITE='https://www.ucelmetal.net/tr/uploads/markalar_v/';
+const DEFAULT_BRANDS=[
+ {name:'Özen Değirmen',src:SITE+'yFtq7DjOA8_ozen-degirmen_1731068423.webp'},
+ {name:'Delta',src:SITE+'FMoOld50pL_delta_1731068438.webp'},
+ {name:'Mill-Tech',src:SITE+'SbA9DZvgF2_mill-tech_1731068452.webp'},
+ {name:'Genç Değirmen',src:SITE+'nYD7pMlT1f_genc-degirmen_1731068467.webp'},
+ {name:'Sosiya',src:SITE+'NLyqbOMiHS_sosiya_1731068483.png'},
+ {name:'Hekimoğulları',src:SITE+'wD3xpLZblg_hekimogullari_1731068499.webp'},
+ {name:'Tanış',src:SITE+'dEt8Jh16yb_tanis_1731068514.webp'},
+ {name:'Unormak',src:SITE+'dcnHuZIyWo_unormak_1731068524.webp'}];
+const UNITS=['kg','ton','Adet','m\u00b2','m','m\u00b3','tak\u0131m','set','saat'];
+/* Standart notlar / sartlar: 5 dil. Kutucukla secilir; secilenler PDF'e girer. */
+const NOTES_DEF=[
+ {tr:'Teklif opsiyon süresi 15 gündür.',en:'This offer is valid for 15 days.',ar:'مدة صلاحية العرض 15 يوماً.',ru:'Срок действия предложения — 15 дней.',uz:'Taklifning amal qilish muddati 15 kun.',fr:'La présente offre est valable 15 jours.',pt:'A presente proposta é válida por 15 dias.'},
+ {tr:'Tonaj teorik tonajdır. İş bitimi kantar kartelası baz alınacaktır. ± %10',en:'Tonnage is theoretical; final weighbridge tickets will be taken as basis. ± 10%',ar:'الوزن نظري؛ يُعتمد وزن الميزان عند نهاية العمل. ± 10%',ru:'Тоннаж теоретический; за основу принимаются весовые квитанции по завершении работ. ± 10%',uz:'Tonnaj nazariy; ish yakunida tarozi kvitansiyalari asos olinadi. ± 10%',fr:'Le tonnage est théorique ; les tickets de pesée en fin de travaux feront foi. ± 10%',pt:'A tonelagem é teórica; farão fé os talões de pesagem no final dos trabalhos. ± 10%'},
+ {tr:'Boya kaplaması, RAL9002 renginde, 60 mikron astar ve 80 mikron son kat olmak üzere 160 mikron epoksi boya uygulaması hesaplanmıştır.',en:'Paint coating calculated as RAL9002 epoxy, 160 microns in total (60 micron primer and 80 micron top coat).',ar:'الدهان: إيبوكسي بلون RAL9002 بسماكة إجمالية 160 ميكرون (أساس 60 ميكرون وطبقة نهائية 80 ميكرون).',ru:'Покраска: эпоксидная, RAL9002, всего 160 мкм (грунт 60 мкм и финишный слой 80 мкм).',uz:"Bo'yoq: RAL9002 rangida, jami 160 mikron epoksid (60 mikron astar va 80 mikron ustki qatlam).",fr:'Peinture : époxy RAL9002, 160 microns au total (60 microns de primaire et 80 microns de finition).',pt:'Pintura: epóxi RAL9002, total de 160 mícrons (60 de primário e 80 de acabamento).'},
+ {tr:'Boya kaplaması, RAL9002 renginde, 120 mikron kalınlığında, epoksi boya hesaplanmıştır.',en:'Paint coating calculated as RAL9002 epoxy, 120 microns thickness.',ar:'الدهان: إيبوكسي بلون RAL9002 وسماكة 120 ميكرون.',ru:'Покраска: эпоксидная, RAL9002, толщиной 120 мкм.',uz:"Bo'yoq: RAL9002 rangida, 120 mikron qalinlikda epoksid.",fr:'Peinture : époxy RAL9002, épaisseur 120 microns.',pt:'Pintura: epóxi RAL9002, espessura de 120 mícrons.'},
+ {tr:'Bağlantı plakaları, S235/St37 olarak hesaplanmıştır.',en:'Connection plates are calculated as S235/St37.',ar:'صفائح الربط محسوبة من فولاذ S235/St37.',ru:'Соединительные пластины рассчитаны из стали S235/St37.',uz:"Biriktirish plitalari S235/St37 po'latidan hisoblangan.",fr:'Les platines d’assemblage sont calculées en acier S235/St37.',pt:'As chapas de ligação são calculadas em aço S235/St37.'},
+ {tr:'Civatalar, 8.8 kalite ve galvanizli olarak hesaplanmıştır.',en:'Bolts are grade 8.8, galvanized.',ar:'البراغي درجة 8.8 ومجلفنة.',ru:'Болты класса 8.8, оцинкованные.',uz:'Boltlar 8.8 sinf, galvanizlangan.',fr:'Boulons de classe 8.8, galvanisés.',pt:'Parafusos classe 8.8, galvanizados.'},
+ {tr:'Döşemeler 3/4 mm baklavalı sac ile kaplanacaktır.',en:'Floors will be covered with 3/4 mm chequered steel plate.',ar:'تُغطى الأرضيات بصاج شطرنجي بسماكة 3/4 مم.',ru:'Полы покрываются рифлёным листом 3/4 мм.',uz:'Pollar 3/4 mm gofrirlangan (baklava) tunuka bilan qoplanadi.',fr:'Les planchers seront recouverts de tôle larmée de 3/4 mm.',pt:'Os pavimentos serão revestidos com chapa xadrez de 3/4 mm.'},
+ {tr:'Döşemeler 12 cm BETONARME KOMPOZİT DÖŞEME uygulaması yapılacaktır.',en:'Floors: 12 cm reinforced-concrete composite slab will be applied.',ar:'الأرضيات: تُنفذ بلاطة مركبة من الخرسانة المسلحة بسماكة 12 سم.',ru:'Полы: выполняется железобетонная композитная плита 12 см.',uz:'Pollar: 12 sm temir-beton kompozit plita bajariladi.',fr:'Planchers : dalle mixte en béton armé de 12 cm.',pt:'Pavimentos: laje mista de betão armado de 12 cm.'},
+ {tr:'Betonarme kompozit döşemede kullanılacak stud kaması, çivisi ve hasır çelik malzeme dahil değildir.',en:'Shear studs, stud nails and steel mesh to be used in the reinforced-concrete composite slab are not included.',ar:'أوتاد القص (stud) ومساميرها وشبك الحديد المستخدمة في البلاطة المركبة من الخرسانة المسلحة غير مشمولة.',ru:'Упоры (стад-болты), их гвозди и арматурная сетка для железобетонной композитной плиты не включены.',uz:"Temir-beton kompozit plitada ishlatiladigan stud qoziqlari, mixlari va sim to'r narxga kirmaydi.",fr:'Les goujons (studs), leurs clous et le treillis soudé utilisés dans la dalle mixte en béton armé ne sont pas inclus.',pt:'Os conectores (studs), respetivos pregos e a malha de aço utilizados na laje mista de betão armado não estão incluídos.'},
+ {tr:'Betonarme temel ve beton içinde kalacak malzemeler (ankraj tiji, somunu, pulu ve şablon plakası) müşteriye aittir.',en:"C
+###KESMENOKTASI###
+ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel ığüşöçĞÜŞİÖÇ عربية نص كثيف текст плотный қазақша üçel 
