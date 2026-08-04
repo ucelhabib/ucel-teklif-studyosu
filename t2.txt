@@ -1,0 +1,429 @@
+oncrete foundations and embedded items (anchor bolts, nuts, washers and template plates) are on the customer's account.",ar:'الأساسات الخرسانية والعناصر المدفونة (قضبان التثبيت والصواميل والحلقات وصفائح القالب) على عاتق العميل.',ru:'Железобетонные фундаменты и закладные элементы (анкерные болты, гайки, шайбы, шаблонные пластины) — за счёт заказчика.',uz:'Temir-beton poydevor va beton ichida qoladigan elementlar (anker boltlari, gaykalar, shaybalar, shablon plitalari) buyurtmachi zimmasida.',fr:'Les fondations en béton et les éléments noyés (tiges d’ancrage, écrous, rondelles, gabarits) sont à la charge du client.',pt:'As fundações de betão e os elementos embebidos (chumbadouros, porcas, anilhas e gabaritos) são por conta do cliente.'},
+ {tr:'Kapı ve pencereler GENÇ DEĞİRMEN tarafından temin edilecektir. Bilgilendirme amaçlıdır.',en:'Doors and windows will be supplied by GENÇ DEĞİRMEN. For information only.',ar:'الأبواب والنوافذ تورد من قبل GENÇ DEĞİRMEN. للعلم فقط.',ru:'Двери и окна поставляются компанией GENÇ DEĞİRMEN. Для информации.',uz:"Eshik va derazalar GENÇ DEĞİRMEN tomonidan yetkaziladi. Ma'lumot uchun.",fr:'Les portes et fenêtres seront fournies par GENÇ DEĞİRMEN. À titre informatif.',pt:'As portas e janelas serão fornecidas pela GENÇ DEĞİRMEN. A título informativo.'},
+ {tr:'Montaj araçları (vinç, sepet, manlift vb.), sevkiyat ve konaklama müşteriye aittir.',en:"Erection equipment (crane, basket, manlift etc.), shipment and accommodation are on the customer's account.",ar:'معدات التركيب (رافعة، سلة، منصة رفع وغيرها) والشحن والإقامة على عاتق العميل.',ru:'Монтажная техника (кран, люлька, подъёмник и т.п.), доставка и проживание — за счёт заказчика.',uz:'Montaj texnikasi (kran, savat, manlift va h.k.), yetkazib berish va yashash buyurtmachi zimmasida.',fr:'Les moyens de montage (grue, nacelle, manlift, etc.), le transport et l’hébergement sont à la charge du client.',pt:'Os meios de montagem (grua, cesto, manlift, etc.), o transporte e o alojamento são por conta do cliente.'},
+ {tr:'Sevkiyat ve montaj fiyata dahil değildir.',en:'Shipment and erection are not included in the price.',ar:'الشحن والتركيب غير مشمولين بالسعر.',ru:'Доставка и монтаж в цену не включены.',uz:'Yetkazib berish va montaj narxga kirmaydi.',fr:'Le transport et le montage ne sont pas inclus dans le prix.',pt:'O transporte e a montagem não estão incluídos no preço.'},
+ {tr:'Montaj için 1 adet supervizor görevlendirilecektir.',en:'One supervisor will be assigned for erection.',ar:'يُعين مشرف واحد لأعمال التركيب.',ru:'Для монтажа выделяется 1 супервайзер.',uz:'Montaj uchun 1 nafar supervayzer tayinlanadi.',fr:'Un superviseur sera affecté au montage.',pt:'Será destacado 1 supervisor para a montagem.'},
+ {tr:'Üçüncü parti kalite kontrol işlemleri fiyata dahil değildir.',en:'Third-party quality control services are not included in the price.',ar:'خدمات مراقبة الجودة من طرف ثالث غير مشمولة بالسعر.',ru:'Услуги стороннего контроля качества в цену не включены.',uz:'Uchinchi tomon sifat nazorati xizmatlari narxga kirmaydi.',fr:'Les contrôles qualité par tierce partie ne sont pas inclus dans le prix.',pt:'Os serviços de controlo de qualidade de terceiros não estão incluídos no preço.'},
+ {tr:"Sevkiyat için ...... adet 40'lık OPEN TOP konteyner ihtiyaç olacaktır.",en:"Shipment will require ...... units of 40' OPEN TOP containers.",ar:'يتطلب الشحن ...... حاوية 40 قدم OPEN TOP.',ru:"Для отгрузки потребуется ...... контейнеров 40' OPEN TOP.",uz:"Yuk jo'natish uchun ...... dona 40 futlik OPEN TOP konteyner kerak bo'ladi.",fr:"L’expédition nécessitera ...... conteneurs 40' OPEN TOP.",pt:"O transporte necessitará de ...... contentores 40' OPEN TOP."},
+ {tr:'Sevkiyat için ...... adet 13,6 mt TIR ihtiyaç olacaktır.',en:'Shipment will require ...... units of 13.6 m trucks (TIR).',ar:'يتطلب الشحن ...... شاحنة (TIR) بطول 13.6 م.',ru:'Для отгрузки потребуется ...... фур (TIR) 13,6 м.',uz:"Yuk jo'natish uchun ...... dona 13,6 m TIR kerak bo'ladi.",fr:'L’expédition nécessitera ...... camions (TIR) de 13,6 m.',pt:'O transporte necessitará de ...... camiões (TIR) de 13,6 m.'},
+ {tr:'Sözleşme itibariyle .... işgünü içinde iş teslimi yapılacaktır.',en:'Work will be delivered within .... working days from contract date.',ar:'يتم تسليم العمل خلال .... يوم عمل من تاريخ العقد.',ru:'Сдача работ — в течение .... рабочих дней с даты контракта.',uz:'Shartnomadan boshlab .... ish kuni ichida ish topshiriladi.',fr:'Livraison des travaux sous .... jours ouvrés à compter du contrat.',pt:'Entrega dos trabalhos em .... dias úteis a contar do contrato.'},
+ {tr:'Sözleşme itibariyle .... işgünü içinde sevkiyata hazır olacaktır.',en:'Ready for shipment within .... working days from contract date.',ar:'الجاهزية للشحن خلال .... يوم عمل من تاريخ العقد.',ru:'Готовность к отгрузке — в течение .... рабочих дней с даты контракта.',uz:"Shartnomadan boshlab .... ish kuni ichida jo'natishga tayyor bo'ladi.",fr:'Prêt à l’expédition sous .... jours ouvrés à compter du contrat.',pt:'Pronto para expedição em .... dias úteis a contar do contrato.'},
+ {tr:'Şantiye montaja uygun hale geldikten sonra .... işgünü içinde montaj tamamlanacaktır.',en:'Erection will be completed within .... working days after site readiness.',ar:'يكتمل التركيب خلال .... يوم عمل بعد جاهزية الموقع.',ru:'Монтаж завершается в течение .... рабочих дней после готовности площадки.',uz:'Maydon montajga tayyor bo`lgach .... ish kuni ichida montaj yakunlanadi.',fr:'Le montage sera achevé sous .... jours ouvrés après mise à disposition du chantier.',pt:'A montagem será concluída em .... dias úteis após a disponibilização do estaleiro.'},
+ {tr:'TL ödemelerinde ödeme tarihindeki "TCMB EFEKTİF SATIŞ KURU" dikkate alınacaktır.',en:'For payments in TRY, the CBRT effective selling rate on the payment date applies.',ar:'للمدفوعات بالليرة التركية يُعتمد سعر البيع الفعلي للبنك المركزي التركي بتاريخ الدفع.',ru:'При оплате в TL применяется «эффективный курс продажи ЦБ Турции» на дату платежа.',uz:'TL to`lovlarida to`lov kunidagi "TCMB effektiv sotish kursi" qo`llanadi.',fr:'Pour les paiements en TL, le cours de vente effectif de la Banque centrale de Turquie à la date du paiement fera foi.',pt:'Para pagamentos em TL, aplica-se a taxa de venda efetiva do Banco Central da Turquia na data do pagamento.'},
+ {tr:'İhraç kayıtlı fatura edilebilir.',en:'Export-registered invoicing is available.',ar:'يمكن إصدار فاتورة مسجلة للتصدير.',ru:'Возможно выставление счёта с экспортной регистрацией.',uz:"Eksport ro'yxatidan o'tgan hisob-faktura berilishi mumkin.",fr:'Facturation avec enregistrement à l’exportation possible.',pt:'É possível faturação com registo de exportação.'},
+ {tr:'Toplam tutar KDV hariç tutardır.',en:'Total amount excludes VAT.',ar:'المبلغ الإجمالي لا يشمل ضريبة القيمة المضافة.',ru:'Общая сумма указана без НДС.',uz:'Umumiy summa QQSsiz.',fr:'Le montant total s’entend hors TVA.',pt:'O valor total não inclui IVA.'},
+ {tr:'Ödeme planı; %... sözleşme esnasında, %... sevkiyat öncesi, %... kısmı ise montaj sonunda yapılacaktır.',en:'Payment plan: %... at contract, %... before shipment, %... upon completion of erection.',ar:'خطة الدفع: %... عند العقد، %... قبل الشحن، %... بعد انتهاء التركيب.',ru:'План оплаты: %... при контракте, %... перед отгрузкой, %... по завершении монтажа.',uz:"To'lov rejasi: shartnomada %..., jo'natishdan oldin %..., montaj tugagach %... to'lanadi.",fr:'Plan de paiement : %... à la signature, %... avant expédition, %... à la fin du montage.',pt:'Plano de pagamento: %... na assinatura, %... antes da expedição, %... no final da montagem.'},
+ {tr:'Diğer detaylar sözleşmede yer alacaktır.',en:'Other details will be defined in the contract.',ar:'تُحدد باقي التفاصيل في العقد.',ru:'Прочие детали определяются контрактом.',uz:'Boshqa tafsilotlar shartnomada belgilanadi.',fr:'Les autres détails seront définis dans le contrat.',pt:'Os restantes detalhes serão definidos no contrato.'},
+];
+let S={lang:'tr',curr:'$',projeno:'',tarih:today,firma:'',yetkili:'',isadi:'',isyeri:'',covers:[],
+ items1:[{d:'',q:'',u:'kg',p:''},{d:'',q:'',u:'kg',p:''},{d:'',q:'',u:'kg',p:''}],
+ items2:[{d:'',q:'',u:'m²',p:''},{d:'',q:'',u:'Adet',p:''}],
+ refs:[{n:'',y:'',t:''},{n:'',y:'',t:''}],
+ brands:DEFAULT_BRANDS.slice(),details:[],
+ intro:{},notes:{},notesEk:{},noteSel:null,noteTxt:{},trx:{}};
+/* varsayilan secimler: 120 mikron (4) ve betonarme (8) alternatifleri kapali baslar */
+if(!Array.isArray(S.noteSel))S.noteSel=NOTES_DEF.map((_,i)=>i!==3&&i!==7&&i!==8);
+
+/* ================= HELPERS ================= */
+function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function num(v){const n=parseFloat(String(v).replace(/\./g,'').replace(',','.'));return isNaN(n)?0:n}
+function fmt(n){if(!isFinite(n))return'';return n.toLocaleString('tr-TR',{minimumFractionDigits:2,maximumFractionDigits:2})}
+function fmtQ(n){return n?n.toLocaleString('tr-TR',{maximumFractionDigits:3}):''}
+function money(n){return n?`${S.curr}${fmt(n)}`:''}
+function getIntro(){return S.intro[S.lang]!==undefined?S.intro[S.lang]:TR[S.lang].intro}
+function getNotes(){return S.notes[S.lang]!==undefined?S.notes[S.lang]:TR[S.lang].notes}
+function fmtDate(d){if(!d)return'';const p=d.split('-');return `${p[2]}.${p[1]}.${p[0]}`}
+/* ---- automatic spelling / casing fixes (display-only) ---- */
+function trLow(s){return s.toLocaleLowerCase('tr-TR')}
+function trUp(s){return s.toLocaleUpperCase('tr-TR')}
+/* yazim kurallari: bosluk/noktalama/parantez/yuzde otomatik duzelt */
+function tidy(s){
+ s=(s||'').replace(/\s+/g,' ').trim();
+ if(!s)return s;
+ s=s.replace(/\s+([.,;:!?])/g,'$1');
+ s=s.replace(/([,;])(?=[^\s\d])/g,'$1 ');
+ s=s.replace(/(:)(?=[^\s\d\/])/g,'$1 ');
+ s=s.replace(/([!?])(?=[^\s!?])/g,'$1 ');
+ s=s.replace(/\(\s+/g,'(').replace(/\s+\)/g,')');
+ s=s.replace(/([^\s(])\(/g,'$1 (');
+ s=s.replace(/\)(?=[A-Za-z\u00c7\u011e\u0130\u00d6\u015e\u00dc\u00e7\u011f\u0131\u00f6\u015f\u00fc0-9])/g,') ');
+ s=s.replace(/%\s+(\d)/g,'%$1');
+ /* nokta sonrasi bosluk (URL/e-posta ve A.\u015e. gibi kisaltmalar korunur) */
+ const keep=[];
+ s=s.replace(/\S*(?:https?:\/\/|www\.|@)\S*/gi,m=>{keep.push(m);return '\u0001'+(keep.length-1)+'\u0001'});
+ s=s.replace(/([^A-Z\u00c7\u011e\u0130\u00d6\u015e\u00dc0-9.\s])\.(?=[A-Za-z\u00c7\u011e\u0130\u00d6\u015e\u00dc\u00e7\u011f\u0131\u00f6\u015f\u00fc])/g,'$1. ');
+ s=s.replace(/\u0001(\d+)\u0001/g,(m,i)=>keep[+i]);
+ return s;
+}
+function tidyPara(s){
+ s=tidy(s);
+ return s.replace(/(^|[.!?]\s+)([a-z\u00e7\u011f\u0131\u00f6\u015f\u00fc])/g,(m,a,b)=>a+trUp(b));
+}
+function trTitle(s){ /* Title Case, keeps abbreviations like A.Ş. */
+ s=tidy(s);
+ return s.split(' ').map(w=>{
+  if(!w)return w;
+  if(w.includes('.')&&w.length<=6)return trUp(w);          // A.Ş., LTD.
+  if(/^[0-9]/.test(w))return w;                            // 300, 40'lık
+  return trUp(w[0])+trLow(w.slice(1));
+ }).join(' ');
+}
+const KEYWORDS=Object.keys(DICT).sort((a,b)=>b.length-a.length);
+function fixDesc(s){ /* collapse spaces, capitalize first letter, uppercase known product terms */
+ s=tidy(s);
+ if(!s)return s;
+ for(const k of KEYWORDS){
+  const low=trLow(s),kl=trLow(k);
+  const idx=low.indexOf(kl);
+  if(idx>=0) s=s.slice(0,idx)+k+s.slice(idx+k.length);
+ }
+ return trUp(s[0])+s.slice(1);
+}
+function fixNote(s){ /* capitalize first letter, add trailing period after letters */
+ s=tidy(s);
+ if(!s)return s;
+ s=trUp(s[0])+s.slice(1);
+ if(/[a-zçğıöşüа-яa-zء-ي]$/i.test(s))s+='.';
+ return s;
+}
+function cleanNo(s){return (s||'').replace(/^\s*\d+\s*[.)-]?\s*/,'')} /* strip existing leading numbers */
+/* ---- automatic shipment calculation (note containing "......") ---- */
+const OVERLAND=['türkiye','turkiye','turkey','azerbaycan','azerbaijan','азербайджан','gürcistan','georgia','грузия','irak','iraq','iran','ирак','иран','suriye','syria','rusya','russia','россия','kazakistan','kazakhstan','казахстан','özbekistan','ozbekistan','uzbekistan','узбекистан','türkmenistan','turkmenistan','kırgızistan','kyrgyzstan','tacikistan','tajikistan','bulgaristan','bulgaria','romanya','romania','ukrayna','ukraine','ermenistan','nahçıvan','kktc','kıbrıs'];
+function shipCalc(){
+ const tonKg=S.items1.reduce((a,it)=>a+((it.u||'').trim().toLowerCase()==='kg'?num(it.q):0),0);
+ const m2=S.items2.reduce((a,it)=>{const u=(it.u||'').toLowerCase();return a+(u==='m²'||u==='m2'?num(it.q):0)},0);
+ /* asagi yonlu yuvarlama (kullanici istegi) */
+ const n=(tonKg>0?Math.floor(tonKg/1000/20):0)+(m2>0?Math.floor(m2/600):0);
+ const loc=trLow(S.isyeri||'');
+ const truck=OVERLAND.some(c=>loc.includes(c));
+ return {n,truck};
+}
+
+/* ================= EDITOR RENDER ================= */
+function editorLang(){
+ const bar=document.getElementById('langbar');bar.innerHTML='';
+ for(const lg of ['tr','en','ar','ru','uz','fr','pt']){
+  const b=document.createElement('button');
+  b.className='langbtn'+(S.lang===lg?' active':'');
+  b.innerHTML=flag(lg,22)+TR[lg].name;
+  b.onclick=()=>{S.lang=lg;syncEditor();render()};
+  bar.appendChild(b);
+ }
+}
+function itemRow(t,i,it){
+ return `<tr>
+ <td style="width:46%"><input type="text" placeholder="Malzeme / iş kalemi" value="${esc(it.d)}" oninput="S.items${t}[${i}].d=this.value;renderSoon()"></td>
+ <td style="width:16%"><input type="text" placeholder="Miktar" value="${esc(it.q)}" oninput="S.items${t}[${i}].q=this.value;renderSoon()"></td>
+ <td style="width:14%"><select onchange="S.items${t}[${i}].u=this.value;renderSoon()">${UNITS.concat(UNITS.includes(it.u)||!it.u?[]:[it.u]).map(u=>`<option${u===it.u?' selected':''}>${esc(u)}</option>`).join('')}</select></td>
+ <td style="width:16%"><input type="text" placeholder="Fiyat" value="${esc(it.p)}" oninput="S.items${t}[${i}].p=this.value;renderSoon()"></td>
+ <td><button class="rowbtn del" onclick="S.items${t}.splice(${i},1);syncEditor();render()">×</button></td></tr>`;
+}
+function refRow(i,r){
+ return `<tr>
+ <td style="width:37%"><input type="text" placeholder="Proje adı" value="${esc(r.n)}" oninput="S.refs[${i}].n=this.value;renderSoon()"></td>
+ <td style="width:28%"><input type="text" placeholder="Yer/Ülke" value="${esc(r.y)}" oninput="S.refs[${i}].y=this.value;renderSoon()"></td>
+ <td style="width:21%"><input type="text" placeholder="Tonaj" value="${esc(r.t)}" oninput="S.refs[${i}].t=this.value;renderSoon()"></td>
+ <td><button class="rowbtn${r.img?' has':''}" title="Proje fotoğrafı" onclick="pickRefImg(${i})">&#128247;</button></td>
+ <td><button class="rowbtn del" onclick="S.refs.splice(${i},1);syncEditor();render()">×</button></td></tr>`;
+}
+let _refIdx=-1;
+function pickRefImg(i){_refIdx=i;libPick(d=>{S.refs[_refIdx].img=d;syncEditor();render()},'refimg')}
+function onRefImg(inp){
+ const f=inp.files[0];if(!f||_refIdx<0)return;
+ shrink(f,d=>{S.refs[_refIdx].img=d;syncEditor();render()});
+ inp.value='';
+}
+function syncEditor(){
+ editorLang();
+ document.getElementById('items1').innerHTML=S.items1.map((it,i)=>itemRow(1,i,it)).join('');
+ document.getElementById('items2').innerHTML=S.items2.map((it,i)=>itemRow(2,i,it)).join('');
+ document.getElementById('refs').innerHTML=S.refs.map((r,i)=>refRow(i,r)).join('');
+ document.getElementById('brands').innerHTML=S.brands.map((b,i)=>
+  `<div class="bt"><img src="${b.src}" title="${esc(b.name)}"><button onclick="delBrand(${i})">×</button></div>`).join('')||'<span class="hint">Logo yok</span>';
+ document.getElementById('details').innerHTML=S.details.map((d,i)=>
+  `<div class="dt"><img src="${d.img}"><input type="text" placeholder="Açıklama (ör. 3D Model — Ön Görünüş)" value="${esc(d.cap)}" oninput="S.details[${i}].cap=this.value;renderSoon()"><button class="rowbtn del" onclick="delDetail(${i})">×</button></div>`).join('')||'<span class="hint">Henüz resim yok</span>';
+ document.getElementById('coverthumbs').innerHTML=S.covers.map((c,i)=>
+  `<div class="bt"><img src="${c}"><button onclick="delCover(${i})">×</button></div>`).join('');
+ document.getElementById('f_intro').value=getIntro();
+ const _nl=document.getElementById('notlist');
+ if(Array.isArray(S.noteSel)){
+  _nl.innerHTML=NOTES_DEF.map((n,i)=>`<div style="display:flex;gap:6px;align-items:center;margin:3px 0"><input type="checkbox" style="width:auto" ${S.noteSel[i]?'checked':''} onchange="S.noteSel[${i}]=this.checked;render()"><input type="text" style="flex:1;font-size:11.5px;padding:3px 6px" value="${esc(noteGet(i))}" oninput="noteTxtSet(${i},this.value)"></div>`).join('');
+ }else{
+  _nl.innerHTML='<div class="hint">Bu eski kayıt serbest metin notları kullanıyor; PDF özgün notlarıyla basılır.</div>';
+ }
+ document.getElementById('f_notes_ek').value=(S.notesEk&&S.notesEk[S.lang])||'';
+ document.getElementById('f_projeno').value=S.projeno;
+ document.getElementById('f_tarih').value=S.tarih;
+ document.getElementById('f_firma').value=S.firma;
+ document.getElementById('f_yetkili').value=S.yetkili;
+ document.getElementById('f_isadi').value=S.isadi;
+ document.getElementById('f_isyeri').value=S.isyeri;
+ document.getElementById('f_curr').value=S.curr;
+}
+function addItem(t){ (t===1?S.items1:S.items2).push({d:'',q:'',u:t===1?'kg':'Adet',p:''});syncEditor();render() }
+function addRef(){ S.refs.push({n:'',y:'',t:''});syncEditor();render() }
+/* compress uploaded images (max 2400px, JPEG .9) - yuksek cozunurluk */
+/* beyaz kenar bosluklarini otomatik kirp (CAD/Tekla ekran goruntuleri icin) */
+function trimWhite(cv){
+ try{
+  const ctx=cv.getContext('2d'),w=cv.width,h=cv.height;
+  const d=ctx.getImageData(0,0,w,h).data;
+  const bg=i=>d[i]>238&&d[i+1]>238&&d[i+2]>238;
+  const rowBg=y=>{for(let x=0;x<w;x+=2){if(!bg((y*w+x)*4))return false}return true};
+  const colBg=x=>{for(let y=0;y<h;y+=2){if(!bg((y*w+x)*4))return false}return true};
+  let top=0,bot=h-1,left=0,right=w-1;
+  while(top<bot&&rowBg(top))top++;
+  while(bot>top&&rowBg(bot))bot--;
+  while(left<right&&colBg(left))left++;
+  while(right>left&&colBg(right))right--;
+  const pad=Math.round(Math.max(w,h)*0.015);
+  left=Math.max(0,left-pad);top=Math.max(0,top-pad);
+  right=Math.min(w-1,right+pad);bot=Math.min(h-1,bot+pad);
+  const nw=right-left+1,nh=bot-top+1;
+  if((nw<w*0.98||nh<h*0.98)&&nw>40&&nh>40){
+   const c2=document.createElement('canvas');c2.width=nw;c2.height=nh;
+   c2.getContext('2d').drawImage(cv,left,top,nw,nh,0,0,nw,nh);
+   return c2;
+  }
+ }catch(e){}
+ return cv;
+}
+/* otomatik iyilestirme: kontrast esitleme + hafif canlilik + netlestirme */
+function enhanceCanvas(cv){
+ try{
+  const ctx=cv.getContext('2d');
+  const im=ctx.getImageData(0,0,cv.width,cv.height);
+  const d=im.data,total=d.length/4;
+  const hist=new Array(256).fill(0);
+  for(let i=0;i<d.length;i+=4)hist[(d[i]*299+d[i+1]*587+d[i+2]*114)/1000|0]++;
+  let lo=0,hi=255,acc=0;
+  for(let i=0;i<256;i++){acc+=hist[i];if(acc>total*0.01){lo=i;break}}
+  acc=0;for(let i=255;i>=0;i--){acc+=hist[i];if(acc>total*0.01){hi=i;break}}
+  if(hi>lo+12){
+   const k=255/(hi-lo);
+   for(let i=0;i<d.length;i+=4){
+    for(let c=0;c<3;c++){const v=(d[i+c]-lo)*k;d[i+c]=v<0?0:v>255?255:v}
+    const r=d[i],g=d[i+1],b=d[i+2],m=(r+g+b)/3;
+    d[i]=Math.min(255,Math.max(0,m+(r-m)*1.1));
+    d[i+1]=Math.min(255,Math.max(0,m+(g-m)*1.1));
+    d[i+2]=Math.min(255,Math.max(0,m+(b-m)*1.1));
+   }
+  }
+  /* hafif keskinlestirme (unsharp) */
+  const w=cv.width,h=cv.height,src=new Uint8ClampedArray(d),a=0.28;
+  for(let y=1;y<h-1;y++){
+   for(let x=1;x<w-1;x++){
+    const i=(y*w+x)*4;
+    for(let c=0;c<3;c++){
+     const v=src[i+c]*(1+4*a)-a*(src[i+c-4]+src[i+c+4]+src[i+c-w*4]+src[i+c+w*4]);
+     d[i+c]=v<0?0:v>255?255:v;
+    }
+   }
+  }
+  ctx.putImageData(im,0,0);
+  /* koseye silinemez ÜÇEL filigrani */
+  const TXT='ÜÇEL STEEL CONSTRUCTION';
+  let fs=Math.max(10,cv.width/42);
+  ctx.font='700 '+fs+'px Arial';
+  const maxw=cv.width*0.45;
+  let tw=ctx.measureText(TXT).width;
+  if(tw>maxw){fs=Math.max(8,fs*maxw/tw);ctx.font='700 '+fs+'px Arial'}
+  ctx.textAlign='right';ctx.textBaseline='bottom';
+  ctx.lineWidth=Math.max(1,fs/10);
+  ctx.strokeStyle='rgba(0,0,0,.30)';ctx.fillStyle='rgba(255,255,255,.65)';
+  ctx.strokeText(TXT,cv.width-fs*0.8,cv.height-fs*0.6);
+  ctx.fillText(TXT,cv.width-fs*0.8,cv.height-fs*0.6);
+ }catch(e){}
+}
+function shrink(file,cb){
+ const r=new FileReader();
+ r.onload=e=>{
+  const im=new Image();
+  im.onload=()=>{
+   const k=Math.min(1,2400/Math.max(im.width,im.height));
+   const cv=document.createElement('canvas');
+   cv.width=Math.round(im.width*k);cv.height=Math.round(im.height*k);
+   cv.getContext('2d').drawImage(im,0,0,cv.width,cv.height);
+   const cvT=trimWhite(cv);
+   enhanceCanvas(cvT);
+   cb(cvT.toDataURL('image/jpeg',.9));
+  };
+  im.src=e.target.result;
+ };
+ r.readAsDataURL(file);
+}
+function setCover(inp){
+ for(const f of [...inp.files].slice(0,2))
+  shrink(f,d=>{S.covers.push(d);S.covers=S.covers.slice(-2);syncEditor();render()});
+ inp.value='';
+}
+function delCover(i){S.covers.splice(i,1);syncEditor();render()}
+/* ---- gorsel kutuphanesi (bulut: Supabase Storage, tum bilgisayarlarda ortak) ---- */
+let LIB={ref:[],det:[]};
+let LIB_TAB='ref',_libCb=null,LIB_LOADED=false,_libSel=new Set();
+function libSafeName(f){
+ let n=(f||'').replace(/\.[^.]+$/,'').toLocaleLowerCase('tr');
+ const M={'\u00e7':'c','\u011f':'g','\u0131':'i','\u00f6':'o','\u015f':'s','\u00fc':'u','\u0130':'i'};
+ n=n.replace(/[\u00e7\u011f\u0131\u00f6\u015f\u00fc\u0130]/g,c=>M[c]||c);
+ n=n.replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,40);
+ return n||'gorsel';
+}
+function libLabel(path){
+ const f=path.split('/').pop().replace(/\.jpg$/i,'').replace(/^\d+-/,'');
+ return f.replace(/-/g,' ');
+}
+async function libListAll(){
+ LIB={ref:[],det:[]};
+ for(const t of ['ref','det']){
+  try{
+   const j=await sbReq('/storage/v1/object/list/studio',{method:'POST',body:JSON.stringify({prefix:'kutuphane/'+t,limit:1000,sortBy:{column:'created_at',order:'asc'}})});
+   (j||[]).forEach(o=>{
+    if(o.name&&!o.name.startsWith('.'))LIB[t].push({path:'kutuphane/'+t+'/'+o.name,url:SB_URL+'/storage/v1/object/public/studio/kutuphane/'+t+'/'+o.name});
+   });
+  }catch(e){}
+ }
+ LIB_LOADED=true;
+}
+async function libPut(t,dataUrl,fname){
+ const blob=await (await fetch(dataUrl)).blob();
+ const path='kutuphane/'+t+'/'+Date.now()+'-'+libSafeName(fname);
+ const full=path+'.jpg';
+ const r=await fetch(SB_URL+'/storage/v1/object/studio/'+full,{method:'POST',headers:{apikey:SB_KEY,Authorization:'Bearer '+SB_TOKEN,'Content-Type':'image/jpeg','x-upsert':'true'},body:blob});
+ if(!r.ok)throw new Error('HTTP '+r.status);
+ LIB[t].push({path:full,url:SB_URL+'/storage/v1/object/public/studio/'+full});
+}
+async function libMigrate(){
+ let old=null;
+ try{old=JSON.parse(localStorage.getItem('ucel_lib2')||'null')}catch(e){}
+ if(!old){try{const v=JSON.parse(localStorage.getItem('ucel_lib')||'null');if(Array.isArray(v)&&v.length)old={ref:v,det:[]}}catch(e){}}
+ if(!old||(((old.ref||[]).length)+((old.det||[]).length))===0)return;
+ if(!confirm('Bu bilgisayarda kayitli eski kutuphane gorselleri buluta tasinsin mi? (Tum bilgisayarlarda ortak olur)'))return;
+ document.getElementById('lmgrid').innerHTML='<span class="hint">Gorseller buluta tasiniyor...</span>';
+ for(const t of ['ref','det']){
+  for(const d of (old[t]||[])){ try{await libPut(t,d,'gorsel')}catch(e){} }
+ }
+ localStorage.removeItem('ucel_lib2');localStorage.removeItem('ucel_lib');
+}
+function libMode(){
+ document.getElementById('libupbtn').style.display=_libCb?'none':'block';
+ document.getElementById('libselbtn').style.display=_libCb?'block':'none';
+ document.getElementById('libhint').textContent=_libCb?'\u2014 resimlere tiklayip secin, sonra "Secilenleri Ekle"':'';
+}
+async function libOpen(){
+ if(!SB_TOKEN)return loginOpen();
+ _libCb=null;_libSel=new Set();libMode();
+ document.getElementById('libmodal').style.display='flex';
+ document.getElementById('lmgrid').innerHTML='<span class="hint">Yukleniyor...</span>';
+ await libListAll();
+ await libMigrate();
+ libTab(LIB_TAB);
+}
+function libTab(t){
+ LIB_TAB=t;
+ for(const k of ['ref','det']){
+  const b=document.getElementById('libtab_'+k);
+  b.style.background=(k===t)?'var(--navy)':'#fff';
+  b.style.color=(k===t)?'#fff':'var(--blue)';
+ }
+ libGrid();
+}
+function libGrid(){
+ const arr=LIB[LIB_TAB];
+ document.getElementById('lmgrid').innerHTML=arr.length?
+  arr.map((it,i)=>`<div class="li" style="position:relative"><img src="${it.url}" style="height:72px;width:110px;${_libCb?'cursor:pointer;':''}outline:${_libSel.has(it.url)?'3px solid var(--orange)':'none'}" onclick="libChoose(${i})"><div style="font-size:10px;color:var(--gray);max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center" title="${esc(libLabel(it.path))}">${esc(libLabel(it.path))}</div><button title="Sil" onclick="delLib(${i})" style="position:absolute;top:-7px;right:-7px;width:18px;height:18px;border-radius:50%;border:none;background:#c0392b;color:#fff;font-size:11px;line-height:1;cursor:pointer">\u00d7</button>${_libCb?'':`<button title="Ger\u00e7ek\u00e7i g\u00f6rsele d\u00f6n\u00fc\u015ft\u00fcr (AI)" onclick="aiRealistic(${i})" style="position:absolute;top:-7px;left:-7px;width:18px;height:18px;border-radius:50%;border:none;background:var(--orange);color:#fff;font-size:11px;line-height:1;cursor:pointer">\u2728</button>`}</div>`).join('')
+  :'<span class="hint">Bu bolumde gorsel yok \u2014 asagidan yukleyin.</span>';
+}
+function libUpload(inp){
+ if(!SB_TOKEN){inp.value='';return loginOpen()}
+ for(const f of inp.files){
+  const nm=f.name;
+  shrink(f,async d=>{try{await libPut(LIB_TAB,d,nm);libGrid()}catch(e){alert('Yuklenemedi: '+e.message)}});
+ }
+ inp.value='';
+}
+async function delLib(i){
+ const it=LIB[LIB_TAB][i];
+ if(!confirm('Gorsel kutuphaneden silinsin mi?'))return;
+ try{
+  await sbReq('/storage/v1/object/studio/'+it.path,{method:'DELETE'});
+  LIB[LIB_TAB].splice(i,1);_libSel.delete(it.url);libGrid();
+ }catch(e){alert('Silinemedi: '+e.message)}
+}
+function libChoose(i){
+ if(!_libCb)return;
+ const u=LIB[LIB_TAB][i].url;
+ if(_libSel.has(u))_libSel.delete(u);else _libSel.add(u);
+ document.getElementById('libselbtn').textContent='Secilenleri Ekle ('+_libSel.size+')';
+ libGrid();
+}
+function libAddSel(){
+ if(!_libSel.size)return alert('Resim secilmedi \u2014 resimlere tiklayin.');
+ const cb=_libCb;_libCb=null;
+ document.getElementById('libmodal').style.display='none';
+ for(const u of _libSel)cb(u);
+ _libSel=new Set();
+}
+async function libPick(cb,fileElId,tab){
+ if(!SB_TOKEN)return loginOpen();
+ _libCb=cb;_libSel=new Set();libMode();
+ document.getElementById('libselbtn').textContent='Secilenleri Ekle (0)';
+ document.getElementById('libmodal').style.display='flex';
+ document.getElementById('lmgrid').innerHTML='<span class="hint">Yukleniyor...</span>';
+ if(!LIB_LOADED)await libListAll();
+ libTab(tab||'ref');
+}
+function libModalClose(){document.getElementById('libmodal').style.display='none';_libCb=null;_libSel=new Set()}
+function libPickCover(){libPick(d=>{S.covers.push(d);S.covers=S.covers.slice(-2);syncEditor();render()},'f_cover','ref')}
+function libPickDetail(){libPick(d=>{S.details.push({img:d,cap:''});syncEditor();render()},'f_detfile','det')}
+function addBrandLogo(inp){
+ for(const f of inp.files){
+  const r=new FileReader();
+  r.onload=e=>{S.brands.push({name:f.name.replace(/\.[^.]+$/,''),src:e.target.result});syncEditor();render();brandsSave()};
+  r.readAsDataURL(f);
+ }
+ inp.value='';
+}
+function delBrand(i){S.brands.splice(i,1);syncEditor();render();brandsSave()}
+async function brandsSave(){
+ if(!SB_TOKEN)return;
+ try{
+  await sbReq('/rest/v1/ayarlar',{method:'POST',headers:{Prefer:'resolution=merge-duplicates,return=minimal'},body:JSON.stringify([{key:'markalar',value:S.brands}])});
+ }catch(e){}
+}
+let _inT=null;
+function introSaveSoon(){clearTimeout(_inT);_inT=setTimeout(introSave,1500)}
+async function introSave(){
+ if(!SB_TOKEN)return;
+ try{
+  await sbReq('/rest/v1/ayarlar',{method:'POST',headers:{Prefer:'resolution=merge-duplicates,return=minimal'},body:JSON.stringify([{key:'tanitim',value:S.intro}])});
+ }catch(e){}
+}
+async function introLoad(){
+ if(!SB_TOKEN)return;
+ try{
+  const j=await sbReq('/rest/v1/ayarlar?key=eq.tanitim&select=value');
+  if(j&&j[0]&&j[0].value&&typeof j[0].value==='object'){S.intro=j[0].value;syncEditor();render()}
+ }catch(e){}
+}
+async function brandsLoad(){
+ if(!SB_TOKEN)return;
+ try{
+  const j=await sbReq('/rest/v1/ayarlar?key=eq.markalar&select=value');
+  if(j&&j[0]&&Array.isArray(j[0].value)&&j[0].value.length){S.brands=j[0].value;syncEditor();render()}
+ }catch(e){}
+}
+function addDetail(inp){
+ for(const f of inp.files) shrink(f,d=>{S.details.push({img:d,cap:''});syncEditor();render()});
+ inp.value='';
+}
+function delDetail(i){S.details.splice(i,1);syncEditor();render()}
+
+/* ================= PAGE RENDER ================= */
+/* location country -> ISO code for flag (flagcdn.com) */
+const ISO={'türkiye':'tr','turkiye':'tr','turkey':'tr','azerbaycan':'az','azerbaijan':'az','gürcistan':'ge','ermenistan':'am','rusya':'ru','russia':'ru','ukrayna':'ua','kazakistan':'kz','özbekistan':'uz','ozbekistan':'uz','uzbekistan':'uz','türkmenistan':'tm','kırgızistan':'kg','tacikistan':'tj','afganistan':'af','pakistan':'pk','hindistan':'in','çin':'cn','irak':'iq','iran':'ir','suriye':'sy','lübnan':'lb','ürdün':'jo','suudi':'sa','arabistan':'sa','bae':'ae','dubai':'ae','katar':'qa','kuveyt':'kw','bahreyn':'bh','umman':'om','yemen':'ye','mısır':'eg','misir':'eg','libya':'ly','tunus':'tn','cezayir':'dz','fas':'ma','sudan':'sd','etiyopya':'et','somali':'so','kenya':'ke','tanzanya':'tz','nijerya':'ng','gana':'gh','angola':'ao','kongo':'cd','kamerun':'cm','senegal':'sn','ingiltere':'gb','england':'gb','birleşik krallık':'gb','almanya':'de','fransa':'fr','italya':'it','ispanya':'es','hollanda':'nl','belçika':'be','polonya':'pl','romanya':'ro','bulgaristan':'bg','yunanistan':'gr','macaristan':'hu','avusturya':'at','isviçre':'ch','isveç':'se','norveç':'no','danimarka':'dk','sırbistan':'rs','hırvatistan':'hr','bosna':'ba','arnavutluk':'al','kosova':'xk','makedonya':'mk','karadağ':'me','moldova':'md','kktc':'cy','kıbrıs':'cy','abd':'us','amerika':'us','usa':'us','kanada':'ca','meksika':'mx','brezilya':'br','arjantin':'ar','endonezya':'id','malezya':'my','vietnam':'vn','tayland':'th','japonya':'jp','kore':'kr','avustralya':'au'};
+function locISO(){
+ const t=trLow(S.isyeri||'');
+ for(const k in ISO){if(t.includes(k))return ISO[k]}
+ return null;
+}
+function flagPng(iso){return `<img class="hflag" src="https://flagcdn.com/h80/${iso}.png" alt="${iso}">`}
