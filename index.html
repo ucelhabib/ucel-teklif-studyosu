@@ -1030,6 +1030,9 @@ function enhanceCanvas(cv){
   /* filigran kaldirildi (istek: 11.08.2026) */
  }catch(e){}
 }
+let _wmCv=null,_wmIm=new Image();_wmIm.src=LOGO;
+function _wmGet(){if(_wmCv)return _wmCv;if(!_wmIm.naturalWidth)return null;const c=document.createElement('canvas');c.width=_wmIm.naturalWidth;c.height=_wmIm.naturalHeight;const x=c.getContext('2d');x.drawImage(_wmIm,0,0);const d=x.getImageData(0,0,c.width,c.height),p=d.data;for(let i=0;i<p.length;i+=4){if(p[i]>235&&p[i+1]>235&&p[i+2]>235)p[i+3]=0}x.putImageData(d,0,0);_wmCv=c;return c}
+function tileWM(cv){const w=_wmGet();if(!w)return;const x=cv.getContext('2d'),k=cv.width/1400,gap=300*k,lw=170*k,lh=lw*w.height/w.width;x.save();x.globalAlpha=.10;x.translate(cv.width/2,cv.height/2);x.rotate(-30*Math.PI/180);const R=Math.hypot(cv.width,cv.height);let row=0;for(let yy=-R;yy<R;yy+=gap*.72){const off=(row++%2)?gap/2:0;for(let xx=-R;xx<R;xx+=gap)x.drawImage(w,xx+off,yy,lw,lh)}x.restore()}
 function shrink(file,cb){
  const r=new FileReader();
  r.onload=e=>{
@@ -1041,6 +1044,7 @@ function shrink(file,cb){
    cv.getContext('2d').drawImage(im,0,0,cv.width,cv.height);
    const cvT=trimWhite(cv);
    enhanceCanvas(cvT);
+   tileWM(cvT);
    cb(cvT.toDataURL('image/jpeg',.9));
   };
   im.src=e.target.result;
