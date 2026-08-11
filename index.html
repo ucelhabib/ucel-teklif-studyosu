@@ -1027,18 +1027,7 @@ function enhanceCanvas(cv){
    }
   }
   ctx.putImageData(im,0,0);
-  /* koseye silinemez ÜÇEL filigrani */
-  const TXT='ÜÇEL STEEL CONSTRUCTION';
-  let fs=Math.max(10,cv.width/42);
-  ctx.font='700 '+fs+'px Arial';
-  const maxw=cv.width*0.45;
-  let tw=ctx.measureText(TXT).width;
-  if(tw>maxw){fs=Math.max(8,fs*maxw/tw);ctx.font='700 '+fs+'px Arial'}
-  ctx.textAlign='right';ctx.textBaseline='bottom';
-  ctx.lineWidth=Math.max(1,fs/10);
-  ctx.strokeStyle='rgba(0,0,0,.30)';ctx.fillStyle='rgba(255,255,255,.65)';
-  ctx.strokeText(TXT,cv.width-fs*0.8,cv.height-fs*0.6);
-  ctx.fillText(TXT,cv.width-fs*0.8,cv.height-fs*0.6);
+  /* filigran kaldirildi (istek: 11.08.2026) */
  }catch(e){}
 }
 function shrink(file,cb){
