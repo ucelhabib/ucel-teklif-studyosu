@@ -381,13 +381,14 @@ mark.trx{background:#ffe58a;outline:1px dashed #d29b00;border-radius:2px;padding
 </div>
 
 <div id="libmodal" onclick="if(event.target===this)libModalClose()">
- <div class="lm" style="max-width:760px">
+ <div class="lm" style="max-width:760px" ondragover="libDrag(event)" ondragleave="libDragEnd()" ondrop="libDrop(event)">
   <h3>&#128444; Görsel Kütüphanesi <span id="libhint" style="font-weight:400;font-size:12px;color:var(--gray)"></span></h3>
   <div class="lmbtns" style="margin-bottom:10px">
    <button id="libtab_ref" onclick="libTab('ref')">Referans Projeler</button>
    <button id="libtab_det" onclick="libTab('det')">Yapı Detayları</button>
   </div>
-  <div class="libgrid" id="lmgrid" style="min-height:70px;margin-bottom:12px"></div>
+  <div class="libgrid" id="lmgrid" style="min-height:70px;margin-bottom:6px"></div>
+  <div style="font-size:11px;color:var(--gray);margin-bottom:10px">&#8681; İpucu: resimleri bilgisayardan bu pencereye sürükleyip bırakarak da yükleyebilirsiniz (aktif bölüme kaydedilir).</div>
   <div class="lmbtns">
    <button class="pri" id="libupbtn" onclick="document.getElementById('libfile').click()">&#8679; Bu Bölüme Resim Yükle</button>
    <button class="pri" id="libselbtn" style="display:none" onclick="libAddSel()">Seçilenleri Ekle (0)</button>
@@ -1135,9 +1136,12 @@ function libTab(t){
 function libGrid(){
  const arr=LIB[LIB_TAB];
  document.getElementById('lmgrid').innerHTML=arr.length?
-  arr.map((it,i)=>`<div class="li" style="position:relative"><img src="${it.url}" style="height:72px;width:110px;${_libCb?'cursor:pointer;':''}outline:${_libSel.has(it.url)?'3px solid var(--orange)':'none'}" onclick="libChoose(${i})"><div style="font-size:10px;color:var(--gray);max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center" title="${esc(libLabel(it.path))}">${esc(libLabel(it.path))}</div><button title="Sil" onclick="delLib(${i})" style="position:absolute;top:-7px;right:-7px;width:18px;height:18px;border-radius:50%;border:none;background:#c0392b;color:#fff;font-size:11px;line-height:1;cursor:pointer">\u00d7</button>${_libCb?'':`<button title="Ger\u00e7ek\u00e7i g\u00f6rsele d\u00f6n\u00fc\u015ft\u00fcr (AI)" onclick="aiRealistic(${i})" style="position:absolute;top:-7px;left:-7px;width:18px;height:18px;border-radius:50%;border:none;background:var(--orange);color:#fff;font-size:11px;line-height:1;cursor:pointer">\u2728</button>`}</div>`).join('')
+  arr.map((it,i)=>`<div class="li" style="position:relative"><img src="${it.url}" style="height:72px;width:110px;${_libCb?'cursor:pointer;':''}outline:${_libSel.has(it.url)?'3px solid var(--orange)':'none'}" onclick="libChoose(${i})"><div style="font-size:10px;color:var(--gray);max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center" title="${esc(libLabel(it.path))}">${esc(libLabel(it.path))}</div><button title="Sil" onclick="delLib(${i})" style="position:absolute;top:-7px;right:-7px;width:18px;height:18px;border-radius:50%;border:none;background:#c0392b;color:#fff;font-size:11px;line-height:1;cursor:pointer">\u00d7</button></div>`).join('')
   :'<span class="hint">Bu bolumde gorsel yok \u2014 asagidan yukleyin.</span>';
 }
+function libDrag(e){e.preventDefault();e.stopPropagation();document.getElementById('lmgrid').style.outline='3px dashed var(--orange)'}
+function libDragEnd(){document.getElementById('lmgrid').style.outline='none'}
+function libDrop(e){e.preventDefault();e.stopPropagation();libDragEnd();if(!SB_TOKEN)return loginOpen();const fs=[...e.dataTransfer.files].filter(f=>f.type&&f.type.startsWith('image/'));if(!fs.length)return;for(const f of fs){const nm=f.name;shrink(f,async d=>{try{await libPut(LIB_TAB,d,nm);libGrid()}catch(err){alert('Yuklenemedi: '+err.message)}})}}
 function libUpload(inp){
  if(!SB_TOKEN){inp.value='';return loginOpen()}
  for(const f of inp.files){
