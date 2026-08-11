@@ -936,7 +936,7 @@ let _refIdx=-1;
 function pickRefImg(i){_refIdx=i;libPick(d=>{S.refs[_refIdx].img=d;syncEditor();render()},'refimg')}
 function onRefImg(inp){
  const f=inp.files[0];if(!f||_refIdx<0)return;
- shrink(f,d=>{S.refs[_refIdx].img=d;syncEditor();render()},wmAsk());
+ shrink(f,async d=>{const v=await wmProcess(d);S.refs[_refIdx].img=v;syncEditor();render()});
  inp.value='';
 }
 function syncEditor(){
@@ -1032,9 +1032,15 @@ function enhanceCanvas(cv){
 }
 let _wmCv=null,_wmIm=new Image();_wmIm.src=LOGO;
 function _wmGet(){if(_wmCv)return _wmCv;if(!_wmIm.naturalWidth)return null;const c=document.createElement('canvas');c.width=_wmIm.naturalWidth;c.height=_wmIm.naturalHeight;const x=c.getContext('2d');x.drawImage(_wmIm,0,0);const d=x.getImageData(0,0,c.width,c.height),p=d.data;for(let i=0;i<p.length;i+=4){if(p[i]>235&&p[i+1]>235&&p[i+2]>235)p[i+3]=0}x.putImageData(d,0,0);_wmCv=c;return c}
-function tileWM(cv){const w=_wmGet();if(!w)return;const x=cv.getContext('2d'),k=cv.width/1400,gap=300*k,lw=170*k,lh=lw*w.height/w.width;x.save();x.globalAlpha=.10;x.translate(cv.width/2,cv.height/2);x.rotate(-30*Math.PI/180);const R=Math.hypot(cv.width,cv.height);let row=0;for(let yy=-R;yy<R;yy+=gap*.72){const off=(row++%2)?gap/2:0;for(let xx=-R;xx<R;xx+=gap)x.drawImage(w,xx+off,yy,lw,lh)}x.restore()}
-function wmAsk(){return confirm('Görsele tam sayfa ÜÇEL filigranı uygulansın mı?\n\nTamam = filigranlı   ·   İptal = filigransız')}
-function shrink(file,cb,wm){
+function tileWM(cv,P){P=P||_wmP;const w=_wmGet();if(!w)return;const x=cv.getContext('2d'),k=cv.width/1400,gap=P.gap*k,lw=P.sz*k,lh=lw*w.height/w.width;x.save();x.globalAlpha=P.op/100;x.translate(cv.width/2,cv.height/2);x.rotate(-30*Math.PI/180);const R=Math.hypot(cv.width,cv.height);let row=0;for(let yy=-R;yy<R;yy+=gap*.72){const off=(row++%2)?gap/2:0;for(let xx=-R;xx<R;xx+=gap)x.drawImage(w,xx+off,yy,lw,lh)}x.restore()}
+let _wmP=null;try{_wmP=JSON.parse(localStorage.getItem('ucel_wm'))}catch(e){}
+if(!_wmP)_wmP={op:10,gap:300,sz:170};
+let _wmQ=Promise.resolve(),_wmRes=null,_wmImg2=null,_wmSrc=null;
+function wmProcess(src){const r=_wmQ.then(()=>new Promise(res=>{_wmRes=res;_wmSrc=src;const im=new Image();if(/^http/.test(src))im.crossOrigin='anonymous';im.onload=()=>{_wmImg2=im;document.getElementById('wmop').value=_wmP.op;document.getElementById('wmgap').value=_wmP.gap;document.getElementById('wmsz').value=_wmP.sz;document.getElementById('wmmodal').style.display='flex';wmPrev()};im.onerror=()=>{const q=_wmRes;_wmRes=null;q(src)};im.src=/^http/.test(src)?src+(src.includes('?')?'&':'?')+'wm=1':src}));_wmQ=r.catch(()=>{});return r}
+function wmPrev(){const im=_wmImg2;if(!im)return;_wmP={op:+document.getElementById('wmop').value,gap:+document.getElementById('wmgap').value,sz:+document.getElementById('wmsz').value};document.getElementById('wmopv').textContent='%'+_wmP.op;document.getElementById('wmgapv').textContent=_wmP.gap;document.getElementById('wmszv').textContent=_wmP.sz;const cv=document.getElementById('wmcv'),k=Math.min(1,900/im.naturalWidth);cv.width=Math.round(im.naturalWidth*k);cv.height=Math.round(im.naturalHeight*k);const x=cv.getContext('2d');x.drawImage(im,0,0,cv.width,cv.height);tileWM(cv,_wmP)}
+function wmApply(){try{localStorage.setItem('ucel_wm',JSON.stringify(_wmP))}catch(e){}const im=_wmImg2,c=document.createElement('canvas');c.width=im.naturalWidth;c.height=im.naturalHeight;const x=c.getContext('2d');x.drawImage(im,0,0);let out;try{tileWM(c,_wmP);out=c.toDataURL('image/jpeg',.9)}catch(e){out=_wmSrc}document.getElementById('wmmodal').style.display='none';const r=_wmRes;_wmRes=null;r(out)}
+function wmSkip(){document.getElementById('wmmodal').style.display='none';const r=_wmRes;_wmRes=null;r(_wmSrc)}
+function shrink(file,cb){
  const r=new FileReader();
  r.onload=e=>{
   const im=new Image();
@@ -1045,7 +1051,6 @@ function shrink(file,cb,wm){
    cv.getContext('2d').drawImage(im,0,0,cv.width,cv.height);
    const cvT=trimWhite(cv);
    enhanceCanvas(cvT);
-   if(wm)tileWM(cvT);
    cb(cvT.toDataURL('image/jpeg',.9));
   };
   im.src=e.target.result;
@@ -1053,9 +1058,8 @@ function shrink(file,cb,wm){
  r.readAsDataURL(file);
 }
 function setCover(inp){
- const wm=wmAsk();
  for(const f of [...inp.files].slice(0,2))
-  shrink(f,d=>{S.covers.push(d);S.covers=S.covers.slice(-2);syncEditor();render()},wm);
+  shrink(f,async d=>{const v=await wmProcess(d);S.covers.push(v);S.covers=S.covers.slice(-2);syncEditor();render()});
  inp.value='';
 }
 function delCover(i){S.covers.splice(i,1);syncEditor();render()}
@@ -1136,10 +1140,9 @@ function libGrid(){
 }
 function libUpload(inp){
  if(!SB_TOKEN){inp.value='';return loginOpen()}
- const _lwm=wmAsk();
  for(const f of inp.files){
   const nm=f.name;
-  shrink(f,async d=>{try{await libPut(LIB_TAB,d,nm);libGrid()}catch(e){alert('Yuklenemedi: '+e.message)}},_lwm);
+  shrink(f,async d=>{try{await libPut(LIB_TAB,d,nm);libGrid()}catch(e){alert('Yuklenemedi: '+e.message)}});
  }
  inp.value='';
 }
@@ -1158,13 +1161,11 @@ function libChoose(i){
  document.getElementById('libselbtn').textContent='Secilenleri Ekle ('+_libSel.size+')';
  libGrid();
 }
-function wmFromUrl(u){return new Promise(res=>{const im=new Image();im.crossOrigin='anonymous';im.onload=()=>{try{const c=document.createElement('canvas');c.width=im.naturalWidth;c.height=im.naturalHeight;const x=c.getContext('2d');x.drawImage(im,0,0);tileWM(c);res(c.toDataURL('image/jpeg',.9))}catch(e){res(u)}};im.onerror=()=>res(u);im.src=u+(u.includes('?')?'&':'?')+'wm=1'})}
 async function libAddSel(){
  if(!_libSel.size)return alert('Resim secilmedi \u2014 resimlere tiklayin.');
  const cb=_libCb;_libCb=null;
  document.getElementById('libmodal').style.display='none';
- const wm=wmAsk();
- for(const u of _libSel)cb(wm?await wmFromUrl(u):u);
+ for(const u of _libSel)cb(await wmProcess(u));
  _libSel=new Set();
 }
 async function libPick(cb,fileElId,tab){
@@ -1217,8 +1218,7 @@ async function brandsLoad(){
  }catch(e){}
 }
 function addDetail(inp){
- const wm=wmAsk();
- for(const f of inp.files) shrink(f,d=>{S.details.push({img:d,cap:''});syncEditor();render()},wm);
+ for(const f of inp.files) shrink(f,async d=>{const v=await wmProcess(d);S.details.push({img:v,cap:''});syncEditor();render()});
  inp.value='';
 }
 function delDetail(i){S.details.splice(i,1);syncEditor();render()}
@@ -1712,5 +1712,20 @@ async function aiRealistic(i){
 sbUI();
 if(SB_TOKEN)sbRefresh().then(()=>{brandsLoad();introLoad()});
 </script>
+<div id="wmmodal" style="display:none;position:fixed;inset:0;background:rgba(20,28,50,.78);z-index:99;align-items:center;justify-content:center">
+<div style="background:#fff;border-radius:10px;padding:14px 16px;width:min(780px,94vw);max-height:92vh;overflow:auto;box-shadow:0 10px 40px rgba(0,0,0,.4)">
+<div style="font-weight:800;color:var(--navy);margin-bottom:8px">Filigran Ayarı <span style="color:#888;font-weight:400;font-size:12px">— önizlemeye bakarak ayarlayın</span></div>
+<canvas id="wmcv" style="width:100%;border:1px solid #ccd;border-radius:6px"></canvas>
+<div style="display:flex;gap:16px;flex-wrap:wrap;margin:10px 0;font-size:12px;align-items:center">
+<label>Opaklık <input type="range" id="wmop" min="4" max="30" oninput="wmPrev()" style="width:110px;vertical-align:middle"> <b id="wmopv" style="color:var(--orange)"></b></label>
+<label>Sıklık <input type="range" id="wmgap" min="150" max="520" step="10" oninput="wmPrev()" style="width:110px;vertical-align:middle"> <b id="wmgapv" style="color:var(--orange)"></b></label>
+<label>Boyut <input type="range" id="wmsz" min="90" max="320" step="10" oninput="wmPrev()" style="width:110px;vertical-align:middle"> <b id="wmszv" style="color:var(--orange)"></b></label>
+</div>
+<div style="display:flex;gap:8px;justify-content:flex-end">
+<button onclick="wmSkip()" style="padding:8px 16px;border:1px solid var(--navy);background:#fff;color:var(--navy);border-radius:6px;cursor:pointer">Filigransız Ekle</button>
+<button onclick="wmApply()" style="padding:8px 16px;border:none;background:var(--orange);color:#fff;border-radius:6px;font-weight:700;cursor:pointer">Filigranı Uygula ve Ekle</button>
+</div>
+</div>
+</div>
 </body>
 </html>
