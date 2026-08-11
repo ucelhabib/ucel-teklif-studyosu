@@ -1158,11 +1158,13 @@ function libChoose(i){
  document.getElementById('libselbtn').textContent='Secilenleri Ekle ('+_libSel.size+')';
  libGrid();
 }
-function libAddSel(){
+function wmFromUrl(u){return new Promise(res=>{const im=new Image();im.crossOrigin='anonymous';im.onload=()=>{try{const c=document.createElement('canvas');c.width=im.naturalWidth;c.height=im.naturalHeight;const x=c.getContext('2d');x.drawImage(im,0,0);tileWM(c);res(c.toDataURL('image/jpeg',.9))}catch(e){res(u)}};im.onerror=()=>res(u);im.src=u+(u.includes('?')?'&':'?')+'wm=1'})}
+async function libAddSel(){
  if(!_libSel.size)return alert('Resim secilmedi \u2014 resimlere tiklayin.');
  const cb=_libCb;_libCb=null;
  document.getElementById('libmodal').style.display='none';
- for(const u of _libSel)cb(u);
+ const wm=wmAsk();
+ for(const u of _libSel)cb(wm?await wmFromUrl(u):u);
  _libSel=new Set();
 }
 async function libPick(cb,fileElId,tab){
