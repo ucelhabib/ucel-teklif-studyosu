@@ -8,6 +8,7 @@
 <style>
 :root{--navy:#2D426C;--blue:#3D67AB;--orange:#F47936;--row:#E4E7F2;--tot:#F8C9A4;--grand:#FBE68C;--ink:#231F20;--gray:#58595B}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{font-family:'Segoe UI',Arial,sans-serif;background:#eef0f5;color:var(--ink)}
 #app{display:flex;min-height:100vh}
 /* ---------- EDITOR ---------- */
@@ -223,6 +224,7 @@ mark.trx{background:#ffe58a;outline:1px dashed #d29b00;border-radius:2px;padding
  table.items input{font-size:14px}
  #pool_tbl{font-size:12px}
 }
+@media screen and (max-width:600px){#preview .page{zoom:.46}}
 /* ---------- PRINT ---------- */
 @page{size:A4;margin:0}
 @media print{
