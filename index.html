@@ -837,6 +837,7 @@ if(!Array.isArray(S.noteSel))S.noteSel=NOTES_DEF.map((_,i)=>i!==3&&i!==7&&i!==8)
 function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 function num(v){const n=parseFloat(String(v).replace(/\./g,'').replace(',','.'));return isNaN(n)?0:n}
 function fmt(n){if(!isFinite(n))return'';return n.toLocaleString('tr-TR',{minimumFractionDigits:2,maximumFractionDigits:2})}
+function priceFix(v){const n=num(v);return n?fmt(n):(v&&v.trim()?v:'')}
 function fmtQ(n){return n?n.toLocaleString('tr-TR',{maximumFractionDigits:3}):''}
 function money(n){return n?`${S.curr}${fmt(n)}`:''}
 function getIntro(){return S.intro[S.lang]!==undefined?S.intro[S.lang]:TR[S.lang].intro}
@@ -924,7 +925,7 @@ function itemRow(t,i,it){
  <td style="width:46%"><input type="text" placeholder="Malzeme / iş kalemi" value="${esc(it.d)}" oninput="S.items${t}[${i}].d=this.value;renderSoon()"></td>
  <td style="width:16%"><input type="text" placeholder="Miktar" value="${esc(it.q)}" oninput="S.items${t}[${i}].q=this.value;renderSoon()"></td>
  <td style="width:14%"><select onchange="S.items${t}[${i}].u=this.value;renderSoon()">${UNITS.concat(UNITS.includes(it.u)||!it.u?[]:[it.u]).map(u=>`<option${u===it.u?' selected':''}>${esc(u)}</option>`).join('')}</select></td>
- <td style="width:16%"><input type="text" placeholder="Fiyat" value="${esc(it.p)}" oninput="S.items${t}[${i}].p=this.value;renderSoon()"></td>
+ <td style="width:16%"><input type="text" placeholder="Fiyat" value="${esc(it.p)}" oninput="S.items${t}[${i}].p=this.value;renderSoon()" onblur="this.value=priceFix(this.value);S.items${t}[${i}].p=this.value;renderSoon()"></td>
  <td><button class="rowbtn del" onclick="S.items${t}.splice(${i},1);syncEditor();render()">×</button></td></tr>`;
 }
 function refRow(i,r){
