@@ -136,6 +136,14 @@ ol.notes .nno{display:inline-block;min-width:6.5mm;font-weight:800;color:var(--n
 .worldwrap svg{width:158mm;height:auto;display:block;margin:0 auto}
 .worldwrap .wcap{font-size:14pt;font-weight:800;color:var(--navy);margin-top:2mm}
 .worldwrap .wcap span{color:var(--orange)}
+.ondate{text-align:end;color:#556;font-size:11pt;margin-top:2mm}
+.onbody{margin-top:6mm}
+.onbody p{font-size:11.5pt;line-height:1.75;margin-bottom:5mm;text-align:justify}
+.tocwrap{margin-top:10mm}
+.tocrow{display:flex;align-items:baseline;margin:6mm 0}
+.tocrow .tt{font-weight:700;color:var(--navy);font-size:12.5pt}
+.tocrow .dots{flex:1;border-bottom:1.6px dotted #9aa4b8;margin:0 4mm}
+.tocrow .pp{font-weight:800;font-size:12.5pt;color:var(--navy)}
 /* qr: her sayfada alt bilgide, iletisimin solunda */
 .footup img.footqr{height:15mm;width:15mm}
 /* reference project photos */
@@ -318,6 +326,16 @@ mark.trx{background:#ffe58a;outline:1px dashed #d29b00;border-radius:2px;padding
   </fieldset>
 
   <fieldset>
+    <legend>Ön Yazı (opsiyonel — seçili dil)</legend>
+    <textarea id="f_onyazi" rows="5" placeholder="Boş bırakılırsa PDF'e ön yazı sayfası eklenmez. 'Örnek şablon ekle' ile başlayıp düzenleyebilirsiniz." oninput="(S.onyazi=S.onyazi||{})[S.lang]=this.value;renderSoon()"></textarea>
+    <div style="display:flex;gap:10px;align-items:center;margin-top:6px;flex-wrap:wrap">
+     <button class="addbtn" onclick="onyaziTpl()">&#9998; Örnek şablon ekle</button>
+     <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="checkbox" id="f_toc" style="width:auto" onchange="S.toc=this.checked;renderSoon()"> İçindekiler sayfası ekle</label>
+    </div>
+    <div class="hint">Ön yazı ve içindekiler kapaktan sonra gelir; sayfa numaraları otomatik güncellenir. Her dil için ayrı metin tutulur.</div>
+  </fieldset>
+
+  <fieldset>
     <legend>Firma Tanıtım Metni (seçili dil)</legend>
     <textarea id="f_intro" rows="7" oninput="S.intro[S.lang]=this.value;renderSoon();introSaveSoon()"></textarea>
     <div class="hint">Her dil için ayrı metin tutulur; değiştirmezseniz hazır çeviri kullanılır.</div>
@@ -434,7 +452,7 @@ const TR={
   no:'NO',malzeme:'MALZEME, ÜRÜN ADI',miktar:'MİKTAR',birim:'BİRİM',fiyat:'FİYAT',tutar:'TUTAR',
   toplam:'TOPLAM',toplamkap:'TOPLAM KAPLAMA',genel:'GENEL TOPLAM',
   notlar:'NOTLAR VE ŞARTLAR',veren:'TEKLİF VEREN',onay:'MÜŞTERİ ONAYI',ad:'Adı-Soyadı',imza:'İmza',
-  tanitim:'FİRMA TANITIMI',referans:'REFERANS PROJELER',reffirm:'REFERANS FİRMALAR',yapidet:'YAPI DETAYLARI',fiyatlar:'FİYAT TEKLİFİ',
+  onyazi:'ÖN YAZI',icindekiler:'İÇİNDEKİLER',tanitim:'FİRMA TANITIMI',referans:'REFERANS PROJELER',reffirm:'REFERANS FİRMALAR',yapidet:'YAPI DETAYLARI',fiyatlar:'FİYAT TEKLİFİ',
   rproje:'PROJE',ryer:'YER / ÜLKE',rton:'TONAJ / KAPSAM',
   hazirlayan:'Teklif Dili',sayfa:'Sayfa',tel:'Tel:',gsm:'GSM:',ep:'E-posta:',
   world:"<span>GÜÇLÜ YAPILARIN</span> GÜÇLÜ ADI...",qr:'',
@@ -468,7 +486,7 @@ Diğer detaylar sözleşmede yer alacaktır.`},
   no:'NO',malzeme:'DESCRIPTION OF WORK / MATERIAL',miktar:'QTY',birim:'UNIT',fiyat:'UNIT PRICE',tutar:'AMOUNT',
   toplam:'TOTAL',toplamkap:'TOTAL CLADDING',genel:'GRAND TOTAL',
   notlar:'NOTES & TERMS',veren:'ISSUED BY',onay:'CUSTOMER APPROVAL',ad:'Name-Surname',imza:'Signature',
-  tanitim:'COMPANY PROFILE',referans:'REFERENCE PROJECTS',reffirm:'REFERENCE COMPANIES',yapidet:'STRUCTURE DETAILS',fiyatlar:'PRICE QUOTATION',
+  onyazi:'COVER LETTER',icindekiler:'CONTENTS',tanitim:'COMPANY PROFILE',referans:'REFERENCE PROJECTS',reffirm:'REFERENCE COMPANIES',yapidet:'STRUCTURE DETAILS',fiyatlar:'PRICE QUOTATION',
   rproje:'PROJECT',ryer:'LOCATION / COUNTRY',rton:'TONNAGE / SCOPE',
   hazirlayan:'Quotation Language',sayfa:'Page',tel:'Tel:',gsm:'Mobile:',ep:'E-mail:',
   world:'<span>THE STRONG NAME OF</span> STRONG STRUCTURES...',qr:'',
@@ -502,7 +520,7 @@ All other details will be defined in the contract.`},
   no:'رقم',malzeme:'وصف الأعمال / المواد',miktar:'الكمية',birim:'الوحدة',fiyat:'سعر الوحدة',tutar:'المبلغ',
   toplam:'المجموع',toplamkap:'مجموع التغطية',genel:'المجموع الكلي',
   notlar:'ملاحظات وشروط',veren:'مقدم العرض',onay:'موافقة العميل',ad:'الاسم واللقب',imza:'التوقيع',
-  tanitim:'نبذة عن الشركة',referans:'مشاريع مرجعية',reffirm:'شركات مرجعية',yapidet:'تفاصيل الهيكل',fiyatlar:'عرض الأسعار',
+  onyazi:'خطاب تمهيدي',icindekiler:'المحتويات',tanitim:'نبذة عن الشركة',referans:'مشاريع مرجعية',reffirm:'شركات مرجعية',yapidet:'تفاصيل الهيكل',fiyatlar:'عرض الأسعار',
   rproje:'المشروع',ryer:'الموقع / الدولة',rton:'الوزن / النطاق',
   hazirlayan:'لغة العرض',sayfa:'صفحة',tel:'هاتف:',gsm:'جوال:',ep:'بريد إلكتروني:',
   world:'<span>الاسم القوي</span> للمنشآت القوية...',qr:'',
@@ -536,7 +554,7 @@ All other details will be defined in the contract.`},
   no:'№',malzeme:'НАИМЕНОВАНИЕ РАБОТ / МАТЕРИАЛОВ',miktar:'КОЛ-ВО',birim:'ЕД.',fiyat:'ЦЕНА',tutar:'СУММА',
   toplam:'ИТОГО',toplamkap:'ИТОГО ОБШИВКА',genel:'ОБЩАЯ СУММА',
   notlar:'ПРИМЕЧАНИЯ И УСЛОВИЯ',veren:'ОТ ИСПОЛНИТЕЛЯ',onay:'ПОДТВЕРЖДЕНИЕ ЗАКАЗЧИКА',ad:'Ф.И.О.',imza:'Подпись',
-  tanitim:'О КОМПАНИИ',referans:'РЕФЕРЕНС-ПРОЕКТЫ',reffirm:'РЕФЕРЕНС-КОМПАНИИ',yapidet:'ДЕТАЛИ КОНСТРУКЦИИ',fiyatlar:'ЦЕНОВОЕ ПРЕДЛОЖЕНИЕ',
+  onyazi:'СОПРОВОДИТЕЛЬНОЕ ПИСЬМО',icindekiler:'СОДЕРЖАНИЕ',tanitim:'О КОМПАНИИ',referans:'РЕФЕРЕНС-ПРОЕКТЫ',reffirm:'РЕФЕРЕНС-КОМПАНИИ',yapidet:'ДЕТАЛИ КОНСТРУКЦИИ',fiyatlar:'ЦЕНОВОЕ ПРЕДЛОЖЕНИЕ',
   rproje:'ПРОЕКТ',ryer:'МЕСТО / СТРАНА',rton:'ТОННАЖ / ОБЪЁМ',
   hazirlayan:'Язык предложения',sayfa:'Стр.',tel:'Тел.:',gsm:'Моб.:',ep:'Эл. почта:',
   world:'<span>СИЛЬНОЕ ИМЯ</span> СИЛЬНЫХ КОНСТРУКЦИЙ...',qr:'',
@@ -570,7 +588,7 @@ All other details will be defined in the contract.`},
   no:"№",malzeme:"ISHLAR / MATERIALLAR TAVSIFI",miktar:"MIQDOR",birim:"BIRLIK",fiyat:"NARX",tutar:"SUMMA",
   toplam:"JAMI",toplamkap:"QOPLAMA JAMI",genel:"UMUMIY SUMMA",
   notlar:"IZOHLAR VA SHARTLAR",veren:"TAKLIF BERUVCHI",onay:"BUYURTMACHI TASDIG'I",ad:"Familiya-Ism",imza:"Imzo",
-  tanitim:"KOMPANIYA HAQIDA",referans:"NAMUNAVIY LOYIHALAR",reffirm:"HAMKOR KOMPANIYALAR",yapidet:"KONSTRUKSIYA TAFSILOTLARI",fiyatlar:"NARX TAKLIFI",
+  onyazi:"KIRISH XATI",icindekiler:"MUNDARIJA",tanitim:"KOMPANIYA HAQIDA",referans:"NAMUNAVIY LOYIHALAR",reffirm:"HAMKOR KOMPANIYALAR",yapidet:"KONSTRUKSIYA TAFSILOTLARI",fiyatlar:"NARX TAKLIFI",
   rproje:"LOYIHA",ryer:"JOY / MAMLAKAT",rton:"TONNAJ / HAJM",
   hazirlayan:"Taklif tili",sayfa:"Sahifa",tel:"Tel:",gsm:"Mob.:",ep:"E-mail:",
   world:"<span>MUSTAHKAM INSHOOTLARNING</span> MUSTAHKAM NOMI...",qr:"",
@@ -604,7 +622,7 @@ Boshqa tafsilotlar shartnomada belgilanadi.`},
   no:'N°',malzeme:'DÉSIGNATION DES TRAVAUX / MATÉRIAUX',miktar:'QTÉ',birim:'UNITÉ',fiyat:'PRIX UNIT.',tutar:'MONTANT',
   toplam:'TOTAL',toplamkap:'TOTAL BARDAGE',genel:'TOTAL GÉNÉRAL',
   notlar:'NOTES ET CONDITIONS',veren:'ÉMETTEUR DE L\u2019OFFRE',onay:'APPROBATION DU CLIENT',ad:'Nom-Prénom',imza:'Signature',
-  tanitim:'PRÉSENTATION DE LA SOCIÉTÉ',referans:'PROJETS DE RÉFÉRENCE',reffirm:'SOCIÉTÉS DE RÉFÉRENCE',yapidet:'DÉTAILS DE LA STRUCTURE',fiyatlar:'OFFRE DE PRIX',
+  onyazi:'LETTRE D’ACCOMPAGNEMENT',icindekiler:'SOMMAIRE',tanitim:'PRÉSENTATION DE LA SOCIÉTÉ',referans:'PROJETS DE RÉFÉRENCE',reffirm:'SOCIÉTÉS DE RÉFÉRENCE',yapidet:'DÉTAILS DE LA STRUCTURE',fiyatlar:'OFFRE DE PRIX',
   rproje:'PROJET',ryer:'LIEU / PAYS',rton:'TONNAGE / PORTÉE',
   hazirlayan:'Langue de l\u2019offre',sayfa:'Page',tel:'Tél :',gsm:'GSM :',ep:'E-mail :',
   world:'<span>le nom fort</span> des structures solides...',qr:'',
@@ -622,7 +640,7 @@ Grâce à nos technologies innovantes et à notre équipe experte, nous menons l
   no:'N.º',malzeme:'DESCRIÇÃO DOS TRABALHOS / MATERIAIS',miktar:'QTD.',birim:'UNID.',fiyat:'PREÇO UNIT.',tutar:'VALOR',
   toplam:'TOTAL',toplamkap:'TOTAL REVESTIMENTO',genel:'TOTAL GERAL',
   notlar:'NOTAS E CONDIÇÕES',veren:'EMISSOR DA PROPOSTA',onay:'APROVAÇÃO DO CLIENTE',ad:'Nome e apelido',imza:'Assinatura',
-  tanitim:'APRESENTAÇÃO DA EMPRESA',referans:'PROJETOS DE REFERÊNCIA',reffirm:'EMPRESAS DE REFERÊNCIA',yapidet:'DETALHES DA ESTRUTURA',fiyatlar:'PROPOSTA DE PREÇO',
+  onyazi:'CARTA DE APRESENTAÇÃO',icindekiler:'ÍNDICE',tanitim:'APRESENTAÇÃO DA EMPRESA',referans:'PROJETOS DE REFERÊNCIA',reffirm:'EMPRESAS DE REFERÊNCIA',yapidet:'DETALHES DA ESTRUTURA',fiyatlar:'PROPOSTA DE PREÇO',
   rproje:'PROJETO',ryer:'LOCAL / PAÍS',rton:'TONELAGEM / ÂMBITO',
   hazirlayan:'Idioma da proposta',sayfa:'Página',tel:'Tel.:',gsm:'GSM:',ep:'E-mail:',
   world:'<span>o nome forte</span> das estruturas sólidas...',qr:'',
@@ -797,7 +815,7 @@ let S={lang:'tr',curr:'$',projeno:'',tarih:today,firma:'',yetkili:'',isadi:'',is
  items2:[{d:'',q:'',u:'m²',p:''},{d:'',q:'',u:'Adet',p:''}],
  refs:[{n:'',y:'',t:''},{n:'',y:'',t:''}],
  brands:DEFAULT_BRANDS.slice(),details:[],
- intro:{},notes:{},notesEk:{},noteSel:null,noteTxt:{},trx:{}};
+ intro:{},notes:{},notesEk:{},noteSel:null,noteTxt:{},trx:{},onyazi:{},toc:false};
 /* varsayilan secimler: 120 mikron (4) ve betonarme (8) alternatifleri kapali baslar */
 if(!Array.isArray(S.noteSel))S.noteSel=NOTES_DEF.map((_,i)=>i!==3&&i!==7&&i!==8&&i<25);
 
@@ -930,6 +948,8 @@ function syncEditor(){
   _nl.innerHTML='<div class="hint">Bu eski kayıt serbest metin notları kullanıyor; PDF özgün notlarıyla basılır.</div>';
  }
  document.getElementById('f_notes_ek').value=(S.notesEk&&S.notesEk[S.lang])||'';
+ document.getElementById('f_onyazi').value=(S.onyazi&&S.onyazi[S.lang])||'';
+ document.getElementById('f_toc').checked=!!S.toc;
  document.getElementById('f_projeno').value=S.projeno;
  document.getElementById('f_tarih').value=S.tarih;
  document.getElementById('f_firma').value=S.firma;
@@ -1265,6 +1285,15 @@ function covOri(img){
   g.classList.toggle('tekdikey',figs.length===1&&dikey===1);
  }catch(e){}
 }
+const ONTPL={
+ tr:(y,i,l)=>`Sayın ${y||'Yetkili'},\n\nGörüşmelerimizin devamında; ${l?l+' lokasyonunda planlanan ':''}${i||'projeniz'} için hazırladığımız teklifimizi bilgilerinize sunarız.\n\nTeklifimiz ekteki bilgi ve çizimlere dayanmaktadır; kapsamın ve yerleşimin birlikte optimize edilmesi için ekibimiz hazırdır. Sorularınız için bize her zaman ulaşabilirsiniz.\n\nGüveniniz için teşekkür eder, iyi çalışmalar dileriz.\n\nÜÇEL Yapısal Çelik`,
+ en:(y,i,l)=>`Dear ${y||'Sir/Madam'},\n\nFurther to our recent discussions, please find below our quotation for ${i||'your project'}${l?' in '+l:''}.\n\nOur offer is based on the enclosed information and drawings; our team is ready to optimise the scope and layout together with you. Please do not hesitate to contact us with any questions.\n\nThank you for your trust,\n\nÜÇEL Steel Construction`,
+ ar:(y,i,l)=>`السيد المحترم ${y||''}،\n\nإلحاقاً بمناقشاتنا الأخيرة، نقدم لكم أدناه عرضنا الخاص بـ${i||'مشروعكم'}${l?' في '+l:''}.\n\nيستند عرضنا إلى المعلومات والرسومات المرفقة؛ وفريقنا مستعد لتحسين النطاق والتخطيط معكم. لا تترددوا في التواصل معنا لأي استفسار.\n\nشاكرين لكم ثقتكم،\n\nÜÇEL Steel Construction`,
+ ru:(y,i,l)=>`Уважаемый(ая) ${y||'господин/госпожа'},\n\nВ продолжение наших переговоров направляем Вам наше предложение по ${i||'Вашему проекту'}${l?' ('+l+')':''}.\n\nПредложение основано на приложенных данных и чертежах; наша команда готова вместе с Вами оптимизировать объём и компоновку. Будем рады ответить на любые вопросы.\n\nБлагодарим за доверие,\n\nÜÇEL Steel Construction`,
+ uz:(y,i,l)=>`Hurmatli ${y||'janob/xonim'},\n\nMuzokaralarimiz davomida ${i||'loyihangiz'} uchun tayyorlangan taklifimizni e'tiboringizga havola qilamiz${l?' ('+l+')':''}.\n\nTaklifimiz ilova qilingan ma'lumot va chizmalarga asoslangan; jamoamiz qamrov va joylashuvni birga optimallashtirish uchun tayyor.\n\nIshonchingiz uchun tashakkur,\n\nÜÇEL Steel Construction`,
+ fr:(y,i,l)=>`Madame, Monsieur${y?' '+y:''},\n\nSuite à nos récents échanges, veuillez trouver ci-dessous notre offre pour ${i||'votre projet'}${l?' à '+l:''}.\n\nNotre offre s'appuie sur les informations et plans joints ; notre équipe est prête à optimiser le périmètre et l'implantation avec vous.\n\nMerci de votre confiance,\n\nÜÇEL Steel Construction`,
+ pt:(y,i,l)=>`Exmo.(a) ${y||'Senhor(a)'},\n\nNa sequência das nossas conversas, apresentamos a nossa proposta para ${i||'o seu projeto'}${l?' em '+l:''}.\n\nA proposta baseia-se nas informações e desenhos anexos; a nossa equipa está pronta para otimizar o âmbito e a implantação consigo.\n\nGratos pela confiança,\n\nÜÇEL Steel Construction`};
+function onyaziTpl(){const f=ONTPL[S.lang]||ONTPL.tr;(S.onyazi=S.onyazi||{})[S.lang]=f(trTitle(S.yetkili||''),(S.isadi||'').trim(),(S.isyeri||'').trim());syncEditor();render()}
 function render(){
  const L=TR[S.lang];const dir=L.rtl?'rtl':'ltr';
  const firma=trTitle(S.firma),yetkili=trTitle(S.yetkili),isadi=trX('isadi',trDesc(trTitle(S.isadi),S.lang)),isyeri=trX('isyeri',trDesc(trTitle(S.isyeri),S.lang));
@@ -1280,7 +1309,10 @@ function render(){
    <td class="k">${L.isyeri}:</td><td class="v">${esc(isyeri)}</td>
    <td class="k">${L.projeno}:</td><td class="v">${esc(S.projeno)}</td></tr></table>`;
  const hasDet=S.details.length>0;
- const TOTAL=hasDet?5:4;
+ const onTxt=((S.onyazi&&S.onyazi[S.lang])||'').trim();
+ const tocOn=!!S.toc;
+ const TOTAL=1+(onTxt?1:0)+(tocOn?1:0)+(hasDet?1:0)+3;
+ const PGON=2,PGDET=2+(onTxt?1:0)+(tocOn?1:0),PGFIY=PGDET+(hasDet?1:0),PGNOT=PGFIY+1;
  let pg=0;
  /* page 1 cover */
  pg++;
@@ -1297,6 +1329,27 @@ function render(){
     <div><div class="k">${L.tarih}</div><div class="v">${fmtDate(S.tarih)}</div></div>
    </div>
   </div>${pgFoot(L,pg,TOTAL)}</div>`;
+ /* on yazi (opsiyonel) */
+ let pOn='';
+ if(onTxt){pg++;pOn=`<div class="page" dir="${dir}">
+  ${pgHead(L)}
+  <div class="pgbody">
+   <h2 class="sec">${L.onyazi}</h2>
+   <div class="ondate">${fmtDate(S.tarih)}</div>
+   <div class="onbody">${onTxt.split(/\n\s*\n/).map(q=>`<p>${esc(tidyPara(q)).replace(/\n/g,'<br>')}</p>`).join('')}</div>
+  </div>${pgFoot(L,pg,TOTAL)}</div>`;}
+ /* icindekiler (opsiyonel) */
+ let pToc='';
+ if(tocOn){pg++;const trows=[];
+  if(onTxt)trows.push([L.onyazi,PGON]);
+  if(hasDet)trows.push([L.yapidet,PGDET]);
+  trows.push([L.fiyatlar,PGFIY],[L.notlar,PGNOT],[L.tanitim,TOTAL]);
+  pToc=`<div class="page" dir="${dir}">
+  ${pgHead(L)}
+  <div class="pgbody">
+   <h2 class="sec">${L.icindekiler}</h2>
+   <div class="tocwrap">${trows.map(r=>`<div class="tocrow"><span class="tt">${r[0]}</span><span class="dots"></span><span class="pp">${r[1]}</span></div>`).join('')}</div>
+  </div>${pgFoot(L,pg,TOTAL)}</div>`;}
  /* firma tanitimi - SON SAYFA */
  const refRows=S.refs.filter(r=>r.n).map(r=>`<tr><td>${esc(trDesc(trTitle(r.n),S.lang))}</td><td class="num">${esc(trDesc(trTitle(r.y),S.lang))}</td><td class="num">${esc(r.t)}</td></tr>`).join('');
  const brandGrid=S.brands.length?`<h2 class="sec" style="margin-top:6mm">${L.reffirm}</h2>
@@ -1377,7 +1430,7 @@ function render(){
     <div class="box"><div class="t">${L.onay}</div>${L.ad}:<div class="line">${L.imza}</div></div>
    </div>
   </div>${pgFoot(L,pg,TOTAL)}</div>`;
- const _html=p1+pDet+p3+p4+p2;
+ const _html=p1+pOn+pToc+pDet+p3+p4+p2;
  if(_html!==window._lastHtml){
   window._lastHtml=_html;
   let out=_html.replace(/<img /g,'<img decoding="async" ');
@@ -1651,6 +1704,7 @@ async function poolLoad(id){
   S.noteSel=Array.isArray(j[0].data.noteSel)?j[0].data.noteSel:null;
   if(S.noteSel&&S.noteSel.length===24)S.noteSel.splice(8,0,false); /* stud maddesi sonradan eklendi */
   while(Array.isArray(S.noteSel)&&S.noteSel.length<NOTES_DEF.length)S.noteSel.push(false); /* yeni maddeler kapali baslar */
+  S.onyazi=S.onyazi||{};S.toc=!!S.toc;
   S.notesEk=(j[0].data.notesEk&&typeof j[0].data.notesEk==='object')?j[0].data.notesEk:{};
   S.noteTxt=(j[0].data.noteTxt&&typeof j[0].data.noteTxt==='object')?j[0].data.noteTxt:{};
   S.trx=(j[0].data.trx&&typeof j[0].data.trx==='object')?j[0].data.trx:{};
