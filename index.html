@@ -378,6 +378,7 @@ mark.trx{background:#ffe58a;outline:1px dashed #d29b00;border-radius:2px;padding
   <div style="flex:1 1 auto;min-height:0;overflow:auto;border:1px solid #e2e5ee;border-radius:6px"><table class="doc" id="pool_tbl" style="font-size:11.5px"></table></div>
   <div class="lmbtns" style="margin-top:10px">
    <button class="pri" onclick="poolReport()">&#128424; Rapor Al (PDF)</button>
+   <button class="pri" style="background:#1D6F42" onclick="poolCsv()">&#11015; Excel (CSV)</button>
    <button onclick="poolClose()">Kapat</button>
   </div>
  </div>
@@ -423,45 +424,6 @@ function flag(lang,w){
   fr:`<svg width="${w}" height="${h}" viewBox="0 0 30 20"><rect width="10" height="20" fill="#0055A4"/><rect x="10" width="10" height="20" fill="#fff"/><rect x="20" width="10" height="20" fill="#EF4135"/><rect width="30" height="20" fill="none" stroke="#0002"/></svg>`,
   pt:`<svg width="${w}" height="${h}" viewBox="0 0 30 20"><rect width="30" height="20" fill="#DA291C"/><rect width="12" height="20" fill="#046A38"/><circle cx="12" cy="10" r="4.2" fill="#FFE900" stroke="#DA291C" stroke-width=".8"/><circle cx="12" cy="10" r="2" fill="#fff" stroke="#046A38" stroke-width=".6"/></svg>`};
  return svgs[lang];
-}
-/* stylized globe with routes from Konya */
-function worldSVG(){
- const escT=t=>String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
- const O=[413,98]; /* Konya */
- const P=[
-  [457,62,'Rusya',465,56,'start'],
-  [484,79,'Kazakistan',492,76,'start'],
-  [476,95,'Özbekistan',484,101,'start'],
-  [447,92,'Azerbaycan',455,86,'start'],
-  [408,121,'Mısır',404,135,'end'],
-  [381,119,'Libya',374,112,'end'],
-  [385,191,'Angola',377,199,'end'],
- ];
- const yol=P.map(p=>`M${O[0]} ${O[1]} Q ${(O[0]+p[0])/2} ${Math.min(O[1],p[1])-30} ${p[0]} ${p[1]}`).join(' ');
- const pins=P.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="4.8" fill="#F47936" stroke="#fff" stroke-width="1.5"/><circle cx="${p[0]}" cy="${p[1]}" r="1.7" fill="#fff"/>`).join('');
- const labs=P.map(p=>`<text x="${p[3]}" y="${p[4]}" text-anchor="${p[5]}" font-family="Arial" font-size="12.5" font-weight="700" fill="#2D426C" stroke="#ffffff" stroke-width="3.5" paint-order="stroke">${escT(trDesc(p[2],S.lang))}</text>`).join('');
- return `<svg viewBox="0 0 700 320" xmlns="http://www.w3.org/2000/svg">
- <g stroke="#c9d2e4" stroke-width=".6" opacity=".5" fill="none">
-  <path d="M0 60 H700 M0 120 H700 M0 180 H700 M0 240 H700 M100 0 V320 M200 0 V320 M300 0 V320 M400 0 V320 M500 0 V320 M600 0 V320"/>
- </g>
- <g fill="#2D426C" opacity=".93">
-  <path d="M63 96 L82 60 L118 42 L168 38 L205 50 L214 64 L198 72 L206 84 L192 96 L200 104 L182 118 L168 112 L158 130 L146 144 L134 132 L112 128 L96 116 L84 120 L70 108 Z"/>
-  <path d="M232 30 L262 24 L282 36 L270 54 L244 56 L230 44 Z"/>
-  <path d="M168 168 L192 158 L214 170 L222 194 L214 226 L198 262 L186 288 L176 262 L170 226 L162 196 Z"/>
-  <path d="M330 88 L336 70 L352 58 L346 48 L362 42 L378 46 L392 40 L404 46 L398 58 L410 62 L406 76 L418 84 L408 96 L384 98 L362 92 L344 96 Z"/>
-  <path d="M338 108 L360 100 L388 102 L412 108 L426 122 L420 142 L428 158 L418 178 L404 198 L396 224 L384 236 L372 224 L366 198 L352 178 L340 154 L332 130 Z"/>
-  <path d="M424 96 L414 78 L422 60 L412 50 L428 38 L462 30 L516 28 L566 38 L610 52 L636 72 L626 92 L604 100 L616 112 L596 122 L572 116 L556 132 L540 122 L520 132 L508 152 L494 168 L484 148 L470 160 L458 142 L466 124 L448 118 L436 106 Z"/>
-  <path d="M560 218 L592 208 L628 216 L642 236 L630 256 L600 262 L572 252 L556 236 Z"/>
- </g>
- <path d="${yol}" stroke="#F47936" stroke-width="4" fill="none" opacity=".18" stroke-linecap="round"/>
- <path d="${yol}" stroke="#F47936" stroke-width="1.7" fill="none" opacity=".95" stroke-linecap="round"/>
- ${pins}
- ${labs}
- <circle cx="${O[0]}" cy="${O[1]}" r="11" fill="#F47936" opacity=".22"/>
- <path d="M${O[0]} ${O[1]-11} c-6.5 0 -9.5 5 -9.5 9 c0 6.5 9.5 15 9.5 15 c0 0 9.5 -8.5 9.5 -15 c0 -4 -3 -9 -9.5 -9z" fill="#F47936" stroke="#fff" stroke-width="1.7"/>
- <circle cx="${O[0]}" cy="${O[1]-2}" r="3.2" fill="#fff"/>
- <text x="${O[0]-13}" y="${O[1]-14}" text-anchor="end" font-family="Arial" font-size="13.5" font-weight="800" fill="#F47936" stroke="#ffffff" stroke-width="3.5" paint-order="stroke">${escT(trDesc('Türkiye',S.lang))}</text>
- </svg>`;
 }
 
 /* ================= TRANSLATIONS ================= */
@@ -824,6 +786,11 @@ const NOTES_DEF=[
  {tr:'Toplam tutar KDV hariç tutardır.',en:'Total amount excludes VAT.',ar:'المبلغ الإجمالي لا يشمل ضريبة القيمة المضافة.',ru:'Общая сумма указана без НДС.',uz:'Umumiy summa QQSsiz.',fr:'Le montant total s’entend hors TVA.',pt:'O valor total não inclui IVA.'},
  {tr:'Ödeme planı; %... sözleşme esnasında, %... sevkiyat öncesi, %... kısmı ise montaj sonunda yapılacaktır.',en:'Payment plan: %... at contract, %... before shipment, %... upon completion of erection.',ar:'خطة الدفع: %... عند العقد، %... قبل الشحن، %... بعد انتهاء التركيب.',ru:'План оплаты: %... при контракте, %... перед отгрузкой, %... по завершении монтажа.',uz:"To'lov rejasi: shartnomada %..., jo'natishdan oldin %..., montaj tugagach %... to'lanadi.",fr:'Plan de paiement : %... à la signature, %... avant expédition, %... à la fin du montage.',pt:'Plano de pagamento: %... na assinatura, %... antes da expedição, %... no final da montagem.'},
  {tr:'Diğer detaylar sözleşmede yer alacaktır.',en:'Other details will be defined in the contract.',ar:'تُحدد باقي التفاصيل في العقد.',ru:'Прочие детали определяются контрактом.',uz:'Boshqa tafsilotlar shartnomada belgilanadi.',fr:'Les autres détails seront définis dans le contrat.',pt:'Os restantes detalhes serão definidos no contrato.'},
+ {tr:'Temel tasarımı, topraklama ve paratoner fiyata dahil değildir; ankrajların betona yerleştirilmesi ve beton dökümü öncesi poz kontrolü müşteriye aittir.',en:"Foundation design, earthing and lightning protection are not included; placing anchors into concrete and checking their position before pouring are on the customer's account.",ar:'تصميم الأساسات والتأريض ومانعة الصواعق غير مشمولة بالسعر؛ وضع مثبتات التثبيت في الخرسانة والتحقق من مواضعها قبل الصب على عاتق العميل.',ru:'Проектирование фундаментов, заземление и молниезащита в цену не входят; установка анкеров в бетон и контроль их положения до заливки — за счёт заказчика.',uz:"Poydevor loyihasi, yerga ulash va yashin qaytargich narxga kirmaydi; ankerlarni betonga o'rnatish va quyishdan oldin joylashuvini tekshirish buyurtmachi zimmasida.",fr:'La conception des fondations, la mise à la terre et le paratonnerre ne sont pas inclus ; la pose des ancrages dans le béton et le contrôle de leur position avant coulage sont à la charge du client.',pt:'O projeto das fundações, o aterramento e o para-raios não estão incluídos; a colocação dos chumbadores no betão e a verificação da sua posição antes da betonagem são por conta do cliente.'},
+ {tr:'İnşaat ruhsatı, resmi izin ve onaylar ile her türlü vergi, resim ve harçlar fiyata dahil değildir.',en:'Building permits, official approvals and all taxes, duties and fees are not included in the price.',ar:'رخصة البناء والموافقات الرسمية وجميع الضرائب والرسوم غير مشمولة بالسعر.',ru:'Разрешение на строительство, официальные согласования, а также все налоги, пошлины и сборы в цену не входят.',uz:"Qurilish ruxsatnomasi, rasmiy kelishuvlar hamda barcha soliq va yig'imlar narxga kirmaydi.",fr:'Le permis de construire, les autorisations officielles ainsi que tous impôts, taxes et redevances ne sont pas inclus dans le prix.',pt:'A licença de construção, as aprovações oficiais e todos os impostos e taxas não estão incluídos no preço.'},
+ {tr:'Bu teklifte açıkça belirtilmeyen tüm malzeme ve hizmetler kapsam dışıdır.',en:'All materials and services not explicitly stated in this quotation are excluded.',ar:'جميع المواد والخدمات غير المذكورة صراحة في هذا العرض خارج النطاق.',ru:'Все материалы и услуги, прямо не указанные в данном предложении, в объём не входят.',uz:"Ushbu taklifda aniq ko'rsatilmagan barcha materiallar va xizmatlar qamrovga kirmaydi.",fr:'Tous les matériaux et services non explicitement mentionnés dans la présente offre sont exclus.',pt:'Todos os materiais e serviços não expressamente indicados nesta proposta estão excluídos.'},
+ {tr:'Malzeme ve işçilik garantisi kesin kabulden itibaren 12 aydır; taşıyıcı sistem tasarımı 10 yıl ÜÇEL güvencesindedir.',en:'Materials and workmanship are guaranteed for 12 months from final acceptance; the structural design carries a 10-year ÜÇEL guarantee.',ar:'ضمان المواد والمصنعية 12 شهراً من القبول النهائي؛ وتصميم الهيكل الإنشائي بضمان ÜÇEL لمدة 10 سنوات.',ru:'Гарантия на материалы и работы — 12 месяцев с окончательной приёмки; расчёт несущих конструкций — 10 лет гарантии ÜÇEL.',uz:"Material va ishchilik kafolati yakuniy qabuldan boshlab 12 oy; yuk ko'taruvchi tizim loyihasi 10 yillik ÜÇEL kafolatida.",fr:"La garantie matériaux et main-d'œuvre est de 12 mois à compter de la réception définitive ; le calcul de la structure porteuse bénéficie d'une garantie ÜÇEL de 10 ans.",pt:'A garantia de materiais e mão de obra é de 12 meses a partir da aceitação definitiva; o projeto estrutural tem garantia ÜÇEL de 10 anos.'},
+ {tr:'Onaylı çizim ve yük kabullerindeki değişiklikler, karşılıklı mutabık kalınacak artı-eksi listesiyle fiyatlandırılır.',en:'Changes to approved drawings and load assumptions are priced through a mutually agreed plus/minus list.',ar:'التغييرات على الرسومات المعتمدة وافتراضات الأحمال تُسعَّر عبر قائمة زيادة/نقصان يتفق عليها الطرفان.',ru:'Изменения в согласованных чертежах и нагрузках оцениваются по взаимно согласованному плюс-минус листу.',uz:"Tasdiqlangan chizmalar va yuk kabullaridagi o'zgarishlar o'zaro kelishilgan plyus-minus ro'yxati bilan narxlanadi.",fr:"Les modifications des plans approuvés et des hypothèses de charges sont valorisées via une liste plus/moins convenue d'un commun accord.",pt:'As alterações aos desenhos aprovados e às hipóteses de carga são valorizadas através de uma lista mais/menos acordada mutuamente.'},
 ];
 let S={lang:'tr',curr:'$',projeno:'',tarih:today,firma:'',yetkili:'',isadi:'',isyeri:'',covers:[],
  items1:[{d:'',q:'',u:'kg',p:''},{d:'',q:'',u:'kg',p:''},{d:'',q:'',u:'kg',p:''}],
@@ -832,7 +799,7 @@ let S={lang:'tr',curr:'$',projeno:'',tarih:today,firma:'',yetkili:'',isadi:'',is
  brands:DEFAULT_BRANDS.slice(),details:[],
  intro:{},notes:{},notesEk:{},noteSel:null,noteTxt:{},trx:{}};
 /* varsayilan secimler: 120 mikron (4) ve betonarme (8) alternatifleri kapali baslar */
-if(!Array.isArray(S.noteSel))S.noteSel=NOTES_DEF.map((_,i)=>i!==3&&i!==7&&i!==8);
+if(!Array.isArray(S.noteSel))S.noteSel=NOTES_DEF.map((_,i)=>i!==3&&i!==7&&i!==8&&i<25);
 
 /* ================= HELPERS ================= */
 function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
@@ -901,7 +868,7 @@ function cleanNo(s){return (s||'').replace(/^\s*\d+\s*[.)-]?\s*/,'')} /* strip e
 /* ---- automatic shipment calculation (note containing "......") ---- */
 const OVERLAND=['türkiye','turkiye','turkey','azerbaycan','azerbaijan','азербайджан','gürcistan','georgia','грузия','irak','iraq','iran','ирак','иран','suriye','syria','rusya','russia','россия','kazakistan','kazakhstan','казахстан','özbekistan','ozbekistan','uzbekistan','узбекистан','türkmenistan','turkmenistan','kırgızistan','kyrgyzstan','tacikistan','tajikistan','bulgaristan','bulgaria','romanya','romania','ukrayna','ukraine','ermenistan','nahçıvan','kktc','kıbrıs'];
 function shipCalc(){
- const tonKg=S.items1.reduce((a,it)=>a+((it.u||'').trim().toLowerCase()==='kg'?num(it.q):0),0);
+ const tonKg=S.items1.reduce((a,it)=>{const u=(it.u||'').trim().toLowerCase();return a+(u==='kg'?num(it.q):u==='ton'?num(it.q)*1000:0)},0);
  const m2=S.items2.reduce((a,it)=>{const u=(it.u||'').toLowerCase();return a+(u==='m²'||u==='m2'?num(it.q):0)},0);
  /* asagi yonlu yuvarlama (kullanici istegi) */
  const n=(tonKg>0?Math.floor(tonKg/1000/20):0)+(m2>0?Math.floor(m2/600):0);
@@ -941,7 +908,7 @@ let _refIdx=-1;
 function pickRefImg(i){_refIdx=i;libPick(d=>{S.refs[_refIdx].img=d;syncEditor();render()},'refimg')}
 function onRefImg(inp){
  const f=inp.files[0];if(!f||_refIdx<0)return;
- shrink(f,async d=>{const v=await wmProcess(d);S.refs[_refIdx].img=v;syncEditor();render()});
+ shrink(f,async d=>{const v=await wmProcess(d);if(v){S.refs[_refIdx].img=v;syncEditor();render()}});
  inp.value='';
 }
 function syncEditor(){
@@ -1045,6 +1012,8 @@ function wmProcess(src){const r=_wmQ.then(()=>new Promise(res=>{_wmRes=res;_wmSr
 function wmPrev(){const im=_wmImg2;if(!im)return;_wmP={op:+document.getElementById('wmop').value,gap:+document.getElementById('wmgap').value,sz:+document.getElementById('wmsz').value};document.getElementById('wmopv').textContent='%'+_wmP.op;document.getElementById('wmgapv').textContent=_wmP.gap;document.getElementById('wmszv').textContent=_wmP.sz;const cv=document.getElementById('wmcv'),k=Math.min(1,900/im.naturalWidth);cv.width=Math.round(im.naturalWidth*k);cv.height=Math.round(im.naturalHeight*k);const x=cv.getContext('2d');x.drawImage(im,0,0,cv.width,cv.height);tileWM(cv,_wmP)}
 function wmApply(){try{localStorage.setItem('ucel_wm',JSON.stringify(_wmP))}catch(e){}const im=_wmImg2,c=document.createElement('canvas');c.width=im.naturalWidth;c.height=im.naturalHeight;const x=c.getContext('2d');x.drawImage(im,0,0);let out;try{tileWM(c,_wmP);out=c.toDataURL('image/jpeg',.9)}catch(e){out=_wmSrc}document.getElementById('wmmodal').style.display='none';const r=_wmRes;_wmRes=null;r(out)}
 function wmSkip(){document.getElementById('wmmodal').style.display='none';const r=_wmRes;_wmRes=null;r(_wmSrc)}
+function wmCancel(){document.getElementById('wmmodal').style.display='none';const r=_wmRes;_wmRes=null;if(r)r(null)}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.getElementById('wmmodal').style.display==='flex')wmCancel()});
 function shrink(file,cb){
  const r=new FileReader();
  r.onload=e=>{
@@ -1064,7 +1033,7 @@ function shrink(file,cb){
 }
 function setCover(inp){
  for(const f of [...inp.files].slice(0,2))
-  shrink(f,async d=>{const v=await wmProcess(d);S.covers.push(v);S.covers=S.covers.slice(-2);syncEditor();render()});
+  shrink(f,async d=>{const v=await wmProcess(d);if(!v)return;S.covers.push(v);S.covers=S.covers.slice(-2);syncEditor();render()});
  inp.value='';
 }
 function delCover(i){S.covers.splice(i,1);syncEditor();render()}
@@ -1173,7 +1142,7 @@ async function libAddSel(){
  if(!_libSel.size)return alert('Resim secilmedi \u2014 resimlere tiklayin.');
  const cb=_libCb;_libCb=null;
  document.getElementById('libmodal').style.display='none';
- for(const u of _libSel)cb(await wmProcess(u));
+ for(const u of _libSel){const v=await wmProcess(u);if(v)cb(v)}
  _libSel=new Set();
 }
 async function libPick(cb,fileElId,tab){
@@ -1226,7 +1195,7 @@ async function brandsLoad(){
  }catch(e){}
 }
 function addDetail(inp){
- for(const f of inp.files) shrink(f,async d=>{const v=await wmProcess(d);S.details.push({img:v,cap:''});syncEditor();render()});
+ for(const f of inp.files) shrink(f,async d=>{const v=await wmProcess(d);if(!v)return;S.details.push({img:v,cap:''});syncEditor();render()});
  inp.value='';
 }
 function delDetail(i){S.details.splice(i,1);syncEditor();render()}
@@ -1554,6 +1523,15 @@ async function poolOpen(){
 function poolClose(){document.getElementById('poolmodal').style.display='none'}
 function enterView(){document.body.classList.add('viewmode');window.scrollTo(0,0)}
 function exitView(){document.body.classList.remove('viewmode')}
+function poolCsv(){
+ const rows=poolFiltered();
+ if(!rows.length)return alert('Filtreye uyan teklif yok.');
+ const e2=v=>{v=(v==null?'':String(v));return '"'+v.replace(/"/g,'""')+'"'};
+ const L=[['Tarih','Proje No','Firma','Yetkili','İş Adı','Lokasyon','Ülke','Dil','Para Birimi','Toplam','Durum'].map(e2).join(';')];
+ rows.forEach(r=>L.push([(r.tarih||'').split('-').reverse().join('.'),r.proje_no,r.firma,r.yetkili||'',r.is_adi,r.lokasyon||'',r.ulke,(r.dil||'').toUpperCase(),r.para_birimi,String(r.toplam==null?'':r.toplam).replace('.',','),r.durum].map(e2).join(';')));
+ const bl=new Blob(['\ufeff'+L.join('\r\n')],{type:'text/csv;charset=utf-8'});
+ const aa=document.createElement('a');aa.href=URL.createObjectURL(bl);aa.download='UCEL_teklifler_'+new Date().toISOString().slice(0,10)+'.csv';aa.click();
+}
 function poolReport(){
  const rows=poolFiltered();
  if(!rows.length)return alert('Filtreye uyan teklif yok.');
@@ -1672,6 +1650,7 @@ async function poolLoad(id){
   S=Object.assign(S,j[0].data);if(!Array.isArray(S.covers))S.covers=[];
   S.noteSel=Array.isArray(j[0].data.noteSel)?j[0].data.noteSel:null;
   if(S.noteSel&&S.noteSel.length===24)S.noteSel.splice(8,0,false); /* stud maddesi sonradan eklendi */
+  while(Array.isArray(S.noteSel)&&S.noteSel.length<NOTES_DEF.length)S.noteSel.push(false); /* yeni maddeler kapali baslar */
   S.notesEk=(j[0].data.notesEk&&typeof j[0].data.notesEk==='object')?j[0].data.notesEk:{};
   S.noteTxt=(j[0].data.noteTxt&&typeof j[0].data.noteTxt==='object')?j[0].data.noteTxt:{};
   S.trx=(j[0].data.trx&&typeof j[0].data.trx==='object')?j[0].data.trx:{};
@@ -1701,22 +1680,6 @@ async function aiTranslate(){
  }catch(e){alert('AI \u00e7eviri ba\u015far\u0131s\u0131z: '+e.message)}
  _aiBusy=false;b.textContent=t0;
 }
-async function aiRealistic(i){
- if(!SB_TOKEN)return loginOpen();
- if(!confirm('Bu g\u00f6rsel yapay zeka ile ger\u00e7ek\u00e7i foto\u011frafa d\u00f6n\u00fc\u015ft\u00fcr\u00fcls\u00fcn m\u00fc? (30-60 sn s\u00fcrebilir)'))return;
- const it=LIB[LIB_TAB][i];
- const hint=document.getElementById('libhint');
- try{
-  hint.textContent='AI ger\u00e7ek\u00e7i g\u00f6rsel \u00fcretiyor...';
-  const blob=await (await fetch(it.url)).blob();
-  const b64=await new Promise(res=>{const r=new FileReader();r.onload=()=>res(r.result);r.readAsDataURL(blob)});
-  const j=await sbReq('/functions/v1/ai',{method:'POST',body:JSON.stringify({op:'image',image:b64})});
-  if(!j||!j.image)throw new Error((j&&j.error)||'yan\u0131t yok');
-  await libPut(LIB_TAB,j.image,'ai-gercekci');
-  libGrid();hint.textContent='';
-  alert('Ger\u00e7ek\u00e7i g\u00f6rsel k\u00fct\u00fcphaneye eklendi.');
- }catch(e){hint.textContent='';alert('AI g\u00f6rsel ba\u015far\u0131s\u0131z: '+e.message)}
-}
 sbUI();
 if(SB_TOKEN)sbRefresh().then(()=>{brandsLoad();introLoad()});
 </script>
@@ -1730,6 +1693,7 @@ if(SB_TOKEN)sbRefresh().then(()=>{brandsLoad();introLoad()});
 <label>Boyut <input type="range" id="wmsz" min="90" max="320" step="10" oninput="wmPrev()" style="width:110px;vertical-align:middle"> <b id="wmszv" style="color:var(--orange)"></b></label>
 </div>
 <div style="display:flex;gap:8px;justify-content:flex-end">
+<button onclick="wmCancel()" style="padding:8px 16px;border:1px solid #c0392b;background:#fff;color:#c0392b;border-radius:6px;cursor:pointer">Vazgeç</button>
 <button onclick="wmSkip()" style="padding:8px 16px;border:1px solid var(--navy);background:#fff;color:var(--navy);border-radius:6px;cursor:pointer">Filigransız Ekle</button>
 <button onclick="wmApply()" style="padding:8px 16px;border:none;background:var(--orange);color:#fff;border-radius:6px;font-weight:700;cursor:pointer">Filigranı Uygula ve Ekle</button>
 </div>
