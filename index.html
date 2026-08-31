@@ -350,7 +350,7 @@ mark.trx{background:#ffe58a;outline:1px dashed #d29b00;border-radius:2px;padding
   </fieldset>
 
   <div style="display:flex;gap:8px">
-    <button class="printbtn" style="flex:1;width:auto" onclick="window.print()">&#128424; PDF Oluştur / Yazdır</button>
+    <button class="printbtn" style="flex:1;width:auto" onclick="printCheck()">&#128424; PDF Oluştur / Yazdır</button>
     <button class="printbtn" style="flex:1;width:auto" onclick="poolSave()">&#128190; Kaydet</button>
   </div>
   <div class="hint"><b>PDF ayarları:</b> Hedef = "PDF olarak kaydet" &middot; Kenar boşlukları = <b>Yok</b> &middot; Ölçek = <b>100</b> &middot; "Arka plan grafikleri" <b>işaretli</b> olsun — çıktı önizlemeyle birebir aynı olur.</div>
@@ -375,7 +375,7 @@ mark.trx{background:#ffe58a;outline:1px dashed #d29b00;border-radius:2px;padding
 <div id="trwarn" style="display:none"></div>
 <div id="reportpage"></div>
 <div id="viewbar">
- <button onclick="window.print()">&#128424; PDF Oluştur</button>
+ <button onclick="printCheck()">&#128424; PDF Oluştur</button>
  <button onclick="poolOpen()">&#128194; Tekliflerim</button>
  <button onclick="exitView()">&#9998; Teklifi Düzenle</button>
  <button style="background:#c0392b" onclick="location.reload()">&#10005; Kapat</button>
@@ -397,6 +397,11 @@ mark.trx{background:#ffe58a;outline:1px dashed #d29b00;border-radius:2px;padding
   <div class="lmbtns" style="margin-top:10px">
    <button class="pri" onclick="poolReport()">&#128424; Rapor Al (PDF)</button>
    <button class="pri" style="background:#1D6F42" onclick="poolCsv()">&#11015; Excel (CSV)</button>
+   <span style="display:flex;gap:6px;align-items:center;font-size:12px">
+    <b id="bulkn" style="color:var(--navy)">0 seçili</b>
+    <select id="bulkdur" style="padding:6px 8px"><option>kazanıldı</option><option>kaybedildi</option><option>verildi</option><option>revize</option><option>iptal</option></select>
+    <button class="pri" style="background:var(--orange)" onclick="bulkDurum()">Seçilenlere Uygula</button>
+   </span>
    <button onclick="poolClose()">Kapat</button>
   </div>
  </div>
@@ -732,6 +737,67 @@ const DICT_FRPT={
  'Angola':{fr:'Angola',pt:'Angola'},
  'Kazakistan':{fr:'Kazakhstan',pt:'Cazaquistão'},
  'Azerbaycan':{fr:'Azerbaïdjan',pt:'Azerbaijão'},
+ 'İmalat, Sevkiyat ve Montajı':{en:'Fabrication, Shipment & Erection',ar:'تصنيع وشحن وتركيب',ru:'изготовление, доставка и монтаж',uz:"ishlab chiqarish, yetkazib berish va montaj",fr:'fabrication, expédition et montage',pt:'fabrico, expedição e montagem'},
+ 'İmalat ve Montaj İşi':{en:'Fabrication & Erection Works',ar:'أعمال التصنيع والتركيب',ru:'работы по изготовлению и монтажу',uz:"ishlab chiqarish va montaj ishlari",fr:'travaux de fabrication et de montage',pt:'trabalhos de fabrico e montagem'},
+ 'İmalat-Montaj İşi':{en:'Fabrication & Erection Works',ar:'أعمال التصنيع والتركيب',ru:'работы по изготовлению и монтажу',uz:"ishlab chiqarish va montaj ishlari",fr:'travaux de fabrication et de montage',pt:'trabalhos de fabrico e montagem'},
+ 'İmalatı':{en:'Fabrication',ar:'تصنيع',ru:'изготовление',uz:"ishlab chiqarish",fr:'fabrication',pt:'fabrico'},
+ 'Montajı':{en:'Erection',ar:'تركيب',ru:'монтаж',uz:'montaj',fr:'montage',pt:'montagem'},
+ 'İmalat':{en:'Fabrication',ar:'تصنيع',ru:'изготовление',uz:"ishlab chiqarish",fr:'fabrication',pt:'fabrico'},
+ 'Sevkiyat':{en:'Shipment',ar:'شحن',ru:'доставка',uz:"yetkazib berish",fr:'expédition',pt:'expedição'},
+ 'ÖN TEMİZLEME':{en:'PRE-CLEANING',ar:'التنظيف الأولي',ru:'ПРЕДВАРИТЕЛЬНАЯ ОЧИСТКА',uz:'OLDINDAN TOZALASH',fr:'PRÉ-NETTOYAGE',pt:'PRÉ-LIMPEZA'},
+ 'TEMİZLEME':{en:'CLEANING',ar:'التنظيف',ru:'ОЧИСТКА',uz:'TOZALASH',fr:'NETTOYAGE',pt:'LIMPEZA'},
+ 'ASMAKAT':{en:'MEZZANINE',ar:'ميزانين',ru:'АНТРЕСОЛЬ',uz:'MEZONIN',fr:'MEZZANINE',pt:'MEZANINO'},
+ 'MERDİVEN':{en:'STAIRS',ar:'سلالم',ru:'ЛЕСТНИЦА',uz:'ZINA',fr:'ESCALIER',pt:'ESCADA'},
+ 'Vals':{en:'Rolls',ar:'فالس',ru:'вальцов',uz:'vals',fr:'cylindres',pt:'cilindros'},
+ 'ADET':{en:'PCS',ar:'قطعة',ru:'ШТ',uz:'DONA',fr:'PCS',pt:'UN.'},
+ 'BUNKERLER':{en:'BUNKERS',ar:'قوادوس',ru:'БУНКЕРЫ',uz:'BUNKERLAR',fr:'TRÉMIES',pt:'TREMONHAS'},
+ 'BUNKER':{en:'BUNKER',ar:'قادوس',ru:'БУНКЕР',uz:'BUNKER',fr:'TRÉMIE',pt:'TREMONHA'},
+ 'HUNİLER':{en:'HOPPERS',ar:'قوادوس',ru:'ВОРОНКИ',uz:'BUNKERLAR',fr:'TRÉMIES',pt:'TREMONHAS'},
+ 'HUNİ':{en:'HOPPER',ar:'قادوس',ru:'ВОРОНКА',uz:'BUNKER',fr:'TRÉMIE',pt:'TREMONHA'},
+ 'ŞASE':{en:'FRAME',ar:'هيكل',ru:'РАМА',uz:'RAMA',fr:'CHÂSSIS',pt:'CHASSIS'},
+ 'AYAKLARI':{en:'SUPPORT LEGS',ar:'أرجل الدعم',ru:'ОПОРЫ',uz:'OYOQLARI',fr:'PIEDS',pt:'PÉS DE APOIO'},
+ 'ATIK SİLO':{en:'WASTE SILO',ar:'صومعة النفايات',ru:'СИЛОС ОТХОДОВ',uz:'CHIQINDI SILOSI',fr:'SILO À DÉCHETS',pt:'SILO DE RESÍDUOS'},
+ 'Atık Silosu':{en:'Waste Silo',ar:'صومعة النفايات',ru:'силос отходов',uz:'chiqindi silosi',fr:'silo à déchets',pt:'silo de resíduos'},
+ 'MAMÜL SİLO':{en:'PRODUCT SILO',ar:'صومعة المنتج',ru:'СИЛОС ГОТОВОЙ ПРОДУКЦИИ',uz:'MAHSULOT SILOSI',fr:'SILO PRODUIT FINI',pt:'SILO DE PRODUTO'},
+ 'HAMMADDE SILO':{en:'RAW MATERIAL SILO',ar:'صومعة المواد الخام',ru:'СИЛОС СЫРЬЯ',uz:'XOMASHYO SILOSI',fr:'SILO MATIÈRE PREMIÈRE',pt:'SILO DE MATÉRIA-PRIMA'},
+ 'HAMMADDE SİLO':{en:'RAW MATERIAL SILO',ar:'صومعة المواد الخام',ru:'СИЛОС СЫРЬЯ',uz:'XOMASHYO SILOSI',fr:'SILO MATIÈRE PREMIÈRE',pt:'SILO DE MATÉRIA-PRIMA'},
+ 'KURU SİLO':{en:'DRY SILO',ar:'صومعة جافة',ru:'СУХОЙ СИЛОС',uz:'QURUQ SILOS',fr:'SILO SEC',pt:'SILO SECO'},
+ 'DAİRE SİLO':{en:'ROUND SILO',ar:'صومعة دائرية',ru:'КРУГЛЫЙ СИЛОС',uz:'DUMALOQ SILOS',fr:'SILO CIRCULAIRE',pt:'SILO CIRCULAR'},
+ 'TRAPEZ SİLO':{en:'TRAPEZOIDAL SILO',ar:'صومعة شبه منحرفة',ru:'ТРАПЕЦИЕВИДНЫЙ СИЛОС',uz:'TRAPETSIYA SILOS',fr:'SILO TRAPÉZOÏDAL',pt:'SILO TRAPEZOIDAL'},
+ 'YEM SİLO':{en:'FEED SILO',ar:'صومعة الأعلاف',ru:'КОРМОВОЙ СИЛОС',uz:'YEM SILOSI',fr:'SILO À ALIMENTS',pt:'SILO DE RAÇÃO'},
+ 'Yem Tesisi':{en:'Feed Plant',ar:'مصنع الأعلاف',ru:'комбикормовый завод',uz:'yem zavodi',fr:'usine d’aliments',pt:'fábrica de ração'},
+ 'Hangar İçi':{en:'In-Hangar',ar:'داخل الهنغار',ru:'внутри ангара',uz:'angar ichida',fr:'dans le hangar',pt:'dentro do hangar'},
+ 'HANGAR BİNASI':{en:'HANGAR BUILDING',ar:'مبنى الهنغار',ru:'ЗДАНИЕ АНГАРА',uz:'ANGAR BINOSI',fr:'BÂTIMENT HANGAR',pt:'EDIFÍCIO HANGAR'},
+ 'HANGAR':{en:'HANGAR',ar:'هنغار',ru:'АНГАР',uz:'ANGAR',fr:'HANGAR',pt:'HANGAR'},
+ 'Un Silosu':{en:'Flour Silo',ar:'صومعة الدقيق',ru:'мучной силос',uz:'un silosi',fr:'silo à farine',pt:'silo de farinha'},
+ 'Kepek Silosu':{en:'Bran Silo',ar:'صومعة النخالة',ru:'силос отрубей',uz:'kepak silosi',fr:'silo à son',pt:'silo de farelo'},
+ 'Silosu':{en:'Silo',ar:'صومعة',ru:'силос',uz:'silosi',fr:'silo',pt:'silo'},
+ 'Tonluk':{en:'Ton',ar:'طن',ru:'тонн',uz:'tonnalik',fr:'tonnes',pt:'ton'},
+ 'Yükleme':{en:'Loading',ar:'تحميل',ru:'погрузка',uz:'yuklash',fr:'chargement',pt:'carregamento'},
+ 'Kamyon Dolum':{en:'Truck Loading',ar:'تعبئة الشاحنات',ru:'погрузка на грузовик',uz:"yuk mashinasiga yuklash",fr:'chargement camion',pt:'carga de camião'},
+ 'OTOPARK':{en:'CAR PARK',ar:'موقف سيارات',ru:'ПАРКОВКА',uz:'AVTOTURARGOH',fr:'PARKING',pt:'ESTACIONAMENTO'},
+ 'BOYAHANE':{en:'PAINT SHOP',ar:'ورشة الدهان',ru:'ПОКРАСОЧНЫЙ ЦЕХ',uz:"BO'YOQXONA",fr:'ATELIER DE PEINTURE',pt:'CABINE DE PINTURA'},
+ 'HALISAHA':{en:'INDOOR PITCH',ar:'ملعب مغطى',ru:'КРЫТОЕ ПОЛЕ',uz:'YOPIQ MAYDON',fr:'TERRAIN COUVERT',pt:'CAMPO COBERTO'},
+ 'Kare Silolar':{en:'Square Silos',ar:'صوامع مربعة',ru:'квадратные силосы',uz:'kvadrat silolar',fr:'silos carrés',pt:'silos quadrados'},
+ 'Kare Silo':{en:'Square Silo',ar:'صومعة مربعة',ru:'квадратный силос',uz:'kvadrat silos',fr:'silo carré',pt:'silo quadrado'},
+ 'Bağımsız':{en:'Independent',ar:'مستقلة',ru:'отдельно стоящие',uz:'mustaqil',fr:'indépendants',pt:'independentes'},
+ 'Mısır İrmiği':{en:'Corn Semolina',ar:'سميد الذرة',ru:'кукурузная крупка',uz:"makkajo'xori yormasi",fr:'semoule de maïs',pt:'sêmola de milho'},
+ 'KURU MISIR SİLOLARI':{en:'DRY CORN SILOS',ar:'صوامع الذرة الجافة',ru:'СИЛОСЫ СУХОЙ КУКУРУЗЫ',uz:"QURUQ MAKKAJO'XORI SILOLARI",fr:'SILOS À MAÏS SEC',pt:'SILOS DE MILHO SECO'},
+ 'MISIR SİLOLARI':{en:'CORN SILOS',ar:'صوامع الذرة',ru:'КУКУРУЗНЫЕ СИЛОСЫ',uz:"MAKKAJO'XORI SILOLARI",fr:'SILOS À MAÏS',pt:'SILOS DE MILHO'},
+ 'MISIR SİLOSU':{en:'CORN SILO',ar:'صومعة الذرة',ru:'КУКУРУЗНЫЙ СИЛОС',uz:"MAKKAJO'XORI SILOSI",fr:'SILO À MAÏS',pt:'SILO DE MILHO'},
+ 'İrmik':{en:'Semolina',ar:'سميد',ru:'крупка',uz:'irmik',fr:'semoule',pt:'sêmola'},
+ 'Buğday':{en:'Wheat',ar:'قمح',ru:'пшеница',uz:"bug'doy",fr:'blé',pt:'trigo'},
+ 'Bilgi Amaçlıdır':{en:'For information only',ar:'للعلم فقط',ru:'для информации',uz:"ma'lumot uchun",fr:'à titre informatif',pt:'a título informativo'},
+ 'Lastik Klapeli':{en:'with Rubber Flap',ar:'بصمام مطاطي',ru:'с резиновым клапаном',uz:'rezina klapanli',fr:'à clapet caoutchouc',pt:'com válvula de borracha'},
+ 'TREMI IZGARASI':{en:'INTAKE GRATING',ar:'شبكة الاستقبال',ru:'ПРИЁМНАЯ РЕШЁТКА',uz:'QABUL PANJARASI',fr:'GRILLE DE RÉCEPTION',pt:'GRELHA DE RECEÇÃO'},
+ 'AKSESUARLI':{en:'with Accessories',ar:'مع الإكسسوارات',ru:'с аксессуарами',uz:'aksessuarlar bilan',fr:'avec accessoires',pt:'com acessórios'},
+ 'KAUÇUK DEPO':{en:'RUBBER WAREHOUSE',ar:'مستودع المطاط',ru:'СКЛАД КАУЧУКА',uz:'KAUCHUK OMBORI',fr:'ENTREPÔT CAOUTCHOUC',pt:'ARMAZÉM DE BORRACHA'},
+ 'Ahşap Kaplama Döşeme':{en:'Timber-decked Floor',ar:'أرضية بتغطية خشبية',ru:'настил из дерева',uz:"yog'och qoplamali pol",fr:'plancher bois',pt:'piso de madeira'},
+ 'MDF Kaplama Döşeme':{en:'MDF-decked Floor',ar:'أرضية بتغطية MDF',ru:'настил из MDF',uz:'MDF qoplamali pol',fr:'plancher MDF',pt:'piso MDF'},
+ 'Montaj Elemanı':{en:'Erection Personnel',ar:'عامل تركيب',ru:'монтажник',uz:'montajchi',fr:'monteur',pt:'montador'},
+ 'Kişi':{en:'Person',ar:'شخص',ru:'чел.',uz:'kishi',fr:'personne',pt:'pessoa'},
+ 'Araç':{en:'Vehicles',ar:'مركبات',ru:'машин',uz:'avtomobil',fr:'véhicules',pt:'viaturas'},
+ 'KONSTRÜKSİYONU':{en:'STRUCTURE',ar:'هيكل',ru:'КОНСТРУКЦИЯ',uz:'KONSTRUKSIYASI',fr:'STRUCTURE',pt:'ESTRUTURA'},
  'Mısır':{en:'Egypt',ar:'مصر',ru:'Египет',uz:'Misr',fr:'Égypte',pt:'Egito'},
 };
 for(const k in DICT_FRPT)Object.assign(DICT[k]=DICT[k]||{},DICT_FRPT[k]);
@@ -1671,21 +1737,43 @@ function poolRender(){
  const durs=['verildi','revize','kazan\u0131ld\u0131','kaybedildi','iptal'];
  const th=(k,l)=>`<th onclick="poolSort('${k}')">${l}${POOL_SORT.k===k?(POOL_SORT.d>0?' \u25b2':' \u25bc'):''}</th>`;
  document.getElementById('pool_tbl').innerHTML=
-  `<thead><tr>${th('tarih','Tarih')}${th('proje_no','Proje No')}${th('firma','Firma')}${th('yetkili','Yetkili')}${th('is_adi','\u0130\u015f')}${th('lokasyon','Lokasyon')}${th('ulke','\u00dclke')}${th('dil','Dil')}${th('toplam','Tutar')}${th('durum','Durum')}<th>v</th>${th('updated_at','G\u00fcncelleme')}<th></th></tr></thead><tbody>`+
+  `<thead><tr>${th('tarih','Tarih')}${th('proje_no','Proje No')}${th('firma','Firma')}${th('yetkili','Yetkili')}${th('is_adi','\u0130\u015f')}${th('lokasyon','Lokasyon')}${th('ulke','\u00dclke')}${th('dil','Dil')}${th('toplam','Tutar')}${th('durum','Durum')}<th>Seç</th><th>v</th>${th('updated_at','G\u00fcncelleme')}<th></th></tr></thead><tbody>`+
   rows.map(r=>`<tr>
    <td>${(r.tarih||'').split('-').reverse().join('.')}</td>
    <td><b>${esc(r.proje_no)}</b></td><td>${esc(r.firma)}</td><td>${esc(r.yetkili||'')}</td><td>${esc(r.is_adi)}</td><td>${esc(r.lokasyon||'')}</td><td>${esc(r.ulke)}</td><td style="text-transform:uppercase">${esc(r.dil||'')}</td>
    <td class="money"><b>${moneyC(r.para_birimi,r.toplam)}</b></td>
    <td><select onchange="poolDurum('${r.id}',this.value)" style="font-size:11px;padding:2px 4px;background:${DURCLR[r.durum]||'#888'};color:#fff;border:none;border-radius:5px;font-weight:700">${durs.map(d=>`<option${d===r.durum?' selected':''}>${d}</option>`).join('')}</select></td>
+   <td style="text-align:center"><input type="checkbox" class="pchk" data-id="${r.id}" style="width:auto" onclick="event.stopPropagation();bulkCount()"></td>
    <td class="num">${r.version}</td>
    <td>${(r.updated_at||'').slice(0,10).split('-').reverse().join('.')}</td>
    <td style="white-space:nowrap"><button class="addbtn" style="margin:0;padding:3px 8px" onclick="poolLoad('${r.id}')">A\u00e7</button> <button class="addbtn" style="margin:0;padding:3px 8px;background:#c0392b" onclick="poolDel('${r.id}')">Sil</button></td></tr>`).join('')+'</tbody>';
+}
+function printCheck(){
+ const n=document.querySelectorAll('#preview mark.trx').length;
+ if(S.lang!=='tr'&&n>0){
+  if(confirm('Dikkat: '+n+' kelime hen\u00fcz \u00e7evrilmedi (sar\u0131 i\u015faretli).\n\nTamam = \u00f6nce AI ile \u00e7evir (bitince tekrar PDF Olu\u015ftur)\n\u0130ptal = b\u00f6ylece yazd\u0131r')){aiTranslate();return}
+ }
+ window.print();
 }
 async function poolDurum(id,v){
  try{
   await sbReq('/rest/v1/teklifler?id=eq.'+id,{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify({durum:v})});
   const r=POOL.find(x=>x.id===id);if(r)r.durum=v;poolRender();
  }catch(e){alert('Durum g\u00fcncellenemedi: '+e.message)}
+}
+function bulkCount(){const n=document.querySelectorAll('.pchk:checked').length;const b=document.getElementById('bulkn');if(b)b.textContent=n+' seçili'}
+async function bulkDurum(){
+ const ids=[...document.querySelectorAll('.pchk:checked')].map(c=>c.dataset.id);
+ if(!ids.length)return alert('Satır seçilmedi — tablodaki Seç kutucuklarını işaretleyin.');
+ const v=document.getElementById('bulkdur').value;
+ if(!confirm(ids.length+' teklifin durumu "'+v+'" yapılsın mı?'))return;
+ try{
+  for(const id of ids){
+   await sbReq('/rest/v1/teklifler?id=eq.'+id,{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify({durum:v})});
+   const r=POOL.find(x=>x.id===id);if(r)r.durum=v;
+  }
+  poolFillFilters();poolRender();bulkCount();
+ }catch(e){alert('Toplu güncelleme hatası: '+e.message)}
 }
 async function poolDel(id){
  if(!confirm('Bu teklif silinsin mi? (Denetim kayd\u0131 ar\u015fivde kal\u0131r)'))return;
