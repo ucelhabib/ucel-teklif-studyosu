@@ -808,6 +808,7 @@ const DICT_FRPT={
  'Kişi':{en:'Person',ar:'شخص',ru:'чел.',uz:'kishi',fr:'personne',pt:'pessoa'},
  'Araç':{en:'Vehicles',ar:'مركبات',ru:'машин',uz:'avtomobil',fr:'véhicules',pt:'viaturas'},
  'KONSTRÜKSİYONU':{en:'STRUCTURE',ar:'هيكل',ru:'КОНСТРУКЦИЯ',uz:'KONSTRUKSIYASI',fr:'STRUCTURE',pt:'ESTRUTURA'},
+ 'Bölümü':{en:'Section',ar:'قسم',ru:'секция',uz:"bo'limi",fr:'section',pt:'seção'},
  'Mısır':{en:'Egypt',ar:'مصر',ru:'Египет',uz:'Misr',fr:'Égypte',pt:'Egito'},
 };
 for(const k in DICT_FRPT)Object.assign(DICT[k]=DICT[k]||{},DICT_FRPT[k]);
@@ -944,11 +945,17 @@ const KEYWORDS=Object.keys(DICT).sort((a,b)=>b.length-a.length);
 function fixDesc(s){ /* collapse spaces, capitalize first letter, uppercase known product terms */
  s=tidy(s);
  if(!s)return s;
+ const toks=[];
  for(const k of KEYWORDS){
-  const low=trLow(s),kl=trLow(k);
-  const idx=low.indexOf(kl);
-  if(idx>=0) s=s.slice(0,idx)+k+s.slice(idx+k.length);
+  const kl=trLow(k);
+  let low=trLow(s),idx=low.indexOf(kl);
+  while(idx>=0){
+   s=s.slice(0,idx)+'\u0002'+toks.length+'\u0002'+s.slice(idx+k.length);
+   toks.push(k);
+   low=trLow(s);idx=low.indexOf(kl);
+  }
  }
+ s=s.replace(/\u0002(\d+)\u0002/g,(m,i)=>toks[+i]);
  return trUp(s[0])+s.slice(1);
 }
 function fixNote(s){ /* capitalize first letter, add trailing period after letters */
@@ -1512,7 +1519,10 @@ function render(){
   let out=_html.replace(/<img /g,'<img decoding="async" ');
   let trx=0;
   if(S.lang!=='tr'){
-   out=out.replace(/>([^<>]+)</g,(m,txt)=>'>'+txt.replace(/[A-Za-z\u00c7\u011e\u0130\u00d6\u015e\u00dc\u00e7\u011f\u0131\u00f6\u015f\u00fc]*[\u00e7\u011f\u0131\u00f6\u015f\u00fc\u00c7\u011e\u0130\u00d6\u015e\u00dc][A-Za-z\u00c7\u011e\u0130\u00d6\u015e\u00dc\u00e7\u011f\u0131\u00f6\u015f\u00fc]*/g,w=>{trx++;return '<mark class="trx">'+w+'</mark>'})+'<');
+   out=out.replace(/>([^<>]+)</g,(m,txt)=>{
+    txt=txt.replace(/[A-Za-z\u00c7\u011e\u0130\u00d6\u015e\u00dc\u00e7\u011f\u0131\u00f6\u015f\u00fc]*[\u00e7\u011f\u0131\u00f6\u015f\u00fc\u00c7\u011e\u0130\u00d6\u015e\u00dc][A-Za-z\u00c7\u011e\u0130\u00d6\u015e\u00dc\u00e7\u011f\u0131\u00f6\u015f\u00fc]*/g,w=>{trx++;return '<mark class="trx">'+w+'</mark>'});
+    txt=txt.replace(/(^|[^A-Za-z">])(TAV|KURU|YEM|MAMUL|HAMMADDE|DOLUM|BOLUM|IMALAT|MONTAJ|KAPLAMA|CATI|CEPHE|SAC|BINA|DEPO|VINC|BOYA|ISCILIK|NAKLIYE)(?![A-Za-z])/g,(mm,a,w)=>{trx++;return a+'<mark class="trx">'+w+'</mark>'});
+    return '>'+txt+'<';});
   }
   document.getElementById('preview').innerHTML=out;
   /* alt bilgi (adres/iletisim) ozel isimdir: isaretleme disi */
