@@ -454,6 +454,7 @@ function flag(lang,w){
   ar:`<svg width="${w}" height="${h}" viewBox="0 0 30 20"><rect width="30" height="20" fill="#165d31"/><rect x="6" y="7" width="18" height="2.6" rx="1.3" fill="#fff"/><rect x="6" y="12" width="14" height="1.4" rx=".7" fill="#fff"/><rect x="21.5" y="11.6" width="2.5" height="2.2" rx=".5" fill="#fff"/></svg>`,
   ru:`<svg width="${w}" height="${h}" viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect y="6.7" width="30" height="6.6" fill="#0039A6"/><rect y="13.3" width="30" height="6.7" fill="#D52B1E"/><rect width="30" height="20" fill="none" stroke="#0002"/></svg>`,
   uz:`<svg width="${w}" height="${h}" viewBox="0 0 30 20"><rect width="30" height="20" fill="#1eb53a"/><rect width="30" height="13.4" fill="#ce1126"/><rect width="30" height="12.4" y=".5" fill="#fff"/><rect width="30" height="6.2" fill="#0099b5"/><circle cx="4.2" cy="3.1" r="2.1" fill="#fff"/><circle cx="5" cy="3.1" r="1.75" fill="#0099b5"/><g fill="#fff"><circle cx="9" cy="1.6" r=".55"/><circle cx="11.5" cy="1.6" r=".55"/><circle cx="14" cy="1.6" r=".55"/><circle cx="9" cy="3.4" r=".55"/><circle cx="11.5" cy="3.4" r=".55"/><circle cx="14" cy="3.4" r=".55"/></g></svg>`,
+  kk:`<svg width="${w}" height="${h}" viewBox="0 0 30 20"><rect width="30" height="20" fill="#00AFCA"/><rect width="2.6" height="20" fill="#FEC50C"/><circle cx="16" cy="7.6" r="3.1" fill="#FEC50C"/><path d="M9.5 12.5 Q16 10.2 22.5 12.5 Q16 13.8 9.5 12.5z" fill="#FEC50C"/></svg>`,
   fr:`<svg width="${w}" height="${h}" viewBox="0 0 30 20"><rect width="10" height="20" fill="#0055A4"/><rect x="10" width="10" height="20" fill="#fff"/><rect x="20" width="10" height="20" fill="#EF4135"/><rect width="30" height="20" fill="none" stroke="#0002"/></svg>`,
   pt:`<svg width="${w}" height="${h}" viewBox="0 0 30 20"><rect width="30" height="20" fill="#DA291C"/><rect width="12" height="20" fill="#046A38"/><circle cx="12" cy="10" r="4.2" fill="#FFE900" stroke="#DA291C" stroke-width=".8"/><circle cx="12" cy="10" r="2" fill="#fff" stroke="#046A38" stroke-width=".6"/></svg>`};
  return svgs[lang];
@@ -631,6 +632,24 @@ Eksport ro'yxatga olingan hisob-faktura berilishi mumkin.
 Umumiy summa QQSsiz (KDV kirmagan).
 To'lov rejasi: shartnomada %..., jo'natishdan oldin %..., montaj tugagach %... to'lanadi.
 Boshqa tafsilotlar shartnomada belgilanadi.`},
+ kk:{name:'Қазақша',rtl:0,title:'КОММЕРЦИЯЛЫҚ ҰСЫНЫС',formTitle:'ҰСЫНЫС НЫСАНЫ',
+  slogan:'<b>мықты құрылымдардың</b> мықты атауы...',
+  firma:'КОМПАНИЯ',yetkili:'ЖАУАПТЫ ТҰЛҒА',isadi:'ЖОБА АТАУЫ',isyeri:'ОРНАЛАСҚАН ЖЕРІ',tarih:'КҮНІ',projeno:'ЖОБА №',
+  no:'№',malzeme:'ЖҰМЫС / МАТЕРИАЛ СИПАТТАМАСЫ',miktar:'САНЫ',birim:'ӨЛШЕМ',fiyat:'БАҒАСЫ',tutar:'СОМАСЫ',
+  toplam:'БАРЛЫҒЫ',toplamkap:'ҚАПТАМА БАРЛЫҒЫ',genel:'ЖАЛПЫ СОМА',
+  notlar:'ЕСКЕРТПЕЛЕР МЕН ШАРТТАР',veren:'ҰСЫНЫС БЕРУШІ',onay:'ТАПСЫРЫС БЕРУШІНІҢ КЕЛІСІМІ',ad:'Аты-жөні',imza:'Қолы',
+  onyazi:'ІЛЕСПЕ ХАТ',icindekiler:'МАЗМҰНЫ',tanitim:'КОМПАНИЯ ТУРАЛЫ',referans:'РЕФЕРЕНС ЖОБАЛАР',reffirm:'РЕФЕРЕНС КОМПАНИЯЛАР',yapidet:'ҚҰРЫЛЫМ ДЕТАЛЬДАРЫ',fiyatlar:'БАҒА ҰСЫНЫСЫ',
+  rproje:'ЖОБА',ryer:'ОРНЫ / ЕЛІ',rton:'ТОННАЖ / КӨЛЕМІ',
+  hazirlayan:'Ұсыныс тілі',sayfa:'Бет',tel:'Тел:',gsm:'Ұялы:',ep:'Эл. пошта:',
+  world:'<span>МЫҚТЫ ҚҰРЫЛЫМДАРДЫҢ</span> МЫҚТЫ АТАУЫ...',qr:'',
+  shipT:'Жеткізу үшін шамамен {n} жүк көлігі (TIR) қажет болады.',
+  shipC:"Жеткізу үшін шамамен {n} дана 40' OPEN TOP контейнер қажет болады.",
+  intro:`UCEL Steel Construction болат конструкциялар саласындағы көпжылдық тәжірибесімен салада берік орынға ие. Konya қаласындағы өндірістік қуаттарымыз бен Ыстамбұл және Әзербайжандағы кеңселеріміз арқылы Түркияда және шетелде өнеркәсіптік нысандарды, зауыт ғимараттарын, силостарды, қоймаларды және кез келген көлемдегі болат конструкция жобаларын «кілт тапсыру» шартымен жүзеге асырамыз.
+
+Жобаларымыздың әр кезеңінде клиентке бағытталған тәсілімізбен сенімді әрі сапалы шешімдер ұсынамыз. Инженерия, өндіріс және монтаж процестеріміз CE, ISO 9001:2015 және ISO 3834-2 (TUV Austria) сертификаттарымен расталған.
+
+Инновациялық технологиялар мен тәжірибелі командамызбен жобалаудан монтажға дейінгі барлық процестерді өз күшімізбен орындаймыз; уақытында жеткізу және толық ашықтық қағидаттарымен жұмыс істейміз.`,
+  notes:``},
  fr:{name:'Français',rtl:0,title:'OFFRE DE PRIX',formTitle:'OFFRE DE PRIX',
   slogan:'<b>le nom fort</b> des structures solides...',
   firma:'SOCIÉTÉ',yetkili:'CONTACT',isadi:'PROJET',isyeri:'LIEU',tarih:'DATE',projeno:'N° PROJET',
@@ -688,7 +707,7 @@ const DICT={
  'KEPEK SİLO':{en:'BRAN SILO',ar:'صومعة النخالة',ru:'СИЛОС ОТРУБЕЙ',uz:"KEPAK SILOSI"},
  'ÇATI':{en:'ROOF',ar:'سقف',ru:'КРЫША',uz:"TOM"},
  'CEPHE':{en:'FACADE',ar:'واجهة',ru:'ФАСАД',uz:"FASAD"},
- 'Adet':{en:'pcs',ar:'قطعة',ru:'шт',uz:"dona"},
+ 'Adet':{en:'pcs',ar:'قطعة',ru:'шт',uz:"dona",kk:'дана'},
  'Un Değirmeni':{en:'Flour Mill',ar:'مطحنة دقيق',ru:'Мукомольная мельница',uz:"Un tegirmoni"},
  'Değirmen Binası':{en:'Mill Building',ar:'مبنى المطحنة',ru:'Здание мельницы',uz:"Tegirmon binosi"},
  'Değirmen':{en:'Mill',ar:'مطحنة',ru:'Мельница',uz:"Tegirmon"},
@@ -981,7 +1000,7 @@ function shipCalc(){
 /* ================= EDITOR RENDER ================= */
 function editorLang(){
  const bar=document.getElementById('langbar');bar.innerHTML='';
- for(const lg of ['tr','en','ar','ru','uz','fr','pt']){
+ for(const lg of ['tr','en','ar','ru','uz','kk','fr','pt']){
   const b=document.createElement('button');
   b.className='langbtn'+(S.lang===lg?' active':'');
   b.innerHTML=flag(lg,22)+TR[lg].name;
@@ -1352,7 +1371,7 @@ function tableHTML(L,items,startNo,totalLabel,showKgTotal,tkey){
   <td class="num" colspan="2">${unitTot}</td><td></td><td class="money">${money(asum)}</td></tr>`;
  return {html:`<table class="doc"><thead><tr><th class="num">${L.no}</th><th>${L.malzeme}</th><th class="num">${L.miktar}</th><th class="num">${L.birim}</th><th class="num">${L.fiyat}</th><th class="num">${L.tutar}</th></tr></thead><tbody>${rows}</tbody></table>`,sum:asum};
 }
-function noteGet(i){return (S.noteTxt&&S.noteTxt[i]&&S.noteTxt[i][S.lang])||NOTES_DEF[i][S.lang]||NOTES_DEF[i].tr}
+function noteGet(i){return (S.noteTxt&&S.noteTxt[i]&&S.noteTxt[i][S.lang])||NOTES_DEF[i][S.lang]||(S.lang==='kk'?NOTES_DEF[i].ru:null)||NOTES_DEF[i].tr}
 function noteTxtSet(i,v){if(!S.noteTxt)S.noteTxt={};if(!S.noteTxt[i])S.noteTxt[i]={};S.noteTxt[i][S.lang]=v;renderSoon()}
 let _rT=null;
 function renderSoon(){clearTimeout(_rT);_rT=setTimeout(render,700)}
@@ -1374,6 +1393,7 @@ const ONTPL={
  ar:(y,i,l)=>`السيد المحترم ${y||''}،\n\nإلحاقاً بمناقشاتنا الأخيرة، نقدم لكم أدناه عرضنا الخاص بـ${i||'مشروعكم'}${l?' في '+l:''}.\n\nيستند عرضنا إلى المعلومات والرسومات المرفقة؛ وفريقنا مستعد لتحسين النطاق والتخطيط معكم. لا تترددوا في التواصل معنا لأي استفسار.\n\nشاكرين لكم ثقتكم،\n\nÜÇEL Steel Construction`,
  ru:(y,i,l)=>`Уважаемый(ая) ${y||'господин/госпожа'},\n\nВ продолжение наших переговоров направляем Вам наше предложение по ${i||'Вашему проекту'}${l?' ('+l+')':''}.\n\nПредложение основано на приложенных данных и чертежах; наша команда готова вместе с Вами оптимизировать объём и компоновку. Будем рады ответить на любые вопросы.\n\nБлагодарим за доверие,\n\nÜÇEL Steel Construction`,
  uz:(y,i,l)=>`Hurmatli ${y||'janob/xonim'},\n\nMuzokaralarimiz davomida ${i||'loyihangiz'} uchun tayyorlangan taklifimizni e'tiboringizga havola qilamiz${l?' ('+l+')':''}.\n\nTaklifimiz ilova qilingan ma'lumot va chizmalarga asoslangan; jamoamiz qamrov va joylashuvni birga optimallashtirish uchun tayyor.\n\nIshonchingiz uchun tashakkur,\n\nÜÇEL Steel Construction`,
+ kk:(y,i,l)=>`Құрметті ${y||'мырза/ханым'},\n\nКеліссөздеріміздің жалғасы ретінде ${i||'жобаңыз'} бойынша ұсынысымызды назарыңызға ұсынамыз${l?' ('+l+')':''}.\n\nҰсынысымыз қоса берілген мәліметтер мен сызбаларға негізделген; командамыз көлем мен орналасуды бірге оңтайландыруға дайын. Сұрақтарыңыз болса, бізге хабарласыңыз.\n\nСеніміңізге рахмет,\n\nÜÇEL Steel Construction`,
  fr:(y,i,l)=>`Madame, Monsieur${y?' '+y:''},\n\nSuite à nos récents échanges, veuillez trouver ci-dessous notre offre pour ${i||'votre projet'}${l?' à '+l:''}.\n\nNotre offre s'appuie sur les informations et plans joints ; notre équipe est prête à optimiser le périmètre et l'implantation avec vous.\n\nMerci de votre confiance,\n\nÜÇEL Steel Construction`,
  pt:(y,i,l)=>`Exmo.(a) ${y||'Senhor(a)'},\n\nNa sequência das nossas conversas, apresentamos a nossa proposta para ${i||'o seu projeto'}${l?' em '+l:''}.\n\nA proposta baseia-se nas informações e desenhos anexos; a nossa equipa está pronta para otimizar o âmbito e a implantação consigo.\n\nGratos pela confiança,\n\nÜÇEL Steel Construction`};
 function onyaziTpl(){const f=ONTPL[S.lang]||ONTPL.tr;(S.onyazi=S.onyazi||{})[S.lang]=f(trTitle(S.yetkili||''),(S.isadi||'').trim(),(S.isyeri||'').trim());syncEditor();render()}
