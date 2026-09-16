@@ -226,7 +226,7 @@ mark.trx{background:#ffe58a;outline:1px dashed #d29b00;border-radius:2px;padding
 .pcards{display:flex;gap:10px;flex-wrap:wrap;margin:4px 0 10px}
 .pcard{flex:1;min-width:118px;background:#f5f8ff;border:1px solid #dfe6f3;border-radius:10px;padding:8px 12px}
 .pcard .pk{font-size:10.5px;color:var(--gray);font-weight:700;text-transform:uppercase;letter-spacing:.3px}
-.pcard .pv{font-size:17px;font-weight:900;color:var(--navy);margin-top:2px;white-space:nowrap}
+.pcard .pv{font-size:17px;font-weight:900;color:var(--navy);margin-top:2px;line-height:1.2}
 .pcard .ps{font-size:10.5px;color:var(--gray)}
 .pcard.win .pv{color:#2e8b57}.pcard.lose .pv{color:#c0392b}
 #pool_tbl thead th{position:sticky;top:0;z-index:1;cursor:pointer;user-select:none}
@@ -429,15 +429,10 @@ mark.trx{background:#ffe58a;outline:1px dashed #d29b00;border-radius:2px;padding
    <select id="pf_durum" onchange="poolRender()"></select>
   </div>
   <div id="pool_sum"></div>
-  <div style="flex:1 1 auto;min-height:0;overflow:auto;border:1px solid #e2e5ee;border-radius:6px"><table class="doc" id="pool_tbl" style="font-size:12.5px"></table></div>
+  <div style="flex:0 1 auto;min-height:0;overflow:auto;border:1px solid #e2e5ee;border-radius:6px"><table class="doc" id="pool_tbl" style="font-size:12.5px"></table></div>
   <div class="lmbtns" style="margin-top:10px">
    <button class="pri" onclick="poolReport()">&#128424; Rapor Al (PDF)</button>
    <button class="pri" style="background:#1D6F42" onclick="poolCsv()">&#11015; Excel (CSV)</button>
-   <span style="display:flex;gap:6px;align-items:center;font-size:12px">
-    <b id="bulkn" style="color:var(--navy)">0 seçili</b>
-    <select id="bulkdur" style="padding:6px 8px"><option>kazanıldı</option><option>kaybedildi</option><option>cevapsız</option><option>verildi</option><option>revize</option><option>iptal</option></select>
-    <button class="pri" style="background:var(--orange)" onclick="bulkDurum()">Seçilenlere Uygula</button>
-   </span>
    <button class="pri" style="background:var(--orange)" onclick="tabGo('yaz')">&#10133; Yeni Teklif / Editöre Dön</button>
   </div>
  </div>
@@ -1839,13 +1834,12 @@ function poolRender(){
  const durs=['verildi','revize','kazan\u0131ld\u0131','kaybedildi','cevaps\u0131z','iptal'];
  const th=(k,l)=>`<th onclick="poolSort('${k}')">${l}${POOL_SORT.k===k?(POOL_SORT.d>0?' \u25b2':' \u25bc'):''}</th>`;
  document.getElementById('pool_tbl').innerHTML=
-  `<thead><tr>${th('tarih','Tarih')}${th('proje_no','Proje No')}${th('firma','Firma')}${th('yetkili','Yetkili')}${th('is_adi','\u0130\u015f')}${th('lokasyon','Lokasyon')}${th('ulke','\u00dclke')}${th('dil','Dil')}${th('toplam','Tutar')}${th('durum','Durum')}<th>Seç</th><th>v</th>${th('updated_at','G\u00fcncelleme')}<th></th></tr></thead><tbody>`+
+  `<thead><tr>${th('tarih','Tarih')}${th('proje_no','Proje No')}${th('firma','Firma')}${th('yetkili','Yetkili')}${th('is_adi','\u0130\u015f')}${th('lokasyon','Lokasyon')}${th('ulke','\u00dclke')}${th('dil','Dil')}${th('toplam','Tutar')}${th('durum','Durum')}<th>v</th>${th('updated_at','G\u00fcncelleme')}<th></th></tr></thead><tbody>`+
   rows.map(r=>`<tr>
    <td>${(r.tarih||'').split('-').reverse().join('.')}</td>
    <td><b>${esc(r.proje_no)}</b></td><td>${esc(r.firma)}</td><td>${esc(r.yetkili||'')}</td><td>${esc(r.is_adi)}</td><td>${esc(r.lokasyon||'')}</td><td>${esc(r.ulke)}</td><td style="text-transform:uppercase">${esc(r.dil||'')}</td>
    <td class="money"><b>${moneyC(r.para_birimi,r.toplam)}</b></td>
    <td><select onchange="poolDurum('${r.id}',this.value)" style="font-size:11px;padding:2px 4px;background:${DURCLR[r.durum]||'#888'};color:#fff;border:none;border-radius:5px;font-weight:700">${durs.map(d=>`<option${d===r.durum?' selected':''}>${d}</option>`).join('')}</select>${(r.durum==='verildi'||r.durum==='revize')&&r.tarih&&(Date.now()-new Date(r.tarih))>15*864e5?' <span class="uy" title="Opsiyon s\u00fcresi (15 g\u00fcn) doldu">\u26a0</span>':''}</td>
-   <td style="text-align:center"><input type="checkbox" class="pchk" data-id="${r.id}" style="width:auto" onclick="event.stopPropagation();bulkCount()"></td>
    <td class="num">${r.version}</td>
    <td>${(r.updated_at||'').slice(0,10).split('-').reverse().join('.')}</td>
    <td style="white-space:nowrap"><button class="addbtn" style="margin:0;padding:3px 8px" onclick="poolLoad('${r.id}')">A\u00e7</button> <button class="addbtn" style="margin:0;padding:3px 8px;background:#c0392b" onclick="poolDel('${r.id}')">Sil</button></td></tr>`).join('')+'</tbody>';
@@ -1862,20 +1856,6 @@ async function poolDurum(id,v){
   await sbReq('/rest/v1/teklifler?id=eq.'+id,{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify({durum:v})});
   const r=POOL.find(x=>x.id===id);if(r)r.durum=v;poolRender();
  }catch(e){alert('Durum g\u00fcncellenemedi: '+e.message)}
-}
-function bulkCount(){const n=document.querySelectorAll('.pchk:checked').length;const b=document.getElementById('bulkn');if(b)b.textContent=n+' seçili'}
-async function bulkDurum(){
- const ids=[...document.querySelectorAll('.pchk:checked')].map(c=>c.dataset.id);
- if(!ids.length)return alert('Satır seçilmedi — tablodaki Seç kutucuklarını işaretleyin.');
- const v=document.getElementById('bulkdur').value;
- if(!confirm(ids.length+' teklifin durumu "'+v+'" yapılsın mı?'))return;
- try{
-  for(const id of ids){
-   await sbReq('/rest/v1/teklifler?id=eq.'+id,{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify({durum:v})});
-   const r=POOL.find(x=>x.id===id);if(r)r.durum=v;
-  }
-  poolFillFilters();poolRender();bulkCount();
- }catch(e){alert('Toplu güncelleme hatası: '+e.message)}
 }
 async function poolDel(id){
  if(!confirm('Bu teklif silinsin mi? (Denetim kayd\u0131 ar\u015fivde kal\u0131r)'))return;
