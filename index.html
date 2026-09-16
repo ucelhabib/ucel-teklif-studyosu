@@ -197,6 +197,11 @@ ol.notes .nno{display:inline-block;min-width:6.5mm;font-weight:800;color:var(--n
 #arstab{display:none;position:fixed;top:44px;left:0;right:0;bottom:0;background:#eef0f5;z-index:60;overflow:auto;padding:14px 22px}
 #arstab .ars-ic{display:flex;flex-direction:column;height:100%;max-width:1600px;margin:0 auto}
 .uy{color:#e67e22;font-weight:800}
+.tlogoimg{height:30px;background:#fff;border-radius:5px;padding:2px 7px;margin-right:8px}
+#arstab h3{margin:0 0 8px;font-size:15px}
+#arstab select{width:auto;min-width:110px;font-size:12px;padding:7px 8px}
+#arstab .lmbtns{flex-wrap:wrap;align-items:center}
+#arstab .lmbtns button{flex:0 0 auto;width:auto;padding:9px 16px;font-size:12.5px}
 .pool-sum{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;margin:4px 0}
 .pool-sum b{color:var(--navy)}
 @media print{#arstab,#topbar,#loginmodal,#viewbar{display:none!important}
@@ -266,7 +271,7 @@ mark.trx{background:#ffe58a;outline:1px dashed #d29b00;border-radius:2px;padding
 </head>
 <body>
 <div id="topbar">
- <span class="tlogo">ÜÇEL <small>Teklif Stüdyosu</small></span>
+ <img id="tlogoimg" class="tlogoimg" alt="ÜÇEL"><span class="tlogo"><small>Teklif Stüdyosu</small></span>
  <div class="ttab on" id="tab_yaz" onclick="tabGo('yaz')">&#9998; TEKLİF YAZ</div>
  <div class="ttab" id="tab_ars" onclick="poolOpen()">&#128193; ARŞİV &amp; RAPORLAR <span id="tab_count"></span></div>
  <span class="tkim" id="tab_kim"></span>
@@ -412,16 +417,19 @@ mark.trx{background:#ffe58a;outline:1px dashed #d29b00;border-radius:2px;padding
 <div id="arstab">
  <div class="ars-ic">
   <h3>&#128194; Tekliflerim &amp; Raporlar</h3>
-  <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
+  <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
+   <input type="text" id="pf_ara" placeholder="&#128269; Ara: proje no, firma, iş..." oninput="poolRender()" style="flex:1;min-width:170px;width:auto">
+   <button id="arsfbtn" onclick="arsF()" style="flex:0 0 auto;padding:8px 12px;border-radius:6px;border:1.5px solid #aab;background:#fff;color:#556;font-weight:700;cursor:pointer;font-size:12px">&#9881; Filtreler &#9662;</button>
+  </div>
+  <div id="arsfiltre" style="display:none;gap:6px;flex-wrap:wrap;margin-bottom:8px">
    <select id="pf_yil" onchange="poolRender()"></select>
    <select id="pf_ulke" onchange="poolRender()"></select>
    <select id="pf_firma" onchange="poolRender()"></select>
    <select id="pf_proje" onchange="poolRender()"></select>
    <select id="pf_durum" onchange="poolRender()"></select>
-   <input type="text" id="pf_ara" placeholder="&#128269; Ara: proje no, firma, iş..." oninput="poolRender()" style="flex:1;min-width:170px;width:auto">
   </div>
   <div id="pool_sum"></div>
-  <div style="flex:1 1 auto;min-height:0;overflow:auto;border:1px solid #e2e5ee;border-radius:6px"><table class="doc" id="pool_tbl" style="font-size:11.5px"></table></div>
+  <div style="flex:1 1 auto;min-height:0;overflow:auto;border:1px solid #e2e5ee;border-radius:6px"><table class="doc" id="pool_tbl" style="font-size:12.5px"></table></div>
   <div class="lmbtns" style="margin-top:10px">
    <button class="pri" onclick="poolReport()">&#128424; Rapor Al (PDF)</button>
    <button class="pri" style="background:#1D6F42" onclick="poolCsv()">&#11015; Excel (CSV)</button>
@@ -1723,6 +1731,7 @@ async function poolOpen(){
   poolFillFilters();poolRender();tabGo('ars');
  }catch(e){alert('Havuz a\u00e7\u0131lamad\u0131: '+e.message)}
 }
+function arsF(){const f=document.getElementById('arsfiltre'),b=document.getElementById('arsfbtn'),ac=f.style.display!=='flex';f.style.display=ac?'flex':'none';b.innerHTML='\u2699 Filtreler '+(ac?'\u25B4':'\u25BE');}
 function tabGo(k){
  const a=document.getElementById('arstab');
  a.style.display=(k==='ars')?'flex':'none';
@@ -1916,6 +1925,7 @@ async function aiTranslate(){
  _aiBusy=false;b.textContent=t0;
 }
 sbUI();
+var _tl=document.getElementById('tlogoimg');if(_tl)_tl.src=LOGO;
 if(SB_TOKEN&&ADMINS.includes((SB_USER||'').toLowerCase()))setTimeout(()=>{try{poolOpen()}catch(e){}},400);
 if(SB_TOKEN)sbRefresh().then(()=>{brandsLoad();introLoad()});
 </script>
