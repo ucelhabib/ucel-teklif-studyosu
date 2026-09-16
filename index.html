@@ -427,7 +427,7 @@ mark.trx{background:#ffe58a;outline:1px dashed #d29b00;border-radius:2px;padding
    <button class="pri" style="background:#1D6F42" onclick="poolCsv()">&#11015; Excel (CSV)</button>
    <span style="display:flex;gap:6px;align-items:center;font-size:12px">
     <b id="bulkn" style="color:var(--navy)">0 seçili</b>
-    <select id="bulkdur" style="padding:6px 8px"><option>kazanıldı</option><option>kaybedildi</option><option>verildi</option><option>revize</option><option>iptal</option></select>
+    <select id="bulkdur" style="padding:6px 8px"><option>kazanıldı</option><option>kaybedildi</option><option>cevapsız</option><option>verildi</option><option>revize</option><option>iptal</option></select>
     <button class="pri" style="background:var(--orange)" onclick="bulkDurum()">Seçilenlere Uygula</button>
    </span>
    <button class="pri" style="background:var(--orange)" onclick="tabGo('yaz')">&#10133; Yeni Teklif / Editöre Dön</button>
@@ -1796,7 +1796,7 @@ function poolSort(k){
  else POOL_SORT={k:k,d:(k==='tarih'||k==='updated_at'||k==='toplam')?-1:1};
  poolRender();
 }
-const DURCLR={'verildi':'#3D67AB','revize':'#F47936','kazan\u0131ld\u0131':'#2e8b57','kaybedildi':'#c0392b','iptal':'#7a7f8a'};
+const DURCLR={'verildi':'#3D67AB','revize':'#F47936','kazan\u0131ld\u0131':'#2e8b57','kaybedildi':'#c0392b','cevaps\u0131z':'#6d597a','iptal':'#7a7f8a'};
 function poolRender(){
  let rows=poolFiltered();
  const q=trLow(val('pf_ara')||'');
@@ -1808,11 +1808,12 @@ function poolRender(){
  });
  /* ozet kartlari */
  const byCur={},kzC={},kbC={};
- let kz=0,kb=0,ac=0,sd=0;
+ let kz=0,kb=0,ac=0,sd=0,cv=0;
  rows.forEach(r=>{
   byCur[r.para_birimi]=(byCur[r.para_birimi]||0)+(+r.toplam||0);
   if(r.durum==='kazan\u0131ld\u0131'){kz++;kzC[r.para_birimi]=(kzC[r.para_birimi]||0)+(+r.toplam||0)}
   else if(r.durum==='kaybedildi')kb++;
+  else if(r.durum==='cevaps\u0131z')cv++;
   else if(r.durum==='verildi'||r.durum==='revize'){ac++;if(r.tarih&&(Date.now()-new Date(r.tarih))>15*864e5)sd++;}
  });
  const cur=o=>Object.entries(o).map(([c,n])=>moneyC(c,n)).join(' + ')||'\u2014';
@@ -1824,8 +1825,9 @@ function poolRender(){
   <div class="pcard lose"><div class="pk">Kaybedilen</div><div class="pv">${kb}</div></div>
   <div class="pcard"><div class="pk">Ba\u015far\u0131 Oran\u0131</div><div class="pv">${oran===null?'\u2014':'%'+oran}</div><div class="ps">kazan\u0131lan / sonu\u00e7lanan</div></div>
   <div class="pcard"><div class="pk">S\u00fcresi Dolan</div><div class="pv" style="color:#e67e22">${sd}</div><div class="ps">15 g\u00fcn\u00fc a\u015fan a\u00e7\u0131k teklif</div></div>
+  <div class="pcard"><div class="pk">Cevaps\u0131z</div><div class="pv" style="color:#6d597a">${cv}</div><div class="ps">geri d\u00f6n\u00fc\u015f al\u0131namad\u0131</div></div>
  </div>`;
- const durs=['verildi','revize','kazan\u0131ld\u0131','kaybedildi','iptal'];
+ const durs=['verildi','revize','kazan\u0131ld\u0131','kaybedildi','cevaps\u0131z','iptal'];
  const th=(k,l)=>`<th onclick="poolSort('${k}')">${l}${POOL_SORT.k===k?(POOL_SORT.d>0?' \u25b2':' \u25bc'):''}</th>`;
  document.getElementById('pool_tbl').innerHTML=
   `<thead><tr>${th('tarih','Tarih')}${th('proje_no','Proje No')}${th('firma','Firma')}${th('yetkili','Yetkili')}${th('is_adi','\u0130\u015f')}${th('lokasyon','Lokasyon')}${th('ulke','\u00dclke')}${th('dil','Dil')}${th('toplam','Tutar')}${th('durum','Durum')}<th>Seç</th><th>v</th>${th('updated_at','G\u00fcncelleme')}<th></th></tr></thead><tbody>`+
