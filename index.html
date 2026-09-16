@@ -12,7 +12,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{font-family:'Segoe UI',Arial,sans-serif;background:#eef0f5;color:var(--ink)}
 #app{display:flex;min-height:100vh}
 /* ---------- EDITOR ---------- */
-#editor{width:46%;min-width:430px;background:#fff;border-right:3px solid var(--navy);padding:14px 18px;overflow-y:auto;height:100vh;position:sticky;top:0}
+#editor{width:46%;min-width:430px;background:#fff;border-right:3px solid var(--navy);padding:14px 18px;overflow-y:auto;height:calc(100vh - 44px);position:sticky;top:44px}
 #editor h1{font-size:17px;color:var(--navy);margin-bottom:2px}
 #editor .sub{font-size:11px;color:var(--orange);font-weight:600;margin-bottom:10px}
 fieldset{border:1.5px solid var(--blue);border-radius:10px;padding:12px;margin-bottom:16px;background:#f7f9fd}
@@ -176,8 +176,8 @@ ol.notes .nno{display:inline-block;min-width:6.5mm;font-weight:800;color:var(--n
 .libgrid .li .acts .x{background:#c0392b}
 /* library picker modal */
 #libmodal{display:none;position:fixed;inset:0;background:#0008;z-index:99;align-items:center;justify-content:center}
-#libmodal .lm,#poolmodal .lm,#loginmodal .lm{background:#fff;border-radius:12px;padding:18px;max-width:580px;width:90%;max-height:80vh;overflow:auto;box-shadow:0 8px 30px #0005}
-#libmodal h3,#poolmodal h3,#loginmodal h3{color:var(--navy);font-size:15px;margin-bottom:10px}
+#libmodal .lm,#loginmodal .lm{background:#fff;border-radius:12px;padding:18px;max-width:580px;width:90%;max-height:80vh;overflow:auto;box-shadow:0 8px 30px #0005}
+#libmodal h3,#arstab h3,#loginmodal h3{color:var(--navy);font-size:15px;margin-bottom:10px}
 .lmgrid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
 .lmgrid img{height:64px;width:96px;object-fit:cover;border-radius:6px;cursor:pointer;border:2.5px solid transparent}
 .lmgrid img:hover{border-color:var(--orange)}
@@ -186,17 +186,26 @@ ol.notes .nno{display:inline-block;min-width:6.5mm;font-weight:800;color:var(--n
 .lmbtns button.pri{background:var(--blue);color:#fff}
 @media print{#libmodal{display:none!important}}
 /* teklif havuzu */
-#poolmodal,#loginmodal{display:none;position:fixed;inset:0;background:#0008;z-index:99;align-items:center;justify-content:center}
-#poolmodal .lm{max-width:960px}
+#loginmodal{display:none;position:fixed;inset:0;background:#0008;z-index:99;align-items:center;justify-content:center}
+#topbar{position:fixed;top:0;left:0;right:0;height:44px;background:var(--navy);z-index:70;display:flex;align-items:center;gap:4px;padding:0 14px;box-shadow:0 2px 8px #0003}
+#topbar .tlogo{color:#fff;font-weight:900;font-size:15px;margin-right:14px}
+#topbar .tlogo small{color:var(--orange);font-weight:700;font-size:11px}
+.ttab{color:#fffa;font-weight:800;font-size:13px;padding:12px 18px;cursor:pointer;border-bottom:4px solid transparent;user-select:none}
+.ttab.on{color:#fff;border-bottom-color:var(--orange);background:#ffffff12}
+#topbar .tkim{margin-left:auto;color:#fff9;font-size:11px}
+#app{margin-top:44px}
+#arstab{display:none;position:fixed;top:44px;left:0;right:0;bottom:0;background:#eef0f5;z-index:60;overflow:auto;padding:14px 22px}
+#arstab .ars-ic{display:flex;flex-direction:column;height:100%;max-width:1600px;margin:0 auto}
+.uy{color:#e67e22;font-weight:800}
 .pool-sum{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;margin:4px 0}
 .pool-sum b{color:var(--navy)}
-@media print{#poolmodal,#loginmodal,#viewbar{display:none!important}
+@media print{#arstab,#topbar,#loginmodal,#viewbar{display:none!important}
 body.repmode #preview{display:none!important}
 body.repmode #reportpage{display:block}
 .rpage{page-break-after:always}
 }
 /* pdf gorunumu (teklif ac) */
-#viewbar{display:none;position:fixed;top:10px;right:14px;z-index:97;gap:8px}
+#viewbar{display:none;position:fixed;top:54px;right:14px;z-index:97;gap:8px}
 body.viewmode #editor{display:none}
 body.viewmode #viewbar{display:flex}
 #viewbar button{background:var(--navy);color:#fff;border:none;border-radius:8px;padding:9px 13px;font-weight:800;font-size:13px;cursor:pointer;box-shadow:0 2px 8px #0004}
@@ -228,7 +237,10 @@ mark.trx{background:#ffe58a;outline:1px dashed #d29b00;border-radius:2px;padding
  .iobtns{flex-direction:column}
  .iobtns button{padding:11px}
  .printbtn{padding:14px;font-size:16px}
- #libmodal .lm,#poolmodal .lm,#loginmodal .lm{width:96%;max-height:88vh}
+ #libmodal .lm,#loginmodal .lm{width:96%;max-height:88vh}
+ .ttab{font-size:11px;padding:12px 8px}
+ #topbar .tkim{display:none}
+ #arstab{padding:10px}
  table.items input{font-size:14px}
  #pool_tbl{font-size:12px}
 }
@@ -253,6 +265,12 @@ mark.trx{background:#ffe58a;outline:1px dashed #d29b00;border-radius:2px;padding
 </style>
 </head>
 <body>
+<div id="topbar">
+ <span class="tlogo">ÜÇEL <small>Teklif Stüdyosu</small></span>
+ <div class="ttab on" id="tab_yaz" onclick="tabGo('yaz')">&#9998; TEKLİF YAZ</div>
+ <div class="ttab" id="tab_ars" onclick="poolOpen()">&#128193; ARŞİV &amp; RAPORLAR <span id="tab_count"></span></div>
+ <span class="tkim" id="tab_kim"></span>
+</div>
 <div id="app">
 <aside id="editor">
   <h1>ÜÇEL Teklif Stüdyosu</h1>
@@ -391,8 +409,8 @@ mark.trx{background:#ffe58a;outline:1px dashed #d29b00;border-radius:2px;padding
  <button style="background:#c0392b" onclick="location.reload()">&#10005; Kapat</button>
 </div>
 
-<div id="poolmodal" onclick="if(event.target===this)poolClose()">
- <div class="lm" style="width:97vw;max-width:97vw;height:94vh;max-height:94vh;display:flex;flex-direction:column">
+<div id="arstab">
+ <div class="ars-ic">
   <h3>&#128194; Tekliflerim &amp; Raporlar</h3>
   <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
    <select id="pf_yil" onchange="poolRender()"></select>
@@ -412,7 +430,7 @@ mark.trx{background:#ffe58a;outline:1px dashed #d29b00;border-radius:2px;padding
     <select id="bulkdur" style="padding:6px 8px"><option>kazanıldı</option><option>kaybedildi</option><option>verildi</option><option>revize</option><option>iptal</option></select>
     <button class="pri" style="background:var(--orange)" onclick="bulkDurum()">Seçilenlere Uygula</button>
    </span>
-   <button onclick="poolClose()">Kapat</button>
+   <button class="pri" style="background:var(--orange)" onclick="tabGo('yaz')">&#10133; Yeni Teklif / Editöre Dön</button>
   </div>
  </div>
 </div>
@@ -1652,12 +1670,14 @@ async function poolCount(){
  try{
   const j=await sbReq('/rest/v1/teklifler?select=id');
   const e=document.getElementById('pool_count');if(e)e.textContent='('+((j&&j.length)||0)+')';
+  const tc=document.getElementById('tab_count');if(tc)tc.textContent='('+((j&&j.length)||0)+')';
  }catch(e){}
 }
 function sbUI(msg){
  const w=document.getElementById('sb_who');
  if(!w)return;
  w.textContent=SB_TOKEN?('Hesap: '+SB_USER+(POOL_ID?' \u00b7 a\u00e7\u0131k teklif kay\u0131tl\u0131':'')):'';
+ const tk=document.getElementById('tab_kim');if(tk)tk.textContent=SB_TOKEN?SB_USER:'';
  if(SB_TOKEN)poolCount();else{const e=document.getElementById('pool_count');if(e)e.textContent=''}
  if(msg)document.getElementById('sb_msg').textContent=msg;
 }
@@ -1700,10 +1720,16 @@ async function poolOpen(){
  if(!SB_TOKEN)return loginOpen();
  try{
   POOL=await sbReq('/rest/v1/teklifler?select=id,proje_no,firma,yetkili,ulke,lokasyon,dil,para_birimi,toplam,durum,tarih,is_adi,version,updated_at&order=tarih.desc,created_at.desc')||[];
-  poolFillFilters();poolRender();document.getElementById('poolmodal').style.display='flex';
+  poolFillFilters();poolRender();tabGo('ars');
  }catch(e){alert('Havuz a\u00e7\u0131lamad\u0131: '+e.message)}
 }
-function poolClose(){document.getElementById('poolmodal').style.display='none'}
+function tabGo(k){
+ const a=document.getElementById('arstab');
+ a.style.display=(k==='ars')?'flex':'none';
+ document.getElementById('tab_ars').classList.toggle('on',k==='ars');
+ document.getElementById('tab_yaz').classList.toggle('on',k!=='ars');
+}
+function poolClose(){tabGo('yaz')}
 function enterView(){document.body.classList.add('viewmode');window.scrollTo(0,0)}
 function exitView(){document.body.classList.remove('viewmode')}
 function poolCsv(){
@@ -1782,12 +1808,12 @@ function poolRender(){
  });
  /* ozet kartlari */
  const byCur={},kzC={},kbC={};
- let kz=0,kb=0,ac=0;
+ let kz=0,kb=0,ac=0,sd=0;
  rows.forEach(r=>{
   byCur[r.para_birimi]=(byCur[r.para_birimi]||0)+(+r.toplam||0);
   if(r.durum==='kazan\u0131ld\u0131'){kz++;kzC[r.para_birimi]=(kzC[r.para_birimi]||0)+(+r.toplam||0)}
   else if(r.durum==='kaybedildi')kb++;
-  else if(r.durum==='verildi'||r.durum==='revize')ac++;
+  else if(r.durum==='verildi'||r.durum==='revize'){ac++;if(r.tarih&&(Date.now()-new Date(r.tarih))>15*864e5)sd++;}
  });
  const cur=o=>Object.entries(o).map(([c,n])=>moneyC(c,n)).join(' + ')||'\u2014';
  const oran=(kz+kb)>0?Math.round(kz*100/(kz+kb)):null;
@@ -1797,6 +1823,7 @@ function poolRender(){
   <div class="pcard win"><div class="pk">Kazan\u0131lan</div><div class="pv">${kz}</div><div class="ps">${cur(kzC)}</div></div>
   <div class="pcard lose"><div class="pk">Kaybedilen</div><div class="pv">${kb}</div></div>
   <div class="pcard"><div class="pk">Ba\u015far\u0131 Oran\u0131</div><div class="pv">${oran===null?'\u2014':'%'+oran}</div><div class="ps">kazan\u0131lan / sonu\u00e7lanan</div></div>
+  <div class="pcard"><div class="pk">S\u00fcresi Dolan</div><div class="pv" style="color:#e67e22">${sd}</div><div class="ps">15 g\u00fcn\u00fc a\u015fan a\u00e7\u0131k teklif</div></div>
  </div>`;
  const durs=['verildi','revize','kazan\u0131ld\u0131','kaybedildi','iptal'];
  const th=(k,l)=>`<th onclick="poolSort('${k}')">${l}${POOL_SORT.k===k?(POOL_SORT.d>0?' \u25b2':' \u25bc'):''}</th>`;
@@ -1806,7 +1833,7 @@ function poolRender(){
    <td>${(r.tarih||'').split('-').reverse().join('.')}</td>
    <td><b>${esc(r.proje_no)}</b></td><td>${esc(r.firma)}</td><td>${esc(r.yetkili||'')}</td><td>${esc(r.is_adi)}</td><td>${esc(r.lokasyon||'')}</td><td>${esc(r.ulke)}</td><td style="text-transform:uppercase">${esc(r.dil||'')}</td>
    <td class="money"><b>${moneyC(r.para_birimi,r.toplam)}</b></td>
-   <td><select onchange="poolDurum('${r.id}',this.value)" style="font-size:11px;padding:2px 4px;background:${DURCLR[r.durum]||'#888'};color:#fff;border:none;border-radius:5px;font-weight:700">${durs.map(d=>`<option${d===r.durum?' selected':''}>${d}</option>`).join('')}</select></td>
+   <td><select onchange="poolDurum('${r.id}',this.value)" style="font-size:11px;padding:2px 4px;background:${DURCLR[r.durum]||'#888'};color:#fff;border:none;border-radius:5px;font-weight:700">${durs.map(d=>`<option${d===r.durum?' selected':''}>${d}</option>`).join('')}</select>${(r.durum==='verildi'||r.durum==='revize')&&r.tarih&&(Date.now()-new Date(r.tarih))>15*864e5?' <span class="uy" title="Opsiyon s\u00fcresi (15 g\u00fcn) doldu">\u26a0</span>':''}</td>
    <td style="text-align:center"><input type="checkbox" class="pchk" data-id="${r.id}" style="width:auto" onclick="event.stopPropagation();bulkCount()"></td>
    <td class="num">${r.version}</td>
    <td>${(r.updated_at||'').slice(0,10).split('-').reverse().join('.')}</td>
@@ -1887,6 +1914,7 @@ async function aiTranslate(){
  _aiBusy=false;b.textContent=t0;
 }
 sbUI();
+if(SB_TOKEN&&ADMINS.includes((SB_USER||'').toLowerCase()))setTimeout(()=>{try{poolOpen()}catch(e){}},400);
 if(SB_TOKEN)sbRefresh().then(()=>{brandsLoad();introLoad()});
 </script>
 <div id="wmmodal" style="display:none;position:fixed;inset:0;background:rgba(20,28,50,.78);z-index:99;align-items:center;justify-content:center">
