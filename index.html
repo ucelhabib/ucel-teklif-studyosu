@@ -282,14 +282,6 @@ mark.trx{background:#ffe58a;outline:1px dashed #d29b00;border-radius:2px;padding
   <div class="sub">güçlü yapıların güçlü adı...</div>
 
   <fieldset>
-    <legend>Tekliflerim <span id="pool_count"></span></legend>
-    <div class="iobtns">
-      <button onclick="poolOpen()">&#128194; Tekliflerim / Raporlar (Arşiv)</button>
-    </div>
-    <div class="hint" id="sb_who"></div>
-    <div class="hint" id="sb_msg">Kaydedilen teklif kilitlenir; içerik revizesi Habib onayı gerektirir. Durum (verildi/kazanıldı/kaybedildi) her zaman güncellenebilir.</div>
-  </fieldset>
-  <fieldset>
     <legend>Teklif Dili Seç</legend>
     <div class="langbar" id="langbar"></div>
     <div class="iobtns" style="margin-top:8px"><button id="aitrbtn" onclick="aiTranslate()">&#10024; AI ile Bu Dile Çevir</button></div>
@@ -1677,12 +1669,10 @@ async function poolCount(){
  }catch(e){}
 }
 function sbUI(msg){
- const w=document.getElementById('sb_who');
- if(!w)return;
- w.textContent=SB_TOKEN?('Hesap: '+SB_USER+(POOL_ID?' \u00b7 a\u00e7\u0131k teklif kay\u0131tl\u0131':'')):'';
- const tk=document.getElementById('tab_kim');if(tk)tk.textContent=SB_TOKEN?SB_USER:'';
- if(SB_TOKEN)poolCount();else{const e=document.getElementById('pool_count');if(e)e.textContent=''}
- if(msg)document.getElementById('sb_msg').textContent=msg;
+ const tk=document.getElementById('tab_kim');
+ const acc=SB_TOKEN?(SB_USER+(POOL_ID?' \u00b7 a\u00e7\u0131k teklif kay\u0131tl\u0131':'')):'';
+ if(tk){tk.textContent=msg||acc;if(msg)setTimeout(function(){try{tk.textContent=acc}catch(e){}},4000);}
+ if(SB_TOKEN)poolCount();else{const t=document.getElementById('tab_count');if(t)t.textContent='';}
 }
 const ULKELER=['türkiye','mısır','angola','libya','rusya','özbekistan','kazakistan','azerbaycan','gürcistan','irak','iran','suriye','suudi arabistan','birleşik arap emirlikleri','bae','katar','kuveyt','umman','yemen','ürdün','lübnan','israil','filistin','cezayir','fas','tunus','sudan','etiyopya','kenya','tanzanya','uganda','nijerya','gana','senegal','fildişi','kamerun','kongo','zambiya','zimbabve','mozambik','güney afrika','somali','cibuti','moritanya','mali','nijer','çad','almanya','fransa','hollanda','belçika','ingiltere','italya','ispanya','portekiz','romanya','bulgaristan','yunanistan','polonya','ukrayna','moldova','sırbistan','bosna','arnavutluk','kosova','makedonya','karadağ','hırvatistan','macaristan','çekya','slovakya','avusturya','isviçre','isveç','norveç','danimarka','finlandiya','türkmenistan','kırgızistan','tacikistan','afganistan','pakistan','hindistan','bangladeş','çin','endonezya','malezya','vietnam','filipinler','tayland','japonya','güney kore','amerika','abd','kanada','meksika','brezilya','arjantin','şili','kolombiya','venezuela','peru','kıbrıs','kktc'];
 function detectUlke(sx){
