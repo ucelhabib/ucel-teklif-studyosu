@@ -1411,7 +1411,8 @@ const ONTPL={
  fr:(y,i,l)=>`Madame, Monsieur${y?' '+y:''},\n\nSuite à nos récents échanges, veuillez trouver ci-dessous notre offre pour ${i||'votre projet'}${l?' à '+l:''}.\n\nNotre offre s'appuie sur les informations et plans joints ; notre équipe est prête à optimiser le périmètre et l'implantation avec vous.\n\nMerci de votre confiance,\n\nÜÇEL Steel Construction`,
  pt:(y,i,l)=>`Exmo.(a) ${y||'Senhor(a)'},\n\nNa sequência das nossas conversas, apresentamos a nossa proposta para ${i||'o seu projeto'}${l?' em '+l:''}.\n\nA proposta baseia-se nas informações e desenhos anexos; a nossa equipa está pronta para otimizar o âmbito e a implantação consigo.\n\nGratos pela confiança,\n\nÜÇEL Steel Construction`};
 function onyaziTpl(){const f=ONTPL[S.lang]||ONTPL.tr;(S.onyazi=S.onyazi||{})[S.lang]=f(trTitle(S.yetkili||''),(S.isadi||'').trim(),(S.isyeri||'').trim());syncEditor();render()}
-function render(){
+function render(_mapOwn){
+ const MO=!!_mapOwn;window.__mapOwn=MO;
  const L=TR[S.lang];const dir=L.rtl?'rtl':'ltr';
  const firma=trTitle(S.firma),yetkili=trTitle(S.yetkili),isadi=trX('isadi',trDesc(trTitle(S.isadi),S.lang)),isyeri=trX('isyeri',trDesc(trTitle(S.isyeri),S.lang));
  const t1=tableHTML(L,S.items1,1,L.toplam,true,'a');
@@ -1428,7 +1429,7 @@ function render(){
  const hasDet=S.details.length>0;
  const onTxt=((S.onyazi&&S.onyazi[S.lang])||'').trim();
  const tocOn=!!S.toc;
- const TOTAL=1+(onTxt?1:0)+(tocOn?1:0)+(hasDet?1:0)+3;
+ const TOTAL=1+(onTxt?1:0)+(tocOn?1:0)+(hasDet?1:0)+3+(MO?1:0);
  const PGON=2,PGDET=2+(onTxt?1:0)+(tocOn?1:0),PGFIY=PGDET+(hasDet?1:0),PGNOT=PGFIY+1;
  let pg=0;
  /* page 1 cover */
@@ -1460,7 +1461,8 @@ function render(){
  if(tocOn){pg++;const trows=[];
   if(onTxt)trows.push([L.onyazi,PGON]);
   if(hasDet)trows.push([L.yapidet,PGDET]);
-  trows.push([L.fiyatlar,PGFIY],[L.notlar,PGNOT],[L.tanitim,TOTAL]);
+  trows.push([L.fiyatlar,PGFIY],[L.notlar,PGNOT],[L.tanitim,MO?TOTAL-1:TOTAL]);
+  if(MO)trows.push([L.reffirm,TOTAL]);
   pToc=`<div class="page" dir="${dir}">
   ${pgHead(L)}
   <div class="pgbody">
@@ -1480,9 +1482,15 @@ function render(){
    ${refRows?`<h2 class="sec" style="margin-top:6mm">${L.referans}</h2>
    <table class="doc"><thead><tr><th>${L.rproje}</th><th class="num" style="width:45mm">${L.ryer}</th><th class="num" style="width:40mm">${L.rton}</th></tr></thead><tbody>${refRows}</tbody></table>`:''}
    ${S.refs.some(r=>r.img)?`<div class="refgrid">${S.refs.filter(r=>r.img).map(r=>`<figure><img src="${r.img}"><figcaption>${esc(trDesc(trTitle(r.n),S.lang))}</figcaption></figure>`).join('')}</div>`:''}
-   ${brandGrid}
-   ${worldBlock}
-  </div>${pgFoot(L,TOTAL,TOTAL)}</div>`;
+   ${MO?'':brandGrid}
+   ${MO?'':worldBlock}
+  </div>${pgFoot(L,MO?TOTAL-1:TOTAL,TOTAL)}</div>`;
+ const pMap=MO?`<div class="page" dir="${dir}">
+  ${pgHead(L)}
+  <div class="pgbody">
+   ${brandGrid||`<h2 class="sec">${L.reffirm}</h2>`}
+   ${worldBlock.replace('<img','<img style="width:150mm;margin-top:10mm"')}
+  </div>${pgFoot(L,TOTAL,TOTAL)}</div>`:'';
  /* structure details page (only when images exist) */
  let pDet='';
  if(hasDet){
@@ -1547,7 +1555,7 @@ function render(){
     <div class="box"><div class="t">${L.onay}</div>${L.ad}:<div class="line">${L.imza}</div></div>
    </div>
   </div>${pgFoot(L,pg,TOTAL)}</div>`;
- const _html=p1+pOn+pToc+pDet+p3+p4+p2;
+ const _html=p1+pOn+pToc+pDet+p3+p4+p2+pMap;
  if(_html!==window._lastHtml){
   window._lastHtml=_html;
   let out=_html.replace(/<img /g,'<img decoding="async" ');
@@ -1576,18 +1584,15 @@ function fitPages(){
  const z=Math.min(1,(pv.clientWidth-36)/794);
  pv.querySelectorAll('.page').forEach(p=>{p.style.zoom=z});
 }
-/* dunya haritasi son sayfaya sigmazsa kucult, yine sigmazsa gizle */
+/* dunya haritasi son sayfaya sigmazsa referans firmalar + harita icin ayri sayfa ac */
 function fitWorld(){
- document.querySelectorAll('#preview .page .worldwrap').forEach(function(w){
-  const pg=w.closest('.page'); const img=w.querySelector('img'); if(!pg||!img)return;
-  if(!img.complete){img.addEventListener('load',fitWorld,{once:true});return;}
-  w.style.display=''; img.style.width='';
-  const pr=pg.getBoundingClientRect(); const k=pr.width/794;
-  const lim=pr.top+(1123-98)*k-2;
-  const widths=[128,112,96,82,70]; let ok=false;
-  for(const mm of widths){ img.style.width=mm+'mm'; if(w.getBoundingClientRect().bottom<=lim){ok=true;break;} }
-  if(!ok)w.style.display='none';
- });
+ const w=document.querySelector('#preview .worldwrap'); if(!w)return;
+ const img=w.querySelector('img');
+ if(img&&!img.complete){img.addEventListener('load',fitWorld,{once:true});return;}
+ const pg2=w.closest('.page'); if(!pg2)return;
+ const pr=pg2.getBoundingClientRect(); const k=pr.width/794;
+ const lim=pr.top+(1123-98)*k-2;
+ if(w.getBoundingClientRect().bottom>lim && !window.__mapOwn) render(true);
 }
 window.addEventListener('resize',fitPages);
 window.addEventListener('beforeprint',()=>{document.querySelectorAll('.page').forEach(p=>p.style.zoom=1)});
