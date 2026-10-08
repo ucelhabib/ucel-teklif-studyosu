@@ -1567,6 +1567,7 @@ function render(){
    if(trx)tw.textContent='\u26a0 '+trx+' kelime \u00e7evrilmemi\u015f olabilir \u2014 sayfada sar\u0131 i\u015faretlileri kontrol edin';
   }
   fitPages();
+  fitWorld();
  }
 }
 /* scale pages to fit the preview panel width */
@@ -1574,6 +1575,19 @@ function fitPages(){
  const pv=document.getElementById('preview');
  const z=Math.min(1,(pv.clientWidth-36)/794);
  pv.querySelectorAll('.page').forEach(p=>{p.style.zoom=z});
+}
+/* dunya haritasi son sayfaya sigmazsa kucult, yine sigmazsa gizle */
+function fitWorld(){
+ document.querySelectorAll('#preview .page .worldwrap').forEach(function(w){
+  const pg=w.closest('.page'); const img=w.querySelector('img'); if(!pg||!img)return;
+  if(!img.complete){img.addEventListener('load',fitWorld,{once:true});return;}
+  w.style.display=''; img.style.width='';
+  const pr=pg.getBoundingClientRect(); const k=pr.width/794;
+  const lim=pr.top+(1123-98)*k-2;
+  const widths=[128,112,96,82,70]; let ok=false;
+  for(const mm of widths){ img.style.width=mm+'mm'; if(w.getBoundingClientRect().bottom<=lim){ok=true;break;} }
+  if(!ok)w.style.display='none';
+ });
 }
 window.addEventListener('resize',fitPages);
 window.addEventListener('beforeprint',()=>{document.querySelectorAll('.page').forEach(p=>p.style.zoom=1)});
