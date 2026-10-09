@@ -1032,17 +1032,17 @@ function itemRow(t,i,it){
 }
 function refRow(i,r){
  return `<tr>
- <td style="width:37%"><input type="text" placeholder="Proje adı" value="${esc(r.n)}" oninput="S.refs[${i}].n=this.value;renderSoon()"></td>
- <td style="width:28%"><input type="text" placeholder="Yer/Ülke" value="${esc(r.y)}" oninput="S.refs[${i}].y=this.value;renderSoon()"></td>
- <td style="width:21%"><input type="text" placeholder="Tonaj" value="${esc(r.t)}" oninput="S.refs[${i}].t=this.value;renderSoon()"></td>
+ <td style="width:37%"><input type="text" placeholder="Proje adı" value="${esc(r.n)}" oninput="S.refs[${i}].n=this.value;renderSoon();refsSaveSoon()"></td>
+ <td style="width:28%"><input type="text" placeholder="Yer/Ülke" value="${esc(r.y)}" oninput="S.refs[${i}].y=this.value;renderSoon();refsSaveSoon()"></td>
+ <td style="width:21%"><input type="text" placeholder="Tonaj" value="${esc(r.t)}" oninput="S.refs[${i}].t=this.value;renderSoon();refsSaveSoon()"></td>
  <td><button class="rowbtn${r.img?' has':''}" title="Proje fotoğrafı" onclick="pickRefImg(${i})">&#128247;</button></td>
- <td><button class="rowbtn del" onclick="S.refs.splice(${i},1);syncEditor();render()">×</button></td></tr>`;
+ <td><button class="rowbtn del" onclick="S.refs.splice(${i},1);syncEditor();render();refsSaveSoon()">×</button></td></tr>`;
 }
 let _refIdx=-1;
-function pickRefImg(i){_refIdx=i;libPick(d=>{S.refs[_refIdx].img=d;syncEditor();render()},'refimg')}
+function pickRefImg(i){_refIdx=i;libPick(d=>{S.refs[_refIdx].img=d;syncEditor();render();refsSaveSoon()},'refimg')}
 function onRefImg(inp){
  const f=inp.files[0];if(!f||_refIdx<0)return;
- shrink(f,async d=>{const v=await wmProcess(d);if(v){S.refs[_refIdx].img=v;syncEditor();render()}});
+ shrink(f,async d=>{const v=await wmProcess(d);if(v){S.refs[_refIdx].img=v;syncEditor();render();refsSaveSoon()}});
  inp.value='';
 }
 function syncEditor(){
@@ -1328,6 +1328,22 @@ async function brandsLoad(){
  try{
   const j=await sbReq('/rest/v1/ayarlar?key=eq.markalar&select=value');
   if(j&&j[0]&&Array.isArray(j[0].value)&&j[0].value.length){S.brands=j[0].value;syncEditor();render()}
+ }catch(e){}
+}
+let _rfT=null;
+function refsSaveSoon(){clearTimeout(_rfT);_rfT=setTimeout(refsSave,1500)}
+async function refsSave(){
+ if(!SB_TOKEN)return;
+ try{
+  await sbReq('/rest/v1/ayarlar',{method:'POST',headers:{Prefer:'resolution=merge-duplicates,return=minimal'},body:JSON.stringify([{key:'referanslar',value:S.refs}])});
+ }catch(e){}
+}
+async function refsLoad(){
+ if(!SB_TOKEN)return;
+ try{
+  const j=await sbReq('/rest/v1/ayarlar?key=eq.referanslar&select=value');
+  const bos=!S.refs.some(r=>(r.n||'').trim()||r.img);
+  if(bos&&j&&j[0]&&Array.isArray(j[0].value)&&j[0].value.length){S.refs=j[0].value;syncEditor();render()}
  }catch(e){}
 }
 function addDetail(inp){
@@ -1645,7 +1661,7 @@ async function sbLogin(){
   SB_TOKEN=j.access_token;SB_USER=(j.user&&j.user.email)||val('sb_email');
   localStorage.setItem('sb_token',SB_TOKEN);localStorage.setItem('sb_user',SB_USER);
   if(j.refresh_token)localStorage.setItem('sb_refresh',j.refresh_token);
-  loginClose();sbUI('Giri\u015f yap\u0131ld\u0131.');brandsLoad();introLoad();
+  loginClose();sbUI('Giri\u015f yap\u0131ld\u0131.');brandsLoad();introLoad();refsLoad();
  }catch(e){alert('Giri\u015f ba\u015far\u0131s\u0131z: '+e.message+'\n\n\u015eifrenizi bilmiyorsan\u0131z "\u015eifremi Unuttum"u kullan\u0131n.')}
 }
 async function sbForgot(){
@@ -1674,7 +1690,7 @@ function magicCatch(){
  history.replaceState(null,'',location.pathname+location.search);
  fetch(SB_URL+'/auth/v1/user',{headers:{apikey:SB_KEY,Authorization:'Bearer '+at}}).then(r=>r.json()).then(u=>{
   if(u&&u.email){SB_USER=u.email;localStorage.setItem('sb_user',u.email)}
-  sbUI('Giri\u015f yap\u0131ld\u0131.');brandsLoad();introLoad();
+  sbUI('Giri\u015f yap\u0131ld\u0131.');brandsLoad();introLoad();refsLoad();
   if(ty==='recovery'||ty==='magiclink'||ty==='invite')setTimeout(askNewPass,400);
  }).catch(()=>{sbUI('Giri\u015f yap\u0131ld\u0131.')});
 }
@@ -1917,7 +1933,7 @@ async function aiTranslate(){
 sbUI();
 var _tl=document.getElementById('tlogoimg');if(_tl)_tl.src=LOGO;
 if(SB_TOKEN&&ADMINS.includes((SB_USER||'').toLowerCase()))setTimeout(()=>{try{poolOpen()}catch(e){}},400);
-if(SB_TOKEN)sbRefresh().then(()=>{brandsLoad();introLoad()});
+if(SB_TOKEN)sbRefresh().then(()=>{brandsLoad();introLoad();refsLoad()});
 </script>
 <div id="wmmodal" style="display:none;position:fixed;inset:0;background:rgba(20,28,50,.78);z-index:99;align-items:center;justify-content:center">
 <div style="background:#fff;border-radius:10px;padding:14px 16px;width:min(780px,94vw);max-height:92vh;overflow:auto;box-shadow:0 10px 40px rgba(0,0,0,.4)">
