@@ -286,7 +286,7 @@ mark.trx{background:#ffe58a;outline:1px dashed #d29b00;border-radius:2px;padding
     <legend>Teklif Dili Seç</legend>
     <div class="langbar" id="langbar"></div>
     <div class="iobtns" style="margin-top:8px"><button id="aitrbtn" onclick="aiTranslate()">&#10024; AI ile Bu Dile Çevir</button></div>
-    <div class="hint">Türkçe dışı bir dil seçiliyken kalem adlarını, işin adını ve lokasyonu yapay zeka profesyonelce çevirir.</div>
+    <div class="hint">Türkçe hazırlayın, hedef dili seçin ve bu düğmeye basın: kalem adları, işin adı, lokasyon, ön yazı ve ek notlar yapay zeka ile profesyonelce çevrilir. Türkçeye dönünce orijinal metinleriniz aynen durur.</div>
   </fieldset>
 
   <fieldset>
@@ -704,43 +704,43 @@ Com tecnologias inovadoras e uma equipa especializada, conduzimos todo o process
 
 /* phrase dictionary: TR -> other langs (longest first at apply time) */
 const DICT={
- 'Bölümü İmalat ve Montajı':{en:'Section Fabrication & Erection',ar:'قسم — تصنيع وتركيب',ru:'секция — изготовление и монтаж',uz:"bo'limi ishlab chiqarish va montaji"},
- 'İmalat ve Montajı':{en:'Fabrication & Erection',ar:'تصنيع وتركيب',ru:'изготовление и монтаж',uz:"ishlab chiqarish va montaj"},
- 'Temini ve Montajı':{en:'Supply & Installation',ar:'توريد وتركيب',ru:'поставка и монтаж',uz:"yetkazib berish va montaj"},
- 'Kalınlığında':{en:'thickness',ar:'بسماكة',ru:'толщиной',uz:"qalinlikda"},
- 'ÇELİK KONSTRÜKSİYON':{en:'STEEL STRUCTURE',ar:'الهيكل الفولاذي',ru:'МЕТАЛЛОКОНСТРУКЦИИ',uz:"PO'LAT KONSTRUKSIYA"},
- 'CEPHE PANELİ':{en:'WALL CLADDING PANEL',ar:'لوح تغطية الواجهات',ru:'СТЕНОВЫЕ ПАНЕЛИ',uz:"DEVOR PANELI"},
- 'ÇATI PANELİ':{en:'ROOF CLADDING PANEL',ar:'لوح تغطية الأسقف',ru:'КРОВЕЛЬНЫЕ ПАНЕЛИ',uz:"TOM PANELI"},
- 'PVC PENCERE':{en:'PVC WINDOW',ar:'نافذة PVC',ru:'ОКНО ПВХ',uz:"PVX DERAZA"},
- 'SARMALI KEPENK KAPI':{en:'ROLLER SHUTTER DOOR',ar:'باب ستارة دوارة',ru:'РУЛОННЫЕ ВОРОТА',uz:"RULONLI DARVOZA"},
- 'KAPI':{en:'DOOR',ar:'باب',ru:'ДВЕРЬ',uz:"ESHIK"},
- 'ÖĞÜTME':{en:'MILLING',ar:'الطحن',ru:'РАЗМОЛ',uz:"YANCHISH"},
- 'PAKETLEME':{en:'PACKING',ar:'التعبئة',ru:'УПАКОВКА',uz:"QADOQLASH"},
- 'TAV SİLO':{en:'TEMPERING SILO',ar:'صومعة الترطيب',ru:'СИЛОС ОТВОЛАЖИВАНИЯ',uz:"DAM BERISH SILOSI"},
- 'UN SİLO':{en:'FLOUR SILO',ar:'صومعة الدقيق',ru:'МУЧНОЙ СИЛОС',uz:"UN SILOSI"},
- 'KEPEK SİLO':{en:'BRAN SILO',ar:'صومعة النخالة',ru:'СИЛОС ОТРУБЕЙ',uz:"KEPAK SILOSI"},
- 'ÇATI':{en:'ROOF',ar:'سقف',ru:'КРЫША',uz:"TOM"},
- 'CEPHE':{en:'FACADE',ar:'واجهة',ru:'ФАСАД',uz:"FASAD"},
- 'Adet':{en:'pcs',ar:'قطعة',ru:'шт',uz:"dona",kk:'дана'},
- 'Un Değirmeni':{en:'Flour Mill',ar:'مطحنة دقيق',ru:'Мукомольная мельница',uz:"Un tegirmoni"},
- 'Değirmen Binası':{en:'Mill Building',ar:'مبنى المطحنة',ru:'Здание мельницы',uz:"Tegirmon binosi"},
- 'Değirmen':{en:'Mill',ar:'مطحنة',ru:'Мельница',uz:"Tegirmon"},
- 'Kapasiteli':{en:'Capacity',ar:'بسعة',ru:'производительностью',uz:"quvvatli"},
- 'Ton/gün':{en:'t/day',ar:'طن/يوم',ru:'т/сутки',uz:"tonna/kun"},
- 'Ton/Gün':{en:'t/day',ar:'طن/يوم',ru:'т/сутки',uz:"tonna/kun"},
- 'Çelik Yapı':{en:'Steel Structure',ar:'منشأ فولاذي',ru:'Стальная конструкция',uz:"Po'lat inshoot"},
- 'Fabrika Binası':{en:'Factory Building',ar:'مبنى مصنع',ru:'Здание завода',uz:"Zavod binosi"},
- 'Binası':{en:'Building',ar:'مبنى',ru:'Здание',uz:"binosi"},
- 'Depo':{en:'Warehouse',ar:'مستودع',ru:'Склад',uz:"Ombor"},
- 'Silo':{en:'Silo',ar:'صومعة',ru:'Силос',uz:"Silos"},
- 'Siloları':{en:'Silos',ar:'صوامع',ru:'Силосы',uz:"Silolari"},
- 'Özbekistan':{en:'Uzbekistan',ar:'أوزبكستان',ru:'Узбекистан',uz:"O'zbekiston"},
- 'Rusya':{en:'Russia',ar:'روسيا',ru:'Россия',uz:"Rossiya"},
- 'Türkiye':{en:'Türkiye',ar:'تركيا',ru:'Турция',uz:"Turkiya"},
- 'Libya':{en:'Libya',ar:'ليبيا',ru:'Ливия',uz:"Liviya"},
- 'Angola':{en:'Angola',ar:'أنغولا',ru:'Ангола',uz:"Angola"},
- 'Kazakistan':{en:'Kazakhstan',ar:'كازاخستان',ru:'Казахстан',uz:"Qozog'iston"},
- 'Azerbaycan':{en:'Azerbaijan',ar:'أذربيجان',ru:'Азербайджан',uz:"Ozarbayjon"},
+ 'Bölümü İmalat ve Montajı':{en:'Section Fabrication & Erection',ar:'قسم — تصنيع وتركيب',ru:'секция — изготовление и монтаж',uz:"bo'limi ishlab chiqarish va montaji",fr:'Fabrication et Montage de Section',pt:'Fabricação e Montagem de Seção'},
+ 'İmalat ve Montajı':{en:'Fabrication & Erection',ar:'تصنيع وتركيب',ru:'изготовление и монтаж',uz:"ishlab chiqarish va montaj",fr:'Fabrication et Montage',pt:'Fabricação e Montagem'},
+ 'Temini ve Montajı':{en:'Supply & Installation',ar:'توريد وتركيب',ru:'поставка и монтаж',uz:"yetkazib berish va montaj",fr:'Fourniture et Montage',pt:'Fornecimento e Montagem'},
+ 'Kalınlığında':{en:'thickness',ar:'بسماكة',ru:'толщиной',uz:"qalinlikda",fr:'d’épaisseur',pt:'de espessura'},
+ 'ÇELİK KONSTRÜKSİYON':{en:'STEEL STRUCTURE',ar:'الهيكل الفولاذي',ru:'МЕТАЛЛОКОНСТРУКЦИИ',uz:"PO'LAT KONSTRUKSIYA",fr:'CONSTRUCTION MÉTALLIQUE',pt:'ESTRUTURA METÁLICA'},
+ 'CEPHE PANELİ':{en:'WALL CLADDING PANEL',ar:'لوح تغطية الواجهات',ru:'СТЕНОВЫЕ ПАНЕЛИ',uz:"DEVOR PANELI",fr:'PANNEAU DE FAÇADE',pt:'PAINEL DE FACHADA'},
+ 'ÇATI PANELİ':{en:'ROOF CLADDING PANEL',ar:'لوح تغطية الأسقف',ru:'КРОВЕЛЬНЫЕ ПАНЕЛИ',uz:"TOM PANELI",fr:'PANNEAU DE TOITURE',pt:'PAINEL DE COBERTURA'},
+ 'PVC PENCERE':{en:'PVC WINDOW',ar:'نافذة PVC',ru:'ОКНО ПВХ',uz:"PVX DERAZA",fr:'FENÊTRE PVC',pt:'JANELA DE PVC'},
+ 'SARMALI KEPENK KAPI':{en:'ROLLER SHUTTER DOOR',ar:'باب ستارة دوارة',ru:'РУЛОННЫЕ ВОРОТА',uz:"RULONLI DARVOZA",fr:'PORTE À RIDEAU ENROULABLE',pt:'PORTA DE ENROLAR'},
+ 'KAPI':{en:'DOOR',ar:'باب',ru:'ДВЕРЬ',uz:"ESHIK",fr:'PORTE',pt:'PORTA'},
+ 'ÖĞÜTME':{en:'MILLING',ar:'الطحن',ru:'РАЗМОЛ',uz:"YANCHISH",fr:'MOUTURE',pt:'MOAGEM'},
+ 'PAKETLEME':{en:'PACKING',ar:'التعبئة',ru:'УПАКОВКА',uz:"QADOQLASH",fr:'EMBALLAGE',pt:'EMBALAGEM'},
+ 'TAV SİLO':{en:'TEMPERING SILO',ar:'صومعة الترطيب',ru:'СИЛОС ОТВОЛАЖИВАНИЯ',uz:"DAM BERISH SILOSI",fr:'SILO DE REPOS',pt:'SILO DE DESCANSO'},
+ 'UN SİLO':{en:'FLOUR SILO',ar:'صومعة الدقيق',ru:'МУЧНОЙ СИЛОС',uz:"UN SILOSI",fr:'SILO À FARINE',pt:'SILO DE FARINHA'},
+ 'KEPEK SİLO':{en:'BRAN SILO',ar:'صومعة النخالة',ru:'СИЛОС ОТРУБЕЙ',uz:"KEPAK SILOSI",fr:'SILO À SON',pt:'SILO DE FARELO'},
+ 'ÇATI':{en:'ROOF',ar:'سقف',ru:'КРЫША',uz:"TOM",fr:'TOITURE',pt:'COBERTURA'},
+ 'CEPHE':{en:'FACADE',ar:'واجهة',ru:'ФАСАД',uz:"FASAD",fr:'FAÇADE',pt:'FACHADA'},
+ 'Adet':{en:'pcs',ar:'قطعة',ru:'шт',uz:"dona",kk:'дана',fr:'pcs',pt:'un.'},
+ 'Un Değirmeni':{en:'Flour Mill',ar:'مطحنة دقيق',ru:'Мукомольная мельница',uz:"Un tegirmoni",fr:'Moulin à Farine',pt:'Moinho de Farinha'},
+ 'Değirmen Binası':{en:'Mill Building',ar:'مبنى المطحنة',ru:'Здание мельницы',uz:"Tegirmon binosi",fr:'Bâtiment du Moulin',pt:'Edifício do Moinho'},
+ 'Değirmen':{en:'Mill',ar:'مطحنة',ru:'Мельница',uz:"Tegirmon",fr:'Moulin',pt:'Moinho'},
+ 'Kapasiteli':{en:'Capacity',ar:'بسعة',ru:'производительностью',uz:"quvvatli",fr:'de capacité',pt:'de capacidade'},
+ 'Ton/gün':{en:'t/day',ar:'طن/يوم',ru:'т/сутки',uz:"tonna/kun",fr:'t/jour',pt:'t/dia'},
+ 'Ton/Gün':{en:'t/day',ar:'طن/يوم',ru:'т/сутки',uz:"tonna/kun",fr:'t/jour',pt:'t/dia'},
+ 'Çelik Yapı':{en:'Steel Structure',ar:'منشأ فولاذي',ru:'Стальная конструкция',uz:"Po'lat inshoot",fr:'Structure Métallique',pt:'Estrutura Metálica'},
+ 'Fabrika Binası':{en:'Factory Building',ar:'مبنى مصنع',ru:'Здание завода',uz:"Zavod binosi",fr:'Bâtiment d’Usine',pt:'Edifício Fabril'},
+ 'Binası':{en:'Building',ar:'مبنى',ru:'Здание',uz:"binosi",fr:'Bâtiment',pt:'Edifício'},
+ 'Depo':{en:'Warehouse',ar:'مستودع',ru:'Склад',uz:"Ombor",fr:'Entrepôt',pt:'Armazém'},
+ 'Silo':{en:'Silo',ar:'صومعة',ru:'Силос',uz:"Silos",fr:'Silo',pt:'Silo'},
+ 'Siloları':{en:'Silos',ar:'صوامع',ru:'Силосы',uz:"Silolari",fr:'Silos',pt:'Silos'},
+ 'Özbekistan':{en:'Uzbekistan',ar:'أوزبكستان',ru:'Узбекистан',uz:"O'zbekiston",fr:'Ouzbékistan',pt:'Uzbequistão'},
+ 'Rusya':{en:'Russia',ar:'روسيا',ru:'Россия',uz:"Rossiya",fr:'Russie',pt:'Rússia'},
+ 'Türkiye':{en:'Türkiye',ar:'تركيا',ru:'Турция',uz:"Turkiya",fr:'Turquie',pt:'Turquia'},
+ 'Libya':{en:'Libya',ar:'ليبيا',ru:'Ливия',uz:"Liviya",fr:'Libye',pt:'Líbia'},
+ 'Angola':{en:'Angola',ar:'أنغولا',ru:'Ангола',uz:"Angola",fr:'Angola',pt:'Angola'},
+ 'Kazakistan':{en:'Kazakhstan',ar:'كازاخستان',ru:'Казахстан',uz:"Qozog'iston",fr:'Kazakhstan',pt:'Cazaquistão'},
+ 'Azerbaycan':{en:'Azerbaijan',ar:'أذربيجان',ru:'Азербайджан',uz:"Ozarbayjon",fr:'Azerbaïdjan',pt:'Azerbaijão'},
 };
 const DICT_FRPT={
  'Bölümü İmalat ve Montajı':{fr:'section \u2014 fabrication et montage',pt:'seção \u2014 fabrico e montagem'},
@@ -1917,6 +1917,11 @@ async function aiTranslate(){
  S.items2.forEach((it,i)=>{if((it.d||'').trim()){keys.push('b'+i);texts.push(it.d)}});
  if((S.isadi||'').trim()){keys.push('isadi');texts.push(S.isadi)}
  if((S.isyeri||'').trim()){keys.push('isyeri');texts.push(S.isyeri)}
+ const _oy=((S.onyazi&&S.onyazi.tr)||'').trim();
+ if(_oy&&!(((S.onyazi||{})[S.lang]||'').trim())){keys.push('onyazi');texts.push(_oy)}
+ const _ne=((S.notesEk&&S.notesEk.tr)||'').trim();
+ if(_ne&&!(((S.notesEk||{})[S.lang]||'').trim())){keys.push('notesek');texts.push(_ne)}
+ if(S.noteTxt)for(const _i in S.noteTxt){const _o=S.noteTxt[_i];if(_o&&(_o.tr||'').trim()&&!((_o[S.lang]||'').trim())){keys.push('nt'+_i);texts.push(_o.tr)}}
  if(!texts.length)return alert('\u00c7evrilecek metin yok.');
  _aiBusy=true;
  const b=document.getElementById('aitrbtn'),t0=b.textContent;b.textContent='\u00c7evriliyor...';
@@ -1924,8 +1929,12 @@ async function aiTranslate(){
   const j=await sbReq('/functions/v1/ai',{method:'POST',body:JSON.stringify({op:'translate',target:S.lang,items:texts})});
   if(!j||!Array.isArray(j.items))throw new Error((j&&j.error)||'beklenmeyen yan\u0131t');
   if(!S.trx)S.trx={};if(!S.trx[S.lang])S.trx[S.lang]={};
-  keys.forEach((k,i)=>{if(j.items[i])S.trx[S.lang][k]=String(j.items[i])});
-  render();
+  keys.forEach((k,i)=>{const v=j.items[i]&&String(j.items[i]);if(!v)return;
+   if(k==='onyazi'){(S.onyazi=S.onyazi||{})[S.lang]=v}
+   else if(k==='notesek'){(S.notesEk=S.notesEk||{})[S.lang]=v}
+   else if(k.slice(0,2)==='nt'){const ix=k.slice(2);(S.noteTxt[ix]=S.noteTxt[ix]||{})[S.lang]=v}
+   else S.trx[S.lang][k]=v});
+  syncEditor();render();
   alert('\u00c7eviri tamamland\u0131 \u2014 sayfay\u0131 kontrol edin.');
  }catch(e){alert('AI \u00e7eviri ba\u015far\u0131s\u0131z: '+e.message)}
  _aiBusy=false;b.textContent=t0;
